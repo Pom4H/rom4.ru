@@ -1,0 +1,82 @@
+---
+import SectionHead from './SectionHead.astro';
+
+const tracks = [
+  {
+    title: 'Developer tooling',
+    text: 'Пишу инструменты для разработчиков: TypeScript-first workflow automation, CLI, codegen, typed clients, OpenAPI-интеграции, OpenTelemetry и планирование деплоя.',
+    links: [
+      { label: 'c4c', href: 'https://github.com/Pom4H/c4c' },
+      { label: 'tsops', href: 'https://github.com/Pom4H/tsops' },
+    ],
+  },
+  {
+    title: 'Access, rules, workflows',
+    text: 'Проектировал права доступа, роли, политики, rule-based логику, workflow-движки и системы, где каждое действие проходит через понятные условия и аудит.',
+    links: [
+      { label: 'Open Gates', href: 'https://github.com/Pom4H/opengates' },
+      { label: 'planfact', href: 'https://github.com/Pom4H/planfact' },
+    ],
+  },
+  {
+    title: 'Data-driven UI',
+    text: 'Собирал интерфейсы, которые живут от данных, схем и правил: внутренние панели, визуальные редакторы, веб-компоненты, собственные UI-слои и веб-фреймворки.',
+    links: [
+      { label: 'web-component', href: 'https://github.com/Pom4H/web-component' },
+      { label: 'vscode-plugin', href: 'https://github.com/Pom4H/vscode-plugin' },
+    ],
+  },
+  {
+    title: 'Media and data pipelines',
+    text: 'Автоматизировал 2D/3D-рендер, работал с FFmpeg и Blender, собирал пайплайны генерации видео, парсил blockchain-данные и связывал это с продуктовой логикой.',
+    links: [
+      { label: 'televidgen', href: 'https://github.com/Pom4H/televidgen' },
+      { label: 'video_workflow', href: 'https://github.com/Pom4H/video_workflow' },
+    ],
+  },
+] as const;
+
+const notes = [
+  'c4c — workflow automation для кода: procedures, workflows, HTTP/CLI/webhooks, OpenAPI и tracing.',
+  'tsops — TypeScript-инструмент для планирования, сборки и деплоя контейнерных приложений.',
+  'Open Gates и planfact — мои попытки описывать бизнес как проверяемые факты, роли, события и решения.',
+] as const;
+---
+
+<section class="section" id="background">
+  <div class="wrap">
+    <SectionHead num="02" title="Инженерная база" />
+    <p class="section-intro">
+      Сайт говорит о коммерческой модернизации, но за этим стоит длинный технический хвост:
+      свои инструменты, open-source, backend, инфраструктура, UI-движки, правила, данные и AI.
+    </p>
+    <p class="background-lead">
+      Я обычно начинаю с модели: какие действия есть в компании, кто имеет право их выполнять,
+      какие факты считаются принятыми, где нужен человек, а где можно отдать работу коду или AI.
+      После этого уже появляются сайт, интерфейс, аналитика, база знаний и автоматизация.
+    </p>
+
+    <div class="background-grid">
+      {
+        tracks.map((track) => (
+          <article class="background-card">
+            <h3>{track.title}</h3>
+            <p>{track.text}</p>
+            <div class="repo-links">
+              {track.links.map((link) => (
+                <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="proof-notes" aria-label="Примеры из GitHub">
+      <p class="proof-label">Из GitHub</p>
+      <ul>
+        {notes.map((note) => <li>{note}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+const links = [
+  { href: '#about', label: 'Кто я' },
+  { href: '#work', label: 'Что делаю' },
+  { href: '#fit', label: 'Кому' },
+  { href: '#contact', label: 'Контакт' },
+] as const;
+---
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#top">ROM4.RU <b>/</b> Роман Попов</a>
+    <nav class="navlinks" aria-label="Навигация">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+  </div>
+</header>

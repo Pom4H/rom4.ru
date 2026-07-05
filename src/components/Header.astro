@@ -10,8 +10,65 @@ const links = [
 <header class="topbar">
   <div class="wrap nav">
     <a class="brand" href="#top">ROM4.RU <b>/</b> Роман Попов</a>
-    <nav class="navlinks" aria-label="Навигация">
-      {links.map((link) => <a href={link.href}>{link.label}</a>)}
-    </nav>
+    <div class="nav-right">
+      <nav class="navlinks" aria-label="Навигация">
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+        <svg
+          class="icon-sun"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="8" cy="8" r="3.2"></circle>
+          <path d="M8 1v1.8M8 13.2V15M1 8h1.8M13.2 8H15M3.05 3.05l1.27 1.27M11.68 11.68l1.27 1.27M12.95 3.05l-1.27 1.27M4.32 11.68l-1.27 1.27"></path>
+        </svg>
+        <svg
+          class="icon-moon"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7z"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
+
+<script>
+  type Theme = 'light' | 'dark';
+
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const applyTheme = (theme: Theme): void => {
+    root.dataset.theme = theme;
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) meta.content = theme === 'dark' ? '#181611' : '#f4f1ea';
+  };
+
+  document.querySelector<HTMLButtonElement>('.theme-toggle')?.addEventListener('click', () => {
+    const next: Theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  });
+
+  media.addEventListener('change', (event: MediaQueryListEvent) => {
+    if (localStorage.getItem('theme') === null) {
+      applyTheme(event.matches ? 'dark' : 'light');
+    }
+  });
+</script>

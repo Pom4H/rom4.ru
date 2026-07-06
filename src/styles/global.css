@@ -80,10 +80,9 @@ a { color: inherit; }
 .nav {
   height: 60px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding-top: 18px;
 }
 .brand {
   font-family: var(--mono);
@@ -104,7 +103,6 @@ a { color: inherit; }
 .navlinks a:hover { color: var(--accent); }
 
 .nav-right {
-  align-self: center;
   display: flex;
   align-items: center;
   gap: 22px;

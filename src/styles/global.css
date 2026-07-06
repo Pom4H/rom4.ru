@@ -117,12 +117,12 @@ a { color: inherit; }
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid var(--line-strong);
+  border: 0;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
 }
-.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.theme-toggle:hover { color: var(--accent); }
 .theme-toggle svg { display: block; }
 .theme-toggle .icon-sun { display: none; }
 html[data-theme='dark'] .theme-toggle .icon-sun { display: block; }

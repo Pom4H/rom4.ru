@@ -1,0 +1,52 @@
+---
+import SectionHead from './SectionHead.astro';
+
+const projects = [
+  {
+    tag: 'developer tooling',
+    title: 'c4c',
+    text: 'TypeScript-first framework для процедур и workflow: HTTP, CLI, webhooks, OpenAPI и OpenTelemetry остаются частью одного репозитория.',
+    href: 'https://github.com/Pom4H/c4c',
+  },
+  {
+    tag: 'delivery',
+    title: 'tsops',
+    text: 'Инструмент для планирования, сборки и деплоя контейнерных приложений. Конфигурация окружений, образы и инфраструктурные решения описаны кодом.',
+    href: 'https://github.com/Pom4H/tsops',
+  },
+  {
+    tag: 'domain systems',
+    title: 'Open Gates',
+    text: 'Модель операционных процессов через заявления, доказательства, полномочия, решения и последствия — поверх уже существующих систем компании.',
+    href: 'https://github.com/Pom4H/opengates',
+  },
+  {
+    tag: 'industrial software',
+    title: 'Open Device',
+    text: 'Экспериментальный открытый формат для описания приборов, портов, сигналов, поведения, документации, симуляции и SCADA-представлений.',
+    href: 'https://github.com/Pom4H/open-device',
+  },
+] as const;
+---
+
+<section class="section" id="proof">
+  <div class="wrap">
+    <SectionHead num="02" title="Код, который показывает диапазон" />
+    <p class="section-intro">
+      Эти проекты показывают четыре слоя моей работы: инструменты разработчика, delivery,
+      моделирование сложной предметной области и software-контур вокруг физического оборудования.
+    </p>
+    <div class="project-grid">
+      {
+        projects.map((project) => (
+          <a class="project-card" href={project.href} target="_blank" rel="noreferrer">
+            <span class="project-tag">{project.tag}</span>
+            <h3>{project.title}</h3>
+            <p>{project.text}</p>
+            <span class="project-link">Открыть репозиторий ↗</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

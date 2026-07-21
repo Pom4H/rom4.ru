@@ -1,6 +1,9 @@
 name: Full-page screenshot
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - redesign/rev-4-0-editorial-landing
@@ -51,8 +54,8 @@ jobs:
             viewport: { width: 1440, height: 1000 },
             deviceScaleFactor: 1,
           });
-          await page.goto('http://127.0.0.1:4321/', { waitUntil: 'networkidle' });
           await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: 'light' });
+          await page.goto('http://127.0.0.1:4321/', { waitUntil: 'networkidle' });
           await page.screenshot({ path: 'rom4-fullpage.png', fullPage: true });
           await browser.close();
           EOF

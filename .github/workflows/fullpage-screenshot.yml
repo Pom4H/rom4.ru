@@ -1,0 +1,67 @@
+name: Full-page screenshot
+
+on:
+  push:
+    branches:
+      - redesign/rev-4-0-editorial-landing
+  workflow_dispatch:
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright
+        run: |
+          bun add --dev playwright
+          bunx playwright install --with-deps chromium
+
+      - name: Build site
+        run: bun run build
+
+      - name: Start preview
+        run: |
+          bun run preview --host 127.0.0.1 > /tmp/rom4-preview.log 2>&1 &
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:4321/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/rom4-preview.log
+          exit 1
+
+      - name: Capture full page
+        run: |
+          cat > /tmp/capture.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch({ headless: true });
+          const page = await browser.newPage({
+            viewport: { width: 1440, height: 1000 },
+            deviceScaleFactor: 1,
+          });
+          await page.goto('http://127.0.0.1:4321/', { waitUntil: 'networkidle' });
+          await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: 'light' });
+          await page.screenshot({ path: 'rom4-fullpage.png', fullPage: true });
+          await browser.close();
+          EOF
+          bun /tmp/capture.mjs
+
+      - name: Upload screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: rom4-fullpage-screenshot
+          path: rom4-fullpage.png
+          if-no-files-found: error
+          retention-days: 3

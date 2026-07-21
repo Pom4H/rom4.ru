@@ -1,21 +1,993 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Work from '../components/Work.astro';
-import BeforeAfter from '../components/BeforeAfter.astro';
-import Fit from '../components/Fit.astro';
-import Contact from '../components/Contact.astro';
+import SystemCircuit from '../components/SystemCircuit.astro';
+
+const resultCards = [
+  {
+    className: 'product-result',
+    kicker: 'Новый продукт',
+    title: 'Рабочая версия вместо презентации',
+    description: 'Интерфейс, данные, бизнес-логика и связи с другими системами соединены в один сценарий, который уже можно дать пользователям.',
+    result: 'Гипотеза проверяется на реальном продукте, а не в бесконечном обсуждении.',
+  },
+  {
+    className: 'modernization-result',
+    kicker: 'Действующая система',
+    title: 'Обновление без остановки бизнеса',
+    description: 'Функции обновляются по частям: сначала фиксируется текущее поведение, затем изменения проверяются и постепенно включаются в работу.',
+    result: 'Новые возможности появляются быстрее, а действующая система продолжает обслуживать бизнес.',
+  },
+  {
+    className: 'git-result',
+    kicker: 'Git и выпуск',
+    title: 'От решения до выпуска — одна история',
+    description: 'Продуктовая задача связывается с веткой, изменением кода, проверкой и конкретной версией продукта.',
+    result: 'Бизнес видит, где находится изменение, что уже готово и почему принято каждое решение.',
+  },
+  {
+    className: 'context-result',
+    kicker: 'Контекст проекта',
+    title: 'Решения остаются рядом с кодом',
+    description: 'Описание продукта, архитектурные решения и договорённости хранятся в репозитории и меняются вместе с системой.',
+    result: 'Команда понимает не только что сделано, но и почему система устроена именно так.',
+  },
+  {
+    className: 'integration-result',
+    kicker: 'Связи между системами',
+    title: 'Ручные передачи исчезают',
+    description: 'Продукт, CRM, ERP и другие системы обмениваются данными автоматически, а исключения остаются видимыми.',
+    result: 'Меньше копирования между системами, потерянных статусов и зависимости от отдельных людей.',
+  },
+  {
+    className: 'leadership-result',
+    kicker: 'Работа с командой',
+    title: 'Команда может продолжить без меня',
+    description: 'Архитектура, приоритеты и инженерные практики фиксируются в коде, документации и повседневном процессе разработки.',
+    result: 'У бизнеса остаётся управляемая система и команда, которая может двигать её вперёд сама.',
+  },
+];
 ---
 
 <Layout
-  title="Роман Попов — коммерческая модернизация инженерных B2B-компаний"
-  description="Инженер и hands-on CTO. Помогаю инженерным компаниям с историей навести порядок в коммерческой части: понятный сайт, учёт заявок, аналитика, база знаний — с передачей системы человеку внутри компании."
+  title="Роман Попов — цифровые продукты для инженерного B2B"
+  description="Software engineer и hands-on CTO. Помогаю инженерным B2B-компаниям запускать цифровые продукты и обновлять действующие системы."
 >
-  <Hero />
-  <About />
-  <Work />
-  <BeforeAfter />
-  <Fit />
-  <Contact />
+  <div class="paper-stage">
+  <main class="sheet">
+    <div class="paper-patina" aria-hidden="true"></div>
+    <header class="topbar" id="top">
+      <a class="brand" href="#top" aria-label="ROM4.RU — на главную">ROM4.RU</a>
+      <div class="brand-note">software engineering<br />и цифровые продукты</div>
+      <nav aria-label="Основная навигация">
+        <a href="#approach">подход</a>
+        <a href="#artifacts">результаты</a>
+        <a href="#about">как работаю</a>
+        <a href="#contacts">контакты</a>
+      </nav>
+      <div class="revision" aria-label="Версия сайта">
+        <span>REV. 4.0</span>
+        <time datetime="2026-07-20">20/07/2026</time>
+      </div>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Включить тёмную тему" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" /><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9" /></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.2 8.2 0 1 1 9.4 3.5a6.4 6.4 0 0 0 11.1 11.1Z" /></svg>
+      </button>
+    </header>
+
+    <section class="hero section-grid" aria-labelledby="hero-title">
+      <span class="coordinate coordinate-a">A</span>
+      <div class="hero-copy">
+        <h1 id="hero-title">Строю и<br />модернизирую<br />продукты для<br />инженерного B2B</h1>
+        <p class="lead">
+          Помогаю превратить идею или накопившуюся инженерную проблему в продукт,
+          который можно выпускать и развивать. Новые сервисы, обновления действующих систем
+          и внутренние продукты проходят один понятный путь: от задачи к коду, Git и выпуску.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://t.me/Pom4H" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.4 11.3 15.9-6.1c.7-.3 1.3.2 1.1 1.1l-2.7 12.6c-.2.9-.8 1.1-1.5.7l-4.1-3-2 1.9c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.5-.2l-9.5 6-4.1-1.3c-.9-.3-.9-.9.2-1.3Z" /></svg>
+            Обсудить задачу
+          </a>
+          <a class="button button-secondary" href="#approach">Что могу сделать <span>→</span></a>
+        </div>
+      </div>
+
+      <div class="system-visual">
+        <SystemCircuit />
+      </div>
+    </section>
+
+    <section class="approach ruled-section" id="approach" aria-labelledby="approach-title">
+      <div class="section-intro">
+        <p class="section-label" id="approach-title">КУДА НАПРАВИТЬ<br />ИНЖЕНЕРНОЕ УСИЛИЕ</p>
+        <h2>Не большой план на годы,<br />а одно конкретное изменение.</h2>
+        <p>Точка входа может быть разной. Принцип один: быстро сделать первую полезную версию, встроить её в работу компании и оставить команде понятную систему для дальнейшего развития.</p>
+      </div>
+
+      <div class="direction-stack">
+        <article class="direction-card build-direction">
+          <div class="direction-copy">
+            <span class="direction-no">01</span>
+            <p class="direction-kicker">01 / НОВЫЙ ПРОДУКТ</p>
+            <h3>Из идеи — в продукт,<br />которым уже пользуются</h3>
+            <p>Нахожу главный сценарий, соединяю интерфейс, данные, логику и нужные системы. Первую версию сразу строю как основу, а не одноразовый макет.</p>
+          </div>
+          <div class="build-canvas" aria-label="Схема запуска нового цифрового продукта">
+            <div class="canvas-bar"><span>ПРОДУКТ / ВЕРСИЯ 01</span><i></i><i></i><i></i></div>
+            <div class="release-rail"><b>ИДЕЯ</b><span></span><b>ПРОВЕРКА</b><span></span><b class="is-live">В РАБОТЕ</b></div>
+            <div class="product-window">
+              <aside><i></i><i></i><i></i><i></i></aside>
+              <div><span>ПЕРВАЯ РАБОЧАЯ ВЕРСИЯ</span><strong>Найти → выбрать → запустить</strong><p>ИНТЕРФЕЙС · ДАННЫЕ · ЛОГИКА · GIT</p></div>
+            </div>
+            <div class="canvas-note"><span>РАННИЙ ЗАПУСК</span><b>Проверить на реальной работе</b></div>
+          </div>
+        </article>
+
+        <article class="direction-card modernize-direction">
+          <div class="migration-map" aria-label="Карта постепенного обновления действующей системы">
+            <div class="map-caption"><span>ПЛАН ОБНОВЛЕНИЯ / РЕД. 04</span><b>сейчас → после обновления</b></div>
+            <div class="map-ruler" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="map-track">
+              <div class="map-node current-node"><span>01</span><b>ДЕЙСТВУЮЩАЯ<br />СИСТЕМА</b><small>работает сейчас</small></div>
+              <i class="map-conn" aria-hidden="true"></i>
+              <div class="map-node interface-node"><span>02</span><b>ГРАНИЦЫ</b><small>что меняем</small></div>
+              <i class="map-conn" aria-hidden="true"></i>
+              <div class="map-node data-node"><span>03</span><b>ДАННЫЕ</b><small>как переносим</small></div>
+              <i class="map-conn" aria-hidden="true"></i>
+              <div class="map-node next-node"><span>04</span><b>ОБНОВЛЁННАЯ<br />СИСТЕМА</b><small>новые возможности</small></div>
+            </div>
+            <div class="migration-status"><span>ПРОВЕРКИ&nbsp; ✓</span><span>МОНИТОРИНГ&nbsp; ✓</span><span>ВОЗВРАТ&nbsp; ✓</span></div>
+          </div>
+          <div class="direction-copy">
+            <span class="direction-no">02</span>
+            <p class="direction-kicker">02 / ОБНОВЛЕНИЕ СИСТЕМЫ</p>
+            <h3>Старое не мешает<br />выпускать новое</h3>
+            <p>Не переписываю всё вслепую. Сначала проверками фиксирую границы и текущее поведение системы, планирую перенос данных и безопасный возврат. Только затем заменяю части системы небольшими контролируемыми шагами.</p>
+          </div>
+        </article>
+
+        <article class="direction-card git-direction">
+          <div class="direction-copy">
+            <span class="direction-no">03</span>
+            <p class="direction-kicker">03 / ВЫПУСК И ДОСТАВКА</p>
+            <h3>Изменение доезжает<br />до пользователя само</h3>
+            <p>Каждый коммит проходит один автоматический конвейер: сборка, тесты, аудит зависимостей и превью-окружение для ревью. В продакшен — контролируемым выкатом (canary) с быстрым откатом. История решений и контроль остаются у команды.</p>
+          </div>
+          <div class="git-console" aria-label="Современный CI/CD-конвейер: от коммита до продакшена">
+            <div class="console-bar"><span><i></i> main · 7c4d1a2</span><span>КОНВЕЙЕР · PASSING</span></div>
+            <div class="git-flow">
+              <div><span>01</span><b>КОММИТ</b><small>feat/product</small><em>✓ запушено</em></div><i>→</i>
+              <div><span>02</span><b>CI</b><small>сборка · тесты · аудит</small><em>✓ 2:41</em></div><i>→</i>
+              <div><span>03</span><b>ПРЕВЬЮ</b><small>preview-окружение</small><em>✓ ревью</em></div><i>→</i>
+              <div class="is-live"><span>04</span><b>ПРОД</b><small>canary → 100%</small><em>● выкат</em></div>
+            </div>
+            <div class="trace-list">
+              <p><span>линт · типы · формат</span><b>0:11</b><i>✓</i></p>
+              <p><span>юнит-тесты · 148</span><b>0:26</b><i>✓</i></p>
+              <p><span>e2e · playwright</span><b>1:52</b><i>✓</i></p>
+              <p><span>аудит зависимостей</span><b>0 уязвим.</b><i>✓</i></p>
+            </div>
+            <div class="console-metrics"><span><b>4м</b> коммит → прод</span><span><b>87%</b> покрытие</span><span><b>↩</b> откат в 1 клик</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="results ruled-section" id="artifacts" aria-labelledby="artifacts-title">
+      <div class="section-intro results-intro">
+        <p class="section-label" id="artifacts-title">ЧТО ОСТАЁТСЯ<br />У БИЗНЕСА</p>
+        <h2>Не набор технологий,<br />а новая способность команды.</h2>
+        <p>Каждый результат должен менять повседневную работу: ускорять выпуск, убирать ручной труд, открывать знания или давать команде контроль над сложной системой.</p>
+      </div>
+
+      <div class="result-grid">
+        {resultCards.map((card, index) => (
+          <article class:list={['result-card', card.className]}>
+            <div class="result-heading"><span>0{index + 1}</span><p>{card.kicker}</p></div>
+            <h3>{card.title}</h3>
+            <p class="result-description">{card.description}</p>
+
+            {index === 0 && <div class="result-ui"><div><i></i><i></i><i></i></div><aside></aside><section><span></span><span></span><span></span></section><footer><b>ВЕРСИЯ 01</b><span>В РАБОТЕ</span></footer></div>}
+            {index === 1 && <div class="result-migration"><span>СЕЙЧАС</span><i>→</i><span>ПО ЧАСТЯМ</span><i>→</i><span>ОБНОВЛЕНО</span><p><b style="width: 72%"></b></p><small>72% запланированных функций обновлено</small></div>}
+            {index === 2 && <div class="result-trace"><p><span>01</span> задача #1842 <b>в плане</b></p><p><span>02</span> ветка продукта <b>в работе</b></p><p><span>03</span> проверка кода <b>принято</b></p><p><span>04</span> версия 4.0 <b>выпущено</b></p></div>}
+            {index === 3 && <div class="result-context"><label>КОНТЕКСТ В РЕПОЗИТОРИИ <span>↳</span></label><p>README.md <small>актуально</small></p><p>docs/decisions/ <small>28</small></p><p>architecture/ <small>ред. 7</small></p></div>}
+            {index === 4 && <div class="result-route"><span>ЗАЯВКА</span><i>→</i><span>СИСТЕМА</span><i>→</i><span>ПРОДУКТ</span><i>→</i><span>КЛИЕНТ</span><small>данные · статус · исключения · история</small></div>}
+            {index === 5 && <div class="result-handoff"><span><b>КОД</b><i>✓</i></span><span><b>GIT</b><i>✓</i></span><span><b>РЕШЕНИЯ</b><i>✓</i></span><span><b>КОМАНДА</b><i>✓</i></span></div>}
+
+            <div class="result-outcome"><span>ИЗМЕНЕНИЕ</span><p>{card.result}</p></div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="method ruled-section" id="about" aria-labelledby="method-title">
+      <div class="section-intro method-intro">
+        <p class="section-label" id="method-title">КАК УСТРОЕНА<br />МОЯ РАБОТА</p>
+        <h2>Вхожу в задачу как инженер<br />и отвечаю за движение целиком.</h2>
+        <p>От продуктового решения до кода и запуска в работу. Не отделяю стратегию от реализации: важные ограничения видно только тогда, когда работаешь с системой руками.</p>
+      </div>
+      <div class="method-layout">
+        <aside class="method-manifesto">
+          <p>РАБОТАЮ ВНУТРИ КОМАНДЫ</p>
+          <h3>Думаю вместе<br />с бизнесом.<br />Строю вместе<br />с командой.</h3>
+          <p>Моя роль — соединить продукт, архитектуру и разработку так, чтобы решения начали выпускаться, а не оставались на схеме.</p>
+          <div><span>ПРОДУКТ</span><span>КОД</span><span>GIT</span><span>КОМАНДА</span></div>
+        </aside>
+        <div class="method-track">
+          <article>
+            <span class="method-no">01</span>
+            <div><h3>Фиксирую цель и ограничения</h3><p>До реализации определяю границы системы, данные, риски, требования безопасности и поведение на случай сбоя.</p></div>
+            <b>ГРАНИЦЫ</b>
+          </article>
+          <article>
+            <span class="method-no">02</span>
+            <div><h3>Делаю первую рабочую версию</h3><p>Внутри заданных границ соединяю интерфейс, данные, бизнес-логику и связи с другими системами. Проверки и защитные механизмы появляются вместе с первым кодом.</p></div>
+            <b>СОЗДАНИЕ</b>
+          </article>
+          <article>
+            <span class="method-no">03</span>
+            <div><h3>Выпускаю и проверяю в работе</h3><p>Автоматические проверки, метрики и возможность возврата подтверждают, что система после запуска ведёт себя так, как было задумано.</p></div>
+            <b>ВЫПУСК</b>
+          </article>
+          <article>
+            <span class="method-no">04</span>
+            <div><h3>Передаю команде контроль</h3><p>Фиксирую решения, передаю код и доступы, обучаю людей и оставляю понятный маршрут, что делать дальше.</p></div>
+            <b>ПЕРЕДАЧА</b>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer ruled-section" id="contacts">
+      <div class="footer-primary">
+        <p class="footer-manifesto">Если у вас есть продукт, действующая система или идея, которую пора перестать откладывать, — давайте запустим это в работу.</p>
+        <div class="footer-cta-row">
+          <a class="button button-primary" href="https://t.me/Pom4H" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.4 11.3 15.9-6.1c.7-.3 1.3.2 1.1 1.1l-2.7 12.6c-.2.9-.8 1.1-1.5.7l-4.1-3-2 1.9c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.5-.2l-9.5 6-4.1-1.3c-.9-.3-.9-.9.2-1.3Z" /></svg>
+            Обсудить задачу
+          </a>
+          <div class="footer-links">
+            <a href="mailto:1@rom4.ru">1@rom4.ru</a>
+            <a href="https://github.com/Pom4H" target="_blank" rel="noreferrer">github.com/Pom4H</a>
+            <a href="https://t.me/Pom4H" target="_blank" rel="noreferrer">t.me/Pom4H</a>
+          </div>
+        </div>
+        <p class="footer-trust">В ПРОФЕССИИ С 2017 · РАБОТАЮ УДАЛЁННО ПО ВСЕМУ МИРУ</p>
+      </div>
+      <div class="footer-aside">
+        <div class="footer-id">
+          <a class="brand" href="#top">ROM4.RU</a>
+          <p>Роман Попов · software engineer<br />AI-native builder · hands-on CTO</p>
+        </div>
+        <aside class="note-card"><span>ЗАМЕТКА</span><i></i><p>Хорошая система помогает команде выпускать изменения чаще и понимать, что произошло в каждой версии.</p></aside>
+      </div>
+      <div class="footer-bottom"><span>SOFTWARE ENGINEERING · ЦИФРОВЫЕ ПРОДУКТЫ</span><span>© 2017—2026 Роман Попов</span><a href="#top">НАВЕРХ ↑</a></div>
+    </footer>
+  </main>
+  </div>
+
 </Layout>
+
+<script>
+  const root = document.documentElement;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const toggles = document.querySelectorAll('[data-theme-toggle]');
+  let animTimer = 0;
+  function syncToggles(t: string) {
+    toggles.forEach((b) => {
+      b.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      b.setAttribute('aria-label', t === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему');
+    });
+  }
+  function setTheme(t: string, persist: boolean) {
+    root.classList.add('theme-anim');
+    root.setAttribute('data-theme', t);
+    if (meta) meta.setAttribute('content', t === 'dark' ? '#0f1518' : '#f0efe8');
+    if (persist) { try { localStorage.setItem('theme', t); } catch (e) {} }
+    syncToggles(t);
+    window.clearTimeout(animTimer);
+    animTimer = window.setTimeout(() => root.classList.remove('theme-anim'), 440);
+  }
+  syncToggles(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  toggles.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+    });
+  });
+  try {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light', false);
+    });
+  } catch (e) {}
+
+  // ===== Reveal on scroll =====
+  const revealSelector = '.system-visual,.section-intro,.direction-card,.result-card,.method-manifesto,.method-track article,.footer > div,.footer > aside';
+  const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(revealSelector));
+  const revealAll = () => revealTargets.forEach((el) => el.classList.add('is-in'));
+  try {
+    ['.direction-stack .direction-card', '.result-grid .result-card', '.method-track article', '.footer > div, .footer > aside'].forEach((sel) => {
+      document.querySelectorAll<HTMLElement>(sel).forEach((el, i) => el.style.setProperty('--reveal-i', String(i)));
+    });
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealAll();
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      revealTargets.forEach((el) => io.observe(el));
+      // Safety net: if IO somehow never fires, reveal everything after 3s
+      window.setTimeout(() => revealTargets.forEach((el) => {
+        if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-in');
+      }), 3000);
+    }
+  } catch (e) { revealAll(); }
+</script>
+
+<style>
+  :global(:root) {
+    color-scheme: light;
+    --page-bg: #c5c3bd;
+    --paper: #f0efe8;
+    --ink: #141915;
+    --ink-rgb: 20,25,21;
+    --hi-rgb: 255,255,255;
+    --rust: #bd5b31;
+    --blue: #113653;
+    --ease-snap: cubic-bezier(.2,.82,.2,1);
+    --ease-reveal: cubic-bezier(.22,.68,.24,1);
+    --blue-2: #164a76;
+    --muted: #62645e;
+    --pos: #2f6b45;
+    --bar: #d0d1ca;
+    --sel-bg: #bf5d30;
+    --sel-fg: #fffdf5;
+    --panel-fill-rgb: 240,239,232;
+    --panel-fill-hi-rgb: 248,246,238;
+  }
+
+  :global(:root[data-theme='dark']) {
+    color-scheme: dark;
+    --page-bg: #06090b;
+    --paper: #0f1518;
+    --ink: #e7ede9;
+    --ink-rgb: 197,210,206;
+    --hi-rgb: 235,245,240;
+    --rust: #ec8a5c;
+    --blue: #2b6fb2;
+    --blue-2: #7fb6e6;
+    --muted: #939d97;
+    --pos: #62c98d;
+    --bar: #37413f;
+    --sel-bg: #ec8a5c;
+    --sel-fg: #0f1518;
+    --panel-fill-rgb: 31,41,37;
+    --panel-fill-hi-rgb: 44,56,51;
+  }
+
+  :global(*) { box-sizing: border-box; }
+  :global(html) { scroll-behavior: smooth; background: var(--page-bg); transition: background-color .4s ease; }
+  :global(body) { margin: 0; overflow-x: hidden; color: var(--ink); background: var(--page-bg); font-family: Inter, Arial, sans-serif; }
+  :global(button), :global(select) { font: inherit; }
+  :global(::selection) { background: var(--sel-bg); color: var(--sel-fg); }
+
+  :global(body::before) {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: .035;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
+  }
+
+  .paper-stage {
+    position: relative;
+    isolation: isolate;
+    width: min(1440px, calc(100% - 44px));
+    margin: 18px auto 25px;
+  }
+
+  .paper-stage::before,
+  .paper-stage::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .paper-stage::before {
+    inset: 2px -13px -18px 5px;
+    background:
+      radial-gradient(ellipse at 7% 8%, rgba(34,34,30,.28), transparent 22%),
+      radial-gradient(ellipse at 98% 19%, rgba(31,31,28,.25), transparent 26%),
+      radial-gradient(ellipse at 1% 58%, rgba(37,36,32,.19), transparent 19%),
+      radial-gradient(ellipse at 89% 101%, rgba(29,29,26,.32), transparent 31%),
+      radial-gradient(ellipse at 38% 100%, rgba(48,47,42,.16), transparent 36%);
+    filter: blur(12px);
+    opacity: .82;
+    transform: rotate(.045deg);
+  }
+
+  .paper-stage::after {
+    inset: 25px -20px -26px 18px;
+    background:
+      linear-gradient(102deg, rgba(34,34,31,.03), rgba(31,31,28,.17) 17%, transparent 35% 61%, rgba(25,25,23,.22) 86%, rgba(25,25,23,.05)),
+      radial-gradient(ellipse at 72% 101%, rgba(26,26,24,.25), transparent 47%);
+    filter: blur(24px);
+    opacity: .62;
+  }
+
+  .sheet {
+    --paper-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='5' seed='23' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.31'/%3E%3C/svg%3E");
+    --paper-fibers: url("data:image/svg+xml,%3Csvg viewBox='0 0 420 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .48' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.21'/%3E%3C/svg%3E");
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--paper);
+    background-image:
+      var(--paper-noise),
+      var(--paper-fibers),
+      radial-gradient(ellipse at 82% 39%, rgba(var(--hi-rgb),.44), transparent 33%),
+      linear-gradient(91.5deg, transparent 0 68.3%, rgba(61,66,64,.018) 68.45%, rgba(var(--hi-rgb),.12) 68.58%, transparent 68.75%),
+      repeating-linear-gradient(11deg, rgba(54,60,58,.015) 0 .45px, transparent .7px 8px),
+      linear-gradient(90deg, rgba(39,54,55,.016) 1px, transparent 1px),
+      linear-gradient(rgba(39,54,55,.013) 1px, transparent 1px);
+    background-size: 300px 300px, 520px 300px, 100% 100%, 100% 100%, 96px 73px, 31px 31px, 31px 31px;
+    background-blend-mode: soft-light, soft-light, screen, multiply, multiply, normal, normal;
+    box-shadow:
+      inset 0 0 1px rgba(42,47,45,.62),
+      inset 0 0 34px rgba(61,66,62,.055),
+      inset 0 0 100px rgba(80,83,77,.025);
+    border: 1px solid rgba(49,54,51,.28);
+  }
+
+  .paper-patina {
+    position: absolute;
+    z-index: 20;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(67,72,68,.09), transparent 1.35%, transparent 98%, rgba(67,72,68,.075)),
+      linear-gradient(rgba(var(--hi-rgb),.16), transparent 1.1%, transparent 98%, rgba(67,72,68,.075));
+    box-shadow:
+      inset 0 0 3px rgba(43,49,46,.24),
+      inset 0 0 32px rgba(67,72,68,.045);
+    mix-blend-mode: multiply;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 118px, #000 172px, #000);
+    mask-image: linear-gradient(to bottom, transparent 0, transparent 118px, #000 172px, #000);
+  }
+
+  .paper-patina::before,
+  .paper-patina::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .paper-patina::before {
+    background-image: var(--paper-noise);
+    background-size: 300px 300px;
+    opacity: .11;
+    filter: contrast(1.35);
+    mix-blend-mode: soft-light;
+  }
+
+  .paper-patina::after {
+    background:
+      linear-gradient(89.7deg, transparent 0 71.4%, rgba(58,41,19,.055) 71.52%, rgba(var(--hi-rgb),.12) 71.64%, transparent 71.82%),
+      linear-gradient(6.3deg, transparent 0 38%, rgba(74,49,18,.06) 38.08%, transparent 38.25% 100%),
+      radial-gradient(circle at 12% 18%, rgba(53,38,20,.12) 0 .6px, transparent .9px) 0 0 / 87px 73px,
+      radial-gradient(circle at 71% 63%, rgba(var(--hi-rgb),.16) 0 .7px, transparent 1.1px) 0 0 / 113px 97px,
+      radial-gradient(ellipse 46px 10px at 5% 54%, rgba(56,38,17,.13), transparent 76%),
+      radial-gradient(ellipse 68px 13px at 91% 31%, rgba(56,38,17,.11), transparent 78%),
+      repeating-linear-gradient(96deg, transparent 0 11px, rgba(53,45,33,.04) 11.5px, transparent 12.5px 29px),
+      repeating-linear-gradient(7deg, transparent 0 17px, rgba(var(--hi-rgb),.09) 17.5px, transparent 19px 41px);
+    opacity: .13;
+    mask-image: linear-gradient(90deg, rgba(0,0,0,.92), rgba(0,0,0,.3) 19%, rgba(0,0,0,.42) 78%, rgba(0,0,0,.88));
+  }
+
+  .sheet::before, .sheet::after {
+    content: '+';
+    position: absolute;
+    z-index: 5;
+    top: 3px;
+    color: var(--muted);
+    font: 18px/1 monospace;
+  }
+  .sheet::before { left: 7px; }
+  .sheet::after { right: 7px; }
+
+  .topbar {
+    height: 86px;
+    padding: 0 56px;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
+    align-items: center;
+    gap: 22px 34px;
+    border-bottom: 1px solid rgba(var(--ink-rgb),.36);
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(90deg, rgba(var(--ink-rgb),.03) 1px, transparent 1px),
+      linear-gradient(rgba(var(--ink-rgb),.025) 1px, transparent 1px);
+    background-size: 31px 31px;
+  }
+  .topbar nav { justify-self: center; }
+  .brand-note { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+
+  .theme-toggle {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid rgba(var(--ink-rgb),.5);
+    cursor: pointer;
+    transition: color .25s ease, border-color .25s ease, background-color .25s ease, transform .25s ease;
+  }
+  .theme-toggle:hover { color: var(--rust); border-color: var(--rust); }
+  .theme-toggle:focus-visible { color: var(--rust); border-color: var(--rust); outline: none; box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--rust); }
+  .theme-toggle:active { transform: scale(.92); }
+  .theme-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; grid-area: 1 / 1; transition: transform .4s cubic-bezier(.2,.82,.2,1), opacity .3s ease; }
+  .theme-toggle .icon-moon { opacity: 0; transform: rotate(-40deg) scale(.6); }
+  .theme-toggle .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+  :global(:root[data-theme='dark']) .theme-toggle .icon-sun { opacity: 0; transform: rotate(40deg) scale(.6); }
+  :global(:root[data-theme='dark']) .theme-toggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+
+  :global(html.theme-anim) *,
+  :global(html.theme-anim) *::before,
+  :global(html.theme-anim) *::after {
+    transition: background-color .38s ease, color .38s ease, border-color .38s ease, fill .38s ease, stroke .38s ease, box-shadow .38s ease !important;
+  }
+
+  .brand {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'Arial Narrow', Impact, sans-serif;
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: -.02em;
+    transform: scaleX(.82);
+    transform-origin: left;
+    white-space: nowrap;
+  }
+
+  .brand-note, .revision, .topbar nav { font-family: monospace; font-size: 10px; letter-spacing: .05em; }
+  .brand-note { text-transform: uppercase; color: var(--muted); padding-left: 24px; border-left: 1px solid rgba(var(--ink-rgb),.18); }
+  .topbar nav { display: flex; gap: 40px; text-transform: uppercase; }
+  .topbar nav a { color: var(--ink); text-decoration: none; position: relative; padding-block: 10px; }
+  .topbar nav a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 3px; height: 1px; background: var(--rust); transition: right .25s ease; }
+  .topbar nav a:hover::after, .topbar nav a:focus-visible::after { right: 0; }
+
+  .revision { border: 1px solid rgba(var(--ink-rgb),.5); padding: 8px 12px; display: grid; gap: 2px; }
+  .revision time { font-size: 9px; }
+
+  .section-grid { display: grid; grid-template-columns: 43% 57%; }
+  .hero { position: relative; min-height: 850px; border-bottom: 1px solid rgba(var(--ink-rgb),.45); }
+  .hero::after, .ruled-section::after { content: '+'; position: absolute; right: 9px; bottom: -8px; font: 15px/1 monospace; background: var(--paper); color: var(--muted); }
+  .coordinate { position: absolute; z-index: 2; left: 17px; top: 28px; font: 14px/1 monospace; color: var(--muted); }
+
+  .hero-copy { padding: 48px 30px 48px 74px; align-self: center; }
+  h1 {
+    margin: 0;
+    max-width: 630px;
+    font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+    font-size: clamp(58px, 5.15vw, 83px);
+    line-height: .93;
+    font-weight: 400;
+    letter-spacing: -.045em;
+  }
+  .lead { max-width: 535px; margin: 34px 0 0; font-size: 14px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 22px; margin-top: 42px; }
+  .button { min-height: 58px; padding: 0 23px; display: inline-flex; align-items: center; justify-content: center; gap: 15px; border: 1px solid var(--blue); text-decoration: none; font-size: 12px; font-weight: 650; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+  .button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px color-mix(in srgb, var(--blue), transparent 84%); }
+  .button svg { width: 21px; fill: currentColor; }
+  .button-primary { background: var(--blue); color: #fff; }
+  .button-secondary { color: var(--ink); border-color: rgba(var(--ink-rgb),.48); min-width: 200px; }
+  .button-secondary span { margin-left: auto; font-size: 20px; }
+
+  .system-visual { position: relative; min-width: 0; height: 850px; border-left: 1px solid rgba(var(--ink-rgb),.12); }
+
+  .ruled-section { position: relative; border-bottom: 1px solid rgba(var(--ink-rgb),.45); }
+  .section-intro {
+    min-height: 230px;
+    padding: 44px 52px 40px;
+    display: grid;
+    grid-template-columns: 2.25fr 5fr 3.2fr;
+    gap: 48px;
+    align-items: start;
+    border-bottom: 1px solid rgba(var(--ink-rgb),.3);
+  }
+  .section-label { margin: 3px 0 0; color: var(--rust); font: 700 12px/1.3 monospace; letter-spacing: .04em; }
+  .section-intro h2 { margin: 0; max-width: 650px; font: 400 clamp(34px, 3.35vw, 52px)/.98 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif; letter-spacing: -.035em; }
+  .section-intro > p:last-child { max-width: 370px; margin: 5px 0 0; font-size: 12px; line-height: 1.65; }
+
+  .direction-stack { display: grid; }
+  .direction-card { min-height: 510px; display: grid; grid-template-columns: 41% 59%; border-bottom: 1px solid rgba(var(--ink-rgb),.25); }
+  .direction-card:last-child { border-bottom: 0; }
+  .direction-copy { position: relative; padding: 52px clamp(34px, 4.1vw, 64px); display: flex; flex-direction: column; justify-content: center; }
+  .direction-card:nth-child(odd) .direction-copy { border-right: 1px solid rgba(var(--ink-rgb),.2); }
+  .modernize-direction .direction-copy { border-left: 1px solid rgba(var(--ink-rgb),.2); }
+  .direction-no { position: absolute; top: 28px; right: 28px; color: var(--muted); font: 42px/1 'Times New Roman', serif; }
+  .direction-kicker { margin: 0 0 24px; color: var(--rust); font: 700 10px/1 monospace; letter-spacing: .05em; }
+  .direction-copy h3 { margin: 0; max-width: 520px; font: 400 clamp(36px, 3.4vw, 55px)/.97 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif; letter-spacing: -.035em; }
+  .direction-copy > p:last-child { max-width: 450px; margin: 30px 0 0; font-size: 12px; line-height: 1.7; }
+
+  .build-canvas {
+    position: relative;
+    min-height: 510px;
+    margin: 34px 36px;
+    padding: 54px 34px 30px;
+    overflow: hidden;
+    background: rgba(247,246,239,.62);
+    border: 1px solid rgba(var(--ink-rgb),.38);
+    background-image: linear-gradient(90deg, rgba(var(--ink-rgb),.045) 1px, transparent 1px), linear-gradient(rgba(var(--ink-rgb),.04) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .canvas-bar { position: absolute; inset: 0 0 auto; height: 38px; padding: 0 13px; display: flex; align-items: center; gap: 7px; border-bottom: 1px solid rgba(var(--ink-rgb),.3); font: 8px/1 monospace; }
+  .canvas-bar span { margin-right: auto; }
+  .canvas-bar i { width: 7px; height: 7px; border: 1px solid; border-radius: 50%; }
+  .release-rail { height: 72px; display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: center; gap: 12px; font: 8px/1 monospace; }
+  .release-rail span { height: 1px; background: rgba(var(--ink-rgb),.35); }
+  .release-rail b { padding: 7px 9px; border: 1px solid rgba(var(--ink-rgb),.45); background: var(--paper); font-weight: 500; }
+  .release-rail .is-live { color: #fff; background: #2b8150; border-color: #2b8150; }
+  .product-window { height: 270px; display: grid; grid-template-columns: 76px 1fr; border: 1px solid var(--ink); background: rgba(241,240,233,.93); box-shadow: 8px 10px 0 rgba(var(--ink-rgb),.065); }
+  .product-window aside { padding: 24px 15px; display: grid; align-content: start; gap: 15px; border-right: 1px solid rgba(var(--ink-rgb),.25); }
+  .product-window aside i { height: 5px; background: var(--bar); }
+  .product-window aside i:first-child { background: var(--rust); }
+  .product-window > div { padding: 46px 36px; display: flex; flex-direction: column; justify-content: center; }
+  .product-window span { font: 8px/1 monospace; }
+  .product-window strong { max-width: 400px; margin-top: 15px; font: 400 clamp(24px, 2.4vw, 37px)/1 'Times New Roman', serif; }
+  .product-window p { margin: 30px 0 0; color: var(--blue-2); font: 9px/1 monospace; }
+  .canvas-note { position: absolute; right: 19px; bottom: 18px; width: 210px; padding: 11px 13px; display: grid; gap: 7px; background: #e7dfc8; border: 1px solid rgba(var(--ink-rgb),.25); transform: rotate(-1deg); box-shadow: 3px 5px 8px rgba(var(--ink-rgb),.1); }
+  .canvas-note span { font: 7px/1 monospace; }
+  .canvas-note b { font: italic 13px/1.2 'Bradley Hand', cursive; }
+
+  .migration-map { position: relative; min-height: 510px; margin: 34px 36px; border: 1px solid rgba(var(--ink-rgb),.35); background-image: radial-gradient(circle, rgba(var(--ink-rgb),.16) 1px, transparent 1px); background-size: 18px 18px; }
+  .map-caption { position: absolute; left: 24px; right: 24px; top: 18px; display: flex; justify-content: space-between; align-items: baseline; font: 8px/1 monospace; }
+  .map-caption b { color: var(--rust); font-size: 10px; }
+  .map-ruler { position: absolute; left: 24px; right: 24px; top: 46px; height: 1px; background: rgba(var(--ink-rgb),.16); }
+  .map-ruler i { position: absolute; top: -3px; width: 1px; height: 7px; background: rgba(var(--ink-rgb),.3); }
+  .map-ruler i:nth-child(1) { left: 0; } .map-ruler i:nth-child(2) { left: 25%; } .map-ruler i:nth-child(3) { left: 50%; } .map-ruler i:nth-child(4) { left: 75%; } .map-ruler i:nth-child(5) { right: 0; }
+  .map-track { position: absolute; left: 24px; right: 24px; top: 48%; transform: translateY(-50%); display: flex; align-items: center; }
+  .map-node { position: relative; z-index: 2; flex: 1 1 0; min-width: 0; padding: 13px; display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-content: start; background: rgba(240,239,232,.97); border: 1px solid var(--ink); box-shadow: 4px 5px 0 rgba(var(--ink-rgb),.07); }
+  .map-node span { grid-row: span 2; color: var(--rust); font: 9px/1 monospace; }
+  .map-node b { font: 700 11px/1.15 monospace; }
+  .map-node small { font: 7px/1.1 monospace; color: var(--muted); }
+  .map-conn { flex: 0 0 34px; align-self: center; height: 1px; background: var(--muted); position: relative; }
+  .map-conn::after { content: '›'; position: absolute; right: 3px; top: 50%; transform: translateY(-56%); color: var(--rust); font: 700 14px/1 monospace; }
+  .current-node { border-top: 2px solid var(--rust); }
+  .interface-node, .data-node { box-shadow: 2px 3px 0 rgba(var(--ink-rgb),.05); }
+  .next-node { color: #fff; background: var(--blue); border-color: var(--blue); }
+  .next-node span, .next-node small { color: #fff; }
+  .line-a { width: 32%; left: 22%; top: 48%; transform: rotate(-18deg); }
+  .line-b { width: 20%; left: 49%; top: 39%; transform: rotate(57deg); }
+  .line-c { width: 31%; left: 51%; top: 67%; transform: rotate(-18deg); }
+  .migration-status { position: absolute; left: 20px; right: 20px; bottom: 18px; padding-top: 13px; display: flex; justify-content: space-between; border-top: 1px solid rgba(var(--ink-rgb),.24); font: 7px/1 monospace; }
+
+  .git-console { min-height: 510px; margin: 34px 36px; padding: 58px 25px 22px; position: relative; overflow: hidden; color: #dbe5e1; background: #071b25; border: 1px solid #031016; box-shadow: inset 0 0 34px rgba(0,0,0,.22); }
+  .git-console::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(var(--hi-rgb),.025) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--hi-rgb),.02) 1px, transparent 1px); background-size: 22px 22px; }
+  .console-bar { position: absolute; z-index: 1; inset: 0 0 auto; height: 38px; padding: 0 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(219,229,225,.2); font: 8px/1 monospace; }
+  .console-bar i { display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: #48a267; }
+  .git-flow { position: relative; z-index: 1; padding: 22px 0; display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 9px; align-items: center; }
+  .git-flow > div { min-width: 0; min-height: 102px; padding: 13px 9px; display: flex; flex-direction: column; justify-content: center; border: 1px solid rgba(219,229,225,.3); }
+  .git-flow > i { color: #789087; font-style: normal; }
+  .git-flow span { color: #79938a; font: 7px/1 monospace; }
+  .git-flow b { margin-top: 13px; font: 700 9px/1 monospace; }
+  .git-flow small { margin-top: 7px; color: #8fa098; font: 7px/1.2 monospace; }
+  .git-flow em { margin-top: 9px; color: #6fbf86; font-style: normal; font: 6.5px/1.3 monospace; letter-spacing: .02em; }
+  .git-flow .is-live { color: #061923; background: #d7f0dd; border-color: #d7f0dd; }
+  .git-flow .is-live span, .git-flow .is-live small, .git-flow .is-live em { color: #1f5a3a; }
+  .trace-list { position: relative; z-index: 1; border-top: 1px solid rgba(219,229,225,.18); }
+  .trace-list p { min-height: 40px; margin: 0; display: grid; grid-template-columns: 1fr auto 70px; align-items: center; gap: 18px; border-bottom: 1px solid rgba(219,229,225,.12); font: 8px/1 monospace; }
+  .trace-list b { color: #9fafaa; font-weight: 400; }
+  .trace-list i { color: #62bb7b; font-style: normal; text-align: right; }
+  .console-metrics { position: absolute; z-index: 1; left: 25px; right: 25px; bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(219,229,225,.2); }
+  .console-metrics span { padding: 12px; background: #0a222d; font: 7px/1.2 monospace; }
+  .console-metrics b { display: block; margin-bottom: 5px; color: #fff; font-size: 14px; }
+
+  .results { padding-bottom: 28px; }
+  .results-intro { border-bottom: 0; }
+  .result-grid { padding: 0 28px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+  .result-card { min-width: 0; min-height: 370px; padding: 26px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(var(--ink-rgb),.35); background: rgba(244,242,234,.62); }
+  .product-result { grid-column: span 7; }
+  .modernization-result { grid-column: span 5; }
+  .git-result, .context-result, .integration-result { grid-column: span 4; min-height: 405px; }
+  .leadership-result { grid-column: span 12; min-height: 265px; display: grid; grid-template-columns: 1.3fr 1fr; grid-template-rows: auto auto 1fr; column-gap: 55px; }
+  .result-heading { display: flex; justify-content: space-between; align-items: center; padding-bottom: 17px; border-bottom: 1px solid rgba(var(--ink-rgb),.2); }
+  .result-heading span { color: var(--rust); font: 18px/1 'Times New Roman', serif; }
+  .result-heading p { margin: 0; text-transform: uppercase; font: 7px/1 monospace; letter-spacing: .06em; }
+  .result-card h3 { max-width: 530px; margin: 23px 0 0; font: 400 clamp(26px, 2.6vw, 40px)/1 'Times New Roman', serif; letter-spacing: -.025em; }
+  .result-description { max-width: 550px; margin: 15px 0 22px; font-size: 10px; line-height: 1.58; }
+  .result-outcome { margin-top: auto; padding-top: 15px; display: grid; grid-template-columns: 75px 1fr; gap: 12px; border-top: 1px solid rgba(var(--ink-rgb),.22); }
+  .result-outcome span { color: var(--rust); font: 700 7px/1.35 monospace; }
+  .result-outcome p { margin: 0; font-size: 9px; line-height: 1.5; }
+
+  .result-ui { position: relative; width: min(100%, 470px); height: 160px; margin: 0 0 25px auto; display: grid; grid-template-columns: 53px 1fr; grid-template-rows: 24px 1fr 27px; border: 1px solid var(--ink); box-shadow: 7px 8px 0 rgba(var(--ink-rgb),.065); }
+  .result-ui > div { grid-column: 1 / -1; padding: 0 7px; display: flex; align-items: center; gap: 5px; border-bottom: 1px solid rgba(var(--ink-rgb),.2); }
+  .result-ui > div i { width: 5px; height: 5px; border: 1px solid; border-radius: 50%; }
+  .result-ui aside { border-right: 1px solid rgba(var(--ink-rgb),.2); background: repeating-linear-gradient(var(--bar) 0 3px, transparent 3px 14px); background-size: 26px 14px; background-position: 12px 13px; }
+  .result-ui section { padding: 18px; display: grid; gap: 8px; }
+  .result-ui section span { display: block; height: 8px; background: var(--bar); }
+  .result-ui section span:first-child { width: 46%; background: var(--blue); }
+  .result-ui section span:nth-child(2) { width: 86%; }
+  .result-ui section span:nth-child(3) { width: 68%; }
+  .result-ui footer { grid-column: 1 / -1; padding: 0 9px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(var(--ink-rgb),.2); font: 7px/1 monospace; }
+  .result-ui footer span { color: var(--pos); }
+
+  .result-migration { margin: 24px 0; display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 8px; text-align: center; font: 8px/1 monospace; }
+  .result-migration > span { padding: 17px 5px; border: 1px solid rgba(var(--ink-rgb),.38); }
+  .result-migration > span:last-of-type { color: white; background: var(--blue); border-color: var(--blue); }
+  .result-migration > i { font-style: normal; }
+  .result-migration p { grid-column: 1 / -1; height: 5px; margin: 18px 0 0; background: var(--bar); text-align: left; }
+  .result-migration p b { display: block; height: 100%; background: var(--rust); }
+  .result-migration small { grid-column: 1 / -1; color: var(--muted); font-size: 7px; }
+  .result-trace { margin-bottom: 23px; border-top: 1px solid rgba(var(--ink-rgb),.2); }
+  .result-trace p { min-height: 35px; margin: 0; display: grid; grid-template-columns: 23px 1fr auto; align-items: center; border-bottom: 1px solid rgba(var(--ink-rgb),.16); font: 7px/1 monospace; }
+  .result-trace span { color: var(--muted); }
+  .result-trace b { color: var(--pos); font-weight: 400; }
+  .result-context { margin-bottom: 21px; font: 7px/1 monospace; }
+  .result-context label { height: 34px; padding: 0 9px; display: flex; align-items: center; justify-content: space-between; background: white; border: 1px solid rgba(var(--ink-rgb),.3); }
+  .result-context p { margin: 0; padding: 12px 5px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(var(--ink-rgb),.16); }
+  .result-context small { color: var(--muted); }
+  .result-route { margin: 25px 0; display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 5px; align-items: center; font: 7px/1 monospace; text-align: center; }
+  .result-route span { padding: 16px 3px; border: 1px solid rgba(var(--ink-rgb),.35); }
+  .result-route i { color: var(--muted); font-style: normal; }
+  .result-route small { grid-column: 1 / -1; padding-top: 11px; color: var(--muted); border-top: 1px dotted rgba(var(--ink-rgb),.35); }
+  .leadership-result .result-heading { grid-column: 1 / -1; }
+  .leadership-result h3 { grid-column: 1; font-size: clamp(34px, 3vw, 48px); }
+  .leadership-result .result-description { grid-column: 1; }
+  .leadership-result .result-handoff { grid-column: 2; grid-row: 2 / 4; align-self: center; }
+  .leadership-result .result-outcome { grid-column: 1; }
+  .result-handoff { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid rgba(var(--ink-rgb),.28); }
+  .result-handoff span { min-height: 62px; padding: 13px; display: flex; justify-content: space-between; align-items: center; font: 8px/1 monospace; }
+  .result-handoff span:nth-child(odd) { border-right: 1px solid rgba(var(--ink-rgb),.2); }
+  .result-handoff span:nth-child(n+3) { border-top: 1px solid rgba(var(--ink-rgb),.2); }
+  .result-handoff i { color: var(--pos); font-style: normal; }
+
+  .method-intro { border-bottom: 1px solid rgba(var(--ink-rgb),.3); }
+  .method-layout { display: grid; grid-template-columns: 41% 59%; }
+  .method-manifesto { min-height: 620px; padding: 54px 52px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid rgba(var(--ink-rgb),.24); background: rgba(231,226,211,.38); }
+  .method-manifesto > p:first-child { margin: 0 0 28px; color: var(--rust); font: 700 9px/1 monospace; letter-spacing: .06em; }
+  .method-manifesto h3 { margin: 0; font: 400 clamp(43px, 4.3vw, 67px)/.9 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif; letter-spacing: -.045em; }
+  .method-manifesto > p:nth-of-type(2) { max-width: 430px; margin: 36px 0 0; font-size: 12px; line-height: 1.7; }
+  .method-manifesto > div { margin-top: 45px; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid rgba(var(--ink-rgb),.3); }
+  .method-manifesto > div span { min-height: 43px; display: grid; place-items: center; font: 7px/1 monospace; }
+  .method-manifesto > div span + span { border-left: 1px solid rgba(var(--ink-rgb),.2); }
+  .method-track { display: grid; }
+  .method-track article { min-height: 155px; padding: 27px 38px; display: grid; grid-template-columns: 66px 1fr auto; gap: 25px; align-items: center; }
+  .method-track article + article { border-top: 1px solid rgba(var(--ink-rgb),.22); }
+  .method-no { color: var(--muted); font: 39px/1 'Times New Roman', serif; }
+  .method-track h3 { margin: 0 0 10px; font: 400 25px/1 'Times New Roman', serif; }
+  .method-track p { max-width: 510px; margin: 0; font-size: 10px; line-height: 1.58; }
+  .method-track article > b { min-width: 72px; padding: 8px; color: var(--blue); border: 1px solid color-mix(in srgb, var(--blue), transparent 62%); font: 700 7px/1 monospace; text-align: center; }
+
+  .footer { display: grid; grid-template-columns: 1.7fr 1fr; min-height: 320px; border-bottom: 0; }
+  .footer-primary { padding: 50px 44px; display: flex; flex-direction: column; }
+  .footer-aside { padding: 48px 40px; border-left: 1px solid rgba(var(--ink-rgb),.2); display: flex; flex-direction: column; }
+  .footer-manifesto { margin: 0; max-width: 570px; font: 400 clamp(27px, 2.7vw, 39px)/1.1 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif; letter-spacing: -.025em; }
+  .footer-cta-row { margin-top: 32px; display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+  .footer-cta-row .button { min-width: 236px; min-height: 52px; }
+  .footer-links { display: flex; flex-direction: column; gap: 9px; }
+  .footer-links a { color: var(--ink); font: 11px/1 monospace; text-decoration: underline; text-decoration-color: rgba(var(--ink-rgb),.32); text-underline-offset: 3px; transition: color .2s ease, text-decoration-color .2s ease; }
+  .footer-links a:hover, .footer-links a:focus-visible { color: var(--rust); text-decoration-color: var(--rust); outline: none; }
+  .footer-trust { margin: auto 0 0; padding-top: 30px; font: 9px/1.4 monospace; letter-spacing: .05em; color: var(--muted); }
+  .footer-id .brand { display: block; font-size: 30px; }
+  .footer-id p { margin: 15px 0 0; font: 9px/1.65 monospace; color: var(--muted); }
+  .note-card { position: relative; align-self: start; margin: 32px 0 0; padding: 18px 20px 22px; background: #e8e4d9; box-shadow: 1px 3px 8px rgba(31,31,26,.09); transform: rotate(-1.2deg); }
+  .note-card > span { font: 8px/1 monospace; letter-spacing: .06em; color: var(--muted); }
+  .note-card > i { position: absolute; top: -9px; left: 50%; width: 43px; height: 17px; background: var(--rust); transform: translateX(-50%) rotate(-4deg); opacity: .85; }
+  .note-card p { margin: 18px 0 0; max-width: 235px; font: italic 13px/1.42 'Bradley Hand', 'Iowan Old Style', cursive, serif; }
+
+  .footer-bottom { grid-column: 1 / -1; min-height: 42px; padding: 13px 44px; display: grid; grid-template-columns: 1.6fr 1fr auto; align-items: center; gap: 20px; border-top: 1px solid rgba(var(--ink-rgb),.24); font: 7px/1.4 monospace; letter-spacing: .04em; }
+  .footer-bottom a { display: inline-block; padding: 6px 2px; color: var(--ink); text-decoration: none; }
+
+  /* ===== Reveal при скролле (кросс-браузерно, через IntersectionObserver) ===== */
+  :global(html.js) .system-visual,
+  :global(html.js) .section-intro,
+  :global(html.js) .direction-card,
+  :global(html.js) .result-card,
+  :global(html.js) .method-manifesto,
+  :global(html.js) .method-track article,
+  :global(html.js) .footer > div,
+  :global(html.js) .footer > aside {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s var(--ease-reveal) calc(var(--reveal-i, 0) * 75ms),
+                transform .8s var(--ease-reveal) calc(var(--reveal-i, 0) * 75ms),
+                translate .3s var(--ease-snap), border-color .3s ease, box-shadow .3s ease;
+  }
+  :global(html.js) .system-visual { transform: translateY(28px) scale(.985); transform-origin: 60% 40%; }
+
+  /* Хореография входа hero: заголовок → лид → кнопки */
+  :global(html.js) .hero-copy > * { opacity: 0; animation: heroRise .9s var(--ease-reveal) both; }
+  :global(html.js) .hero-copy > h1 { animation-delay: .08s; }
+  :global(html.js) .hero-copy > .lead { animation-delay: .24s; }
+  :global(html.js) .hero-copy > .hero-actions { animation-delay: .4s; }
+  @keyframes heroRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+  /* CI/CD-консоль: пайплайн «пробегает» при появлении */
+  :global(html.js) .git-direction .git-flow > div,
+  :global(html.js) .git-direction .git-flow > i,
+  :global(html.js) .git-direction .trace-list p,
+  :global(html.js) .git-direction .console-metrics span { opacity: 0; }
+  .git-direction.is-in .git-flow > div { animation: pipeStage .46s var(--ease-reveal) both; }
+  .git-direction.is-in .git-flow > i { animation: pipeArrow .36s var(--ease-reveal) both; }
+  .git-direction.is-in .git-flow > div:nth-of-type(1) { animation-delay: .12s; }
+  .git-direction.is-in .git-flow > i:nth-of-type(1) { animation-delay: .22s; }
+  .git-direction.is-in .git-flow > div:nth-of-type(2) { animation-delay: .28s; }
+  .git-direction.is-in .git-flow > i:nth-of-type(2) { animation-delay: .38s; }
+  .git-direction.is-in .git-flow > div:nth-of-type(3) { animation-delay: .44s; }
+  .git-direction.is-in .git-flow > i:nth-of-type(3) { animation-delay: .54s; }
+  .git-direction.is-in .git-flow > div:nth-of-type(4) { animation-delay: .6s; }
+  .git-direction.is-in .trace-list p { animation: pipeRow .4s var(--ease-reveal) both; }
+  .git-direction.is-in .trace-list p:nth-child(1) { animation-delay: .68s; }
+  .git-direction.is-in .trace-list p:nth-child(2) { animation-delay: .76s; }
+  .git-direction.is-in .trace-list p:nth-child(3) { animation-delay: .84s; }
+  .git-direction.is-in .trace-list p:nth-child(4) { animation-delay: .92s; }
+  .git-direction.is-in .console-metrics span { animation: pipeStage .46s var(--ease-reveal) both; animation-delay: 1s; }
+  @keyframes pipeStage { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+  @keyframes pipeArrow { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+  @keyframes pipeRow { from { opacity: 0; transform: translateX(-7px); } to { opacity: 1; transform: none; } }
+
+  /* Ховер карточек результатов (translate — независимо от reveal-transform) */
+  .result-card { transition: translate .3s var(--ease-snap), border-color .3s ease, box-shadow .3s ease; }
+  .result-card:hover {
+    translate: 0 -4px;
+    border-color: rgba(var(--ink-rgb),.5);
+    box-shadow: 0 16px 34px rgba(var(--ink-rgb),.1);
+  }
+  .leadership-result:hover { translate: 0 -3px; }
+
+  :global(html.js) .system-visual.is-in,
+  :global(html.js) .section-intro.is-in,
+  :global(html.js) .direction-card.is-in,
+  :global(html.js) .result-card.is-in,
+  :global(html.js) .method-manifesto.is-in,
+  :global(html.js) .method-track article.is-in,
+  :global(html.js) .footer > div.is-in,
+  :global(html.js) .footer > aside.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 1120px) {
+    .topbar { padding-inline: 32px; gap: 20px; }
+    .topbar nav { gap: 18px; }
+    .hero-copy { padding-left: 48px; }
+    h1 { font-size: 59px; }
+    .section-intro { padding-inline: 38px; grid-template-columns: 1.8fr 4.5fr 3fr; gap: 30px; }
+    .direction-card { grid-template-columns: 39% 61%; }
+    .direction-copy { padding-inline: 38px; }
+    .build-canvas, .migration-map, .git-console { margin-inline: 25px; }
+    .map-conn { flex-basis: 22px; }
+    .result-grid { padding-inline: 20px; }
+    .result-card { padding: 22px; }
+    .method-layout { grid-template-columns: 39% 61%; }
+    .method-manifesto { padding-inline: 38px; }
+    .method-track article { padding-inline: 28px; grid-template-columns: 56px 1fr auto; gap: 18px; }
+    .footer-primary { padding: 40px 34px; }
+    .footer-aside { padding: 40px 34px; }
+    .footer-bottom { padding-inline: 34px; }
+  }
+
+  @media (max-width: 800px) {
+    .paper-stage { width: calc(100% - 12px); margin: 6px auto; }
+    .topbar { height: auto; min-height: 76px; padding: 14px 20px; grid-template-columns: auto 1fr auto auto; gap: 12px; }
+    .brand { font-size: 30px; }
+    .brand-note { display: none; }
+    .topbar nav { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; }
+    .theme-toggle { grid-column: 3; grid-row: 1; width: 38px; height: 38px; }
+    .revision { grid-column: 4; grid-row: 1; }
+    .section-grid { grid-template-columns: 1fr; }
+    .hero { min-height: unset; }
+    .hero-copy { padding: 45px 24px 20px 38px; }
+    h1 { font-size: clamp(49px, 13vw, 67px); }
+    .lead { font-size: 13px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .system-visual { height: 640px; border-left: 0; }
+    .section-intro { min-height: unset; padding: 34px 25px; grid-template-columns: 1fr; gap: 24px; }
+    .section-intro h2 { max-width: 620px; }
+    .section-intro > p:last-child { max-width: 620px; margin-top: 0; }
+    .direction-card { min-height: unset; grid-template-columns: 1fr; }
+    .direction-copy { min-height: 390px; padding: 65px 34px 46px; border: 0 !important; border-bottom: 1px solid rgba(var(--ink-rgb),.2) !important; }
+    .modernize-direction .direction-copy { order: -1; }
+    .build-canvas, .migration-map, .git-console { min-height: 470px; margin: 24px; }
+    .git-flow { gap: 6px; }
+    .result-grid { padding-inline: 16px; }
+    .product-result, .modernization-result, .git-result, .context-result, .integration-result { grid-column: span 6; }
+    .product-result, .leadership-result { grid-column: span 12; }
+    .leadership-result { grid-template-columns: 1fr 1fr; }
+    .method-layout { grid-template-columns: 1fr; }
+    .method-manifesto { min-height: 520px; padding: 50px 34px; border-right: 0; border-bottom: 1px solid rgba(var(--ink-rgb),.24); }
+    .method-track article { min-height: 145px; }
+    .footer { grid-template-columns: 1fr; }
+    .footer-primary { padding: 38px 25px; }
+    .footer-aside { border-left: 0; border-top: 1px solid rgba(var(--ink-rgb),.2); padding: 34px 25px; }
+    .footer-cta-row { gap: 20px; }
+    .footer-cta-row .button { width: 100%; }
+    .note-card { align-self: stretch; }
+    .footer-bottom { grid-template-columns: 1fr 1fr; padding-inline: 25px; line-height: 1.4; }
+  }
+
+  @media (max-width: 520px) {
+    .topbar nav { gap: 8px; font-size: 8px; }
+    .topbar nav a:nth-child(3) { display: none; }
+    .revision { padding: 6px; }
+    .hero-copy { padding-left: 24px; }
+    h1 { font-size: clamp(42px, 12vw, 52px); }
+    .system-visual { height: 560px; }
+    .direction-copy { min-height: 360px; padding-inline: 24px; }
+    .direction-copy h3 { font-size: 39px; }
+    .build-canvas, .migration-map, .git-console { min-height: 430px; margin: 12px; }
+    .build-canvas { padding-inline: 16px; }
+    .product-window { grid-template-columns: 48px 1fr; }
+    .product-window > div { padding-inline: 20px; }
+    .canvas-note { width: 190px; }
+    .map-ruler { display: none; }
+    .map-track { flex-direction: column; align-items: stretch; top: 50%; }
+    .map-node { padding: 10px 12px; }
+    .map-conn { flex: 0 0 16px; width: 1px; height: 16px; align-self: center; }
+    .map-conn::after { content: '⌄'; right: auto; left: 50%; top: auto; bottom: -4px; transform: translateX(-50%); }
+    .migration-status { gap: 7px; font-size: 6px; }
+    .git-console { padding-inline: 14px; }
+    .git-flow { grid-template-columns: repeat(2, 1fr); gap: 8px; padding-top: 10px; }
+    .git-flow > i { display: none; }
+    .git-flow > div { min-height: 74px; }
+    .trace-list p { grid-template-columns: 1fr auto 54px; gap: 7px; }
+    .console-metrics { left: 14px; right: 14px; }
+    .result-card, .product-result, .modernization-result, .git-result, .context-result, .integration-result, .leadership-result { grid-column: span 12; min-height: 390px; }
+    .leadership-result { display: flex; }
+    .leadership-result .result-heading, .leadership-result h3, .leadership-result .result-description, .leadership-result .result-handoff, .leadership-result .result-outcome { grid-column: auto; grid-row: auto; }
+    .result-route { gap: 3px; font-size: 6px; }
+    .method-manifesto h3 { font-size: 50px; }
+    .method-track article { padding: 25px 20px; grid-template-columns: 45px 1fr; gap: 15px; }
+    .method-track article > b { grid-column: 2; justify-self: start; }
+    .footer-bottom { grid-template-columns: 1fr; }
+  }
+
+  /* ===== Тёмная тема: поверхности, не следующие за токенами ===== */
+  :global(:root[data-theme='dark']) .sheet {
+    background-color: var(--paper);
+    background-image:
+      var(--paper-noise),
+      radial-gradient(ellipse at 78% 30%, rgba(var(--hi-rgb),.045), transparent 48%),
+      linear-gradient(rgba(var(--ink-rgb),.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--ink-rgb),.05) 1px, transparent 1px);
+    background-size: 300px 300px, 100% 100%, 31px 31px, 31px 31px;
+    background-blend-mode: soft-light, screen, normal, normal;
+    box-shadow: inset 0 0 0 1px rgba(var(--ink-rgb),.14), inset 0 0 140px rgba(0,0,0,.45);
+    border-color: rgba(var(--ink-rgb),.22);
+  }
+  :global(:root[data-theme='dark']) .paper-patina { display: none; }
+  :global(:root[data-theme='dark']) .paper-stage::before,
+  :global(:root[data-theme='dark']) .paper-stage::after { opacity: .5; }
+
+  :global(:root[data-theme='dark']) .build-canvas { background: rgba(var(--hi-rgb),.03); }
+  :global(:root[data-theme='dark']) .result-card { background: rgba(var(--hi-rgb),.028); }
+  :global(:root[data-theme='dark']) .product-window { background: rgba(var(--hi-rgb),.05); }
+  :global(:root[data-theme='dark']) .map-node { background: rgba(var(--hi-rgb),.09); }
+  :global(:root[data-theme='dark']) .method-manifesto { background: rgba(var(--hi-rgb),.035); }
+  :global(:root[data-theme='dark']) .result-context label { background: rgba(var(--hi-rgb),.07); }
+  :global(:root[data-theme='dark']) .canvas-note { background: #241c14; }
+  :global(:root[data-theme='dark']) .note-card { background: #1b201a; box-shadow: 1px 3px 9px rgba(0,0,0,.35); }
+  :global(:root[data-theme='dark']) .git-console { border-color: rgba(var(--ink-rgb),.2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .direction-card, .result-card, .method-track article,
+    .hero-copy > *, .git-direction .git-flow > div, .git-direction .git-flow > i,
+    .git-direction .trace-list p, .git-direction .console-metrics span { animation: none !important; opacity: 1 !important; transform: none !important; }
+  }
+</style>

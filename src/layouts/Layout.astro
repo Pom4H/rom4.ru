@@ -1,15 +1,25 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import '@fontsource-variable/inter';
 
 interface Props {
   title: string;
-  description: string;
+  description?: string;
 }
 
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Роман Попов',
+  alternateName: 'ROM4.RU',
+  url: 'https://rom4.ru',
+  jobTitle: 'Software engineer, hands-on CTO',
+  description,
+  sameAs: ['https://t.me/Pom4H', 'https://github.com/Pom4H'],
+};
 ---
 
 <!doctype html>
@@ -17,18 +27,42 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f4f1ea" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#f0efe8" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ROM4.RU" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="ru_RU" />
-
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ROM4.RU — Строю и модернизирую продукты для инженерного B2B" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+    <!-- Theme init (no-flash): set data-theme before first paint -->
+    <script is:inline>
+      (function () {
+        try {
+          var q = (location.search.match(/[?&]theme=(light|dark)/) || [])[1];
+          var stored = localStorage.getItem('theme');
+          var theme = q
+            || (stored === 'light' || stored === 'dark' ? stored : null)
+            || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.add('js');
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f1518' : '#f0efe8');
+        } catch (e) {}
+      })();
+    </script>
     <!-- Yandex.Metrika counter -->
     <script is:inline>
       (function(m,e,t,r,i,k,a){
@@ -47,12 +81,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <div><img src="https://mc.yandex.ru/watch/110382417" style="position:absolute; left:-9999px;" alt="" /></div>
     </noscript>
 
-    <Header />
-
-    <main id="top">
-      <slot />
-    </main>
-
-    <Footer />
+    <slot />
   </body>
 </html>

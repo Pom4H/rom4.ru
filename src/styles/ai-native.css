@@ -1,0 +1,138 @@
+:root {
+  --max: 980px;
+}
+
+.hero {
+  padding-bottom: 72px;
+}
+
+.hero h1 {
+  max-width: 900px;
+}
+
+.hero-economics {
+  max-width: 690px;
+  margin-top: 24px;
+  padding-left: 18px;
+  border-left: 2px solid var(--accent);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.hero-proof {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 56px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.hero-proof > div {
+  min-height: 132px;
+  padding: 24px 26px 26px 0;
+}
+
+.hero-proof > div + div {
+  padding-left: 26px;
+  border-left: 1px solid var(--line);
+}
+
+.hero-proof strong,
+.hero-proof span {
+  display: block;
+}
+
+.hero-proof strong {
+  margin-bottom: 10px;
+  font-family: var(--serif);
+  font-size: 22px;
+}
+
+.hero-proof span {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  min-height: 270px;
+  flex-direction: column;
+  padding: 30px 32px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.project-card:hover {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.project-tag {
+  margin-bottom: 38px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-card h3 {
+  margin-bottom: 14px;
+  font-size: 25px;
+}
+
+.project-card p {
+  color: var(--muted);
+}
+
+.project-link {
+  margin-top: auto;
+  padding-top: 28px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.project-card:hover .project-link {
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .hero-proof,
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-proof > div {
+    min-height: auto;
+    padding: 22px 0;
+  }
+
+  .hero-proof > div + div {
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .project-card {
+    min-height: auto;
+    padding: 24px 22px 28px;
+  }
+
+  .project-tag {
+    margin-bottom: 24px;
+  }
+}

@@ -1,68 +1,6 @@
 ---
-const controls = [
-  {
-    id: 'product', index: '01', label: 'Продукт', icon: 'cube', accent: '#bd5b31',
-    title: 'Ценность собрана в продукт',
-    detail: 'Пользовательский сценарий, данные и бизнес-логика работают как одно целое.',
-  },
-  {
-    id: 'task', index: '02', label: 'Задача', icon: 'dial', accent: '#164a76',
-    title: 'Команда понимает, что меняет',
-    detail: 'Цель, эффект для пользователя и критерии готовности зафиксированы до разработки.',
-  },
-  {
-    id: 'prototype', index: '03', label: 'Прототип', icon: 'expand', accent: '#8f5e2f',
-    title: 'Гипотеза проверяется рано',
-    detail: 'Рабочий прототип показывает ценность и ограничения до начала полноценной разработки.',
-  },
-  {
-    id: 'architecture', index: '04', label: 'Архитектура', icon: 'terminal', accent: '#6e7047',
-    title: 'Система выдерживает развитие',
-    detail: 'Границы, данные и интерфейсы определены до того, как изменения становятся дорогими.',
-  },
-  {
-    id: 'code', index: '05', label: 'Код', icon: 'document', accent: '#2f546f',
-    title: 'Решение становится кодом',
-    detail: 'Типы, тесты и инженерные соглашения удерживают качество при развитии продукта.',
-  },
-  {
-    id: 'git', index: '06', label: 'Git', icon: 'nodes', accent: '#47704e',
-    title: 'У изменения есть история',
-    detail: 'Задача, ветка, код и решение связаны одной цепочкой.',
-  },
-  {
-    id: 'inspection', index: '07', label: 'Проверка', icon: 'search', accent: '#725e3c',
-    title: 'Изменение проверено другим взглядом',
-    detail: 'Команда видит объём и последствия изменения до его включения в продукт.',
-  },
-  {
-    id: 'build', index: '08', label: 'Сборка', icon: 'inbox', accent: '#bd5b31',
-    title: 'Проверки повторяются автоматически',
-    detail: 'Каждое изменение проходит один и тот же воспроизводимый путь до выпуска.',
-  },
-  {
-    id: 'release', index: '09', label: 'Выпуск', icon: 'chart', accent: '#164a76',
-    title: 'Изменение дошло до пользователя',
-    detail: 'Команда знает состав версии, её состояние и ожидаемый эффект для пользователя.',
-  },
-  {
-    id: 'integration', index: '10', label: 'Связи', icon: 'plug', accent: '#47704e',
-    title: 'Продукт встроен в бизнес',
-    detail: 'Системы и данные связаны через ясные, документированные интерфейсы.',
-  },
-  {
-    id: 'monitoring', index: '11', label: 'Мониторинг', icon: 'pulse', accent: '#76556f',
-    title: 'Поведение продукта видно команде',
-    detail: 'Метрики, ошибки и состояние выпущенной версии доступны без догадок и ручного расследования.',
-  },
-  {
-    id: 'handoff', index: '12', label: 'Передача', icon: 'handoff', accent: '#8f5e2f',
-    title: 'Команда сохраняет контроль',
-    detail: 'Код, история решений, доступы и правила работы остаются у людей, которые продолжат работу.',
-  },
-];
+// ROM4.RU — интерактивный пульт (control panel). Разметка; логика и стили — в index.astro.
 ---
-
 <section class="system-panel" data-system-panel data-active="product" aria-label="Интерактивный пульт цифровой системы">
   <div class="board-shell">
     <span class="side-label side-label-left">SOFTWARE ENGINEERING · DIGITAL PRODUCTS · 2026</span>
@@ -71,7 +9,6 @@ const controls = [
     <span class="screw screw-b" aria-hidden="true"></span>
     <span class="screw screw-c" aria-hidden="true"></span>
     <span class="screw screw-d" aria-hidden="true"></span>
-
     <div class="panel-grid" role="group" aria-label="Функции цифровой системы">
       <div class="panel-screen" data-panel-readout aria-live="polite">
         <div class="screen-head">
@@ -83,501 +20,89 @@ const controls = [
         <p class="readout-detail" data-readout-detail>Пользовательский сценарий, данные и бизнес-логика работают как одно целое.</p>
       </div>
 
-      {controls.map((control, index) => (
-        <button
-          class="panel-key"
-          type="button"
-          data-panel-key={control.id}
-          data-index={control.index}
-          data-label={control.label}
-          data-title={control.title}
-          data-detail={control.detail}
-          data-accent={control.accent}
-          aria-label={`${control.index}. ${control.label}`}
-          aria-pressed={index === 0 ? 'true' : 'false'}
-          style={`--key-accent: ${control.accent}`}
-        >
-          <span class="key-number">{control.index}</span>
-          <svg class:list={['key-icon', `key-icon-${control.icon}`]} viewBox="0 0 64 64" aria-hidden="true">
-            {control.icon === 'cube' && (
-              <g class="icon-cube"><path class="cube-face cube-top" d="m13 22 19-10 19 10-19 10Z" /><path class="cube-face cube-left" d="M13 22v21l19 10V32Z" /><path class="cube-face cube-right" d="M51 22v21l-19 10V32Z" /><path class="cube-seam" d="M32 32v21" /></g>
-            )}
-            {control.icon === 'expand' && (
-              <g class="icon-expand"><rect class="expand-core" x="22" y="22" width="20" height="20" rx="2.5" /><path class="expand-a" d="M16 26V16h10" /><path class="expand-b" d="M48 38v10H38" /></g>
-            )}
-            {control.icon === 'terminal' && (
-              <g class="icon-terminal"><rect class="term-frame" x="13" y="14" width="38" height="36" rx="4" /><path class="term-bar" d="M13 26h38" /><circle class="term-dot" cx="18" cy="20" r="1.4" /><path class="term-prompt" d="M20 37l4 3.4-4 3.4" /><path class="term-caret" d="M28 43h8" /></g>
-            )}
-            {control.icon === 'dial' && (
-              <g class="icon-dial"><circle cx="32" cy="32" r="22" /><path d="M18 44a19 19 0 0 1 28 0" /><path class="dial-tick" d="M44.2 18.7 46.9 15.8" /><path class="dial-needle" d="M32 32 43 20" /><circle cx="32" cy="32" r="3" /></g>
-            )}
-            {control.icon === 'search' && (
-              <g class="icon-search"><circle cx="27" cy="27" r="14" /><path class="search-handle" d="m38 38 13 13" /><path class="search-scan" d="M18 27h18" /><path class="search-check" d="M22 27l3 3 6-7" /></g>
-            )}
-            {control.icon === 'inbox' && (
-              <g class="icon-inbox"><path class="tray-box" d="M11 18h42v31H11zM11 18l21 17 21-17"/><path class="inbox-arrow" d="M32 8v19m-7-7 7 7 7-7"/><path class="check" d="M23 42l5 5 12-10"/></g>
-            )}
-            {control.icon === 'nodes' && (
-              <g class="icon-nodes"><path class="node-path" d="M16 18h20v14h12v15H28"/><circle class="node node-a" cx="16" cy="18" r="5"/><circle class="node node-b" cx="36" cy="32" r="5"/><circle class="node node-c" cx="48" cy="47" r="5"/><circle class="node node-d" cx="28" cy="47" r="5"/></g>
-            )}
-            {control.icon === 'pulse' && (
-              <g class="icon-pulse"><path class="pulse-line" d="M6 36 h16 l4 3 l4 -24 l4 24 l3 -3 h15" /><circle class="pulse-ping" cx="30" cy="15" r="8" /></g>
-            )}
-            {control.icon === 'document' && (
-              <g class="icon-document"><path class="document-page" d="M16 9h23l10 10v36H16zM39 9v12h10"/><path class="code-line-1" d="M23 31h18"/><path class="code-line-2" d="M28 39h14"/><path class="code-line-3" d="M28 47h9"/></g>
-            )}
-            {control.icon === 'chart' && (
-              <g class="icon-chart"><path d="M11 52h43M14 48V14" /><path class="chart-line" pathLength="100" d="m17 42 10-11 8 7 13-18" /><circle class="chart-point point-a" cx="27" cy="31" r="3" /><circle class="chart-point point-b" cx="35" cy="38" r="3" /><circle class="chart-point point-c" cx="48" cy="20" r="3" /><circle class="ping" cx="48" cy="20" r="3" fill="none" /></g>
-            )}
-            {control.icon === 'plug' && (
-              <g class="icon-plug"><path class="plug-left" d="M20 24H6v16h14M20 28h7M20 36h7"/><path class="plug-right" d="M44 24h14v16H44M44 28h-7M44 36h-7"/><path class="plug-spark" d="M32 28 33 31 36 32 33 33 32 36 31 33 28 32 31 31Z"/></g>
-            )}
-            {control.icon === 'handoff' && (
-              <g class="icon-handoff"><circle cx="20" cy="22" r="7" /><circle class="handoff-head" cx="44" cy="22" r="7" /><path d="M8 48c1-9 5-14 12-14s11 5 12 14M32 48c1-9 5-14 12-14s11 5 12 14" /><circle class="handoff-ack" cx="44" cy="22" r="7" /><circle class="handoff-token" cx="26" cy="31" r="2.4" /></g>
-            )}
-          </svg>
-          <span class="key-label">{control.label}</span>
-          <span class="key-led" aria-hidden="true"></span>
-        </button>
-      ))}
+      <button class="panel-key" type="button" data-panel-key="product" data-index="01" data-label="Продукт" data-title="Ценность собрана в продукт" data-detail="Пользовательский сценарий, данные и бизнес-логика работают как одно целое." data-accent="#bd5b31" aria-label="01. Продукт" aria-pressed="false" style="--key-accent: #bd5b31">
+        <span class="key-number">01</span>
+        <svg class="key-icon key-icon-cube" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-cube"><path class="cube-face cube-top" d="m13 22 19-10 19 10-19 10Z"></path><path class="cube-face cube-left" d="M13 22v21l19 10V32Z"></path><path class="cube-face cube-right" d="M51 22v21l-19 10V32Z"></path><path class="cube-seam" d="M32 32v21"></path></g></svg>
+        <span class="key-label">Продукт</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
 
-      <div class="live-cell" aria-hidden="true">
-        <span class="live-ping">
-          <b class="ping-core"></b>
-          <b class="ping-ring"></b>
-          <b class="ping-ring ping-ring-2"></b>
-        </span>
-        <span class="live-label">АКТИВНО</span>
-      </div>
-      <a class="panel-cta" href="#contacts">
-        <span>ОБСУДИТЬ ЗАДАЧУ</span><b>→</b>
-      </a>
-      <button class="reset-key" type="button" data-panel-reset aria-label="Сбросить пульт на первый экран">
-        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 20a20 20 0 1 1-5 19" /><path d="M10 16h13v13" /></svg>
-        <span>СБРОС</span>
+      <button class="panel-key" type="button" data-panel-key="task" data-index="02" data-label="Задача" data-title="Команда понимает, что меняет" data-detail="Цель, эффект для пользователя и критерии готовности зафиксированы до разработки." data-accent="#164a76" aria-label="02. Задача" aria-pressed="false" style="--key-accent: #164a76">
+        <span class="key-number">02</span>
+        <svg class="key-icon key-icon-target" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-target"><circle class="target-ring target-ring-1" cx="32" cy="32" r="17"></circle><circle class="target-ring target-ring-2" cx="32" cy="32" r="8"></circle><circle class="target-dot" cx="32" cy="32" r="3" fill="currentColor" stroke="none"></circle><path class="target-tick target-tick-t" d="M32 9v10"></path><path class="target-tick target-tick-r" d="M55 32h-10"></path><path class="target-tick target-tick-b" d="M32 55v-10"></path><path class="target-tick target-tick-l" d="M9 32h10"></path></g></svg>
+        <span class="key-label">Задача</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="prototype" data-index="03" data-label="Прототип" data-title="Гипотеза проверяется рано" data-detail="Рабочий прототип показывает ценность и ограничения до начала полноценной разработки." data-accent="#8f5e2f" aria-label="03. Прототип" aria-pressed="false" style="--key-accent: #8f5e2f">
+        <span class="key-number">03</span>
+        <svg class="key-icon key-icon-expand" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-expand"><rect class="expand-core" x="22" y="22" width="20" height="20" rx="2.5"></rect><path class="expand-a" d="M16 26V16h10"></path><path class="expand-b" d="M48 38v10H38"></path></g></svg>
+        <span class="key-label">Прототип</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="code" data-index="04" data-label="Код" data-title="Решение становится кодом" data-detail="Типы, тесты и инженерные соглашения удерживают качество при развитии продукта." data-accent="#2f546f" aria-label="04. Код" aria-pressed="false" style="--key-accent: #2f546f">
+        <span class="key-number">04</span>
+        <svg class="key-icon key-icon-cli" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-cli"><rect class="cli-frame" x="10" y="14" width="44" height="36" rx="4"></rect><path class="cli-prompt" d="M18 28 L26 34 L18 40"></path><path class="cli-cursor" d="M30 40H42"></path></g></svg>
+        <span class="key-label">Код</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="interface" data-index="05" data-label="Интерфейс" data-title="Интерфейс собирает продукт воедино" data-detail="Экраны, состояния и навигация связывают данные и логику в понятный пользователю сценарий." data-accent="#47704e" aria-label="05. Интерфейс" aria-pressed="false" style="--key-accent: #47704e">
+        <span class="key-number">05</span>
+        <svg class="key-icon key-icon-ui" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-ui"><rect class="ui-frame" x="10" y="14" width="44" height="36" rx="3"></rect><path class="ui-divider" d="M25 14v36"></path><circle class="ui-dot ui-dot-1" cx="17.5" cy="22" r="1.8" fill="currentColor" stroke="none"></circle><circle class="ui-dot ui-dot-2" cx="17.5" cy="30" r="1.8" fill="currentColor" stroke="none"></circle><path class="ui-block ui-block-1" d="M31 24h17"></path><path class="ui-block ui-block-2" d="M31 32h17"></path><path class="ui-block ui-block-3" d="M31 40h11"></path></g></svg>
+        <span class="key-label">Интерфейс</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="design" data-index="06" data-label="Дизайн" data-title="Продукт выглядит и ощущается цельно" data-detail="Визуальный язык, типографика и состояния собраны в систему, а не рисуются заново на каждом экране." data-accent="#725e3c" aria-label="06. Дизайн" aria-pressed="false" style="--key-accent: #725e3c">
+        <span class="key-number">06</span>
+        <svg class="key-icon key-icon-shapes" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-shapes"><rect class="shape-sq" x="10" y="10" width="28" height="28" rx="2"></rect><circle class="shape-ci" cx="40" cy="40" r="14"></circle></g></svg>
+        <span class="key-label">Дизайн</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="ai" data-index="07" data-label="AI" data-title="AI встроен там, где он полезен" data-detail="Модели решают задачу продукта — с контролем качества и стоимости." data-accent="#bd5b31" aria-label="07. AI" aria-pressed="false" style="--key-accent: #bd5b31">
+        <span class="key-number">07</span>
+        <svg class="key-icon key-icon-ai" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-ai"><path class="ai-spark ai-spark-main" d="M30 8 C 32 24 36 28 52 30 C 36 32 32 36 30 52 C 28 36 24 32 8 30 C 24 28 28 24 30 8 Z"></path><path class="ai-spark ai-spark-mini" d="M49 40 C 50 46 51 47 57 48 C 51 49 50 50 49 56 C 48 50 47 49 41 48 C 47 47 48 46 49 40 Z"></path></g></svg>
+        <span class="key-label">AI</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="release" data-index="08" data-label="Релиз" data-title="Изменение дошло до пользователя" data-detail="Команда знает состав версии, её состояние и ожидаемый эффект для пользователя." data-accent="#164a76" aria-label="08. Релиз" aria-pressed="false" style="--key-accent: #164a76">
+        <span class="key-number">08</span>
+        <svg class="key-icon key-icon-chart" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-chart"><path d="M11 52h43M14 48V14"></path><path class="chart-line" pathLength="100" d="m17 42 10-11 8 7 13-18"></path><circle class="chart-point point-a" cx="27" cy="31" r="3"></circle><circle class="chart-point point-b" cx="35" cy="38" r="3"></circle><circle class="chart-point point-c" cx="48" cy="20" r="3"></circle><circle class="ping" cx="48" cy="20" r="3" fill="none"></circle></g></svg>
+        <span class="key-label">Релиз</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="integration" data-index="09" data-label="Интеграции" data-title="Продукт встроен в бизнес" data-detail="Системы и данные связаны через ясные, документированные интерфейсы." data-accent="#47704e" aria-label="09. Интеграции" aria-pressed="false" style="--key-accent: #47704e">
+        <span class="key-number">09</span>
+        <svg class="key-icon key-icon-plug" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-plug"><path class="plug-left" d="M20 24H6v16h14M20 28h7M20 36h7"></path><path class="plug-right" d="M44 24h14v16H44M44 28h-7M44 36h-7"></path><path class="plug-spark" d="M32 28 33 31 36 32 33 33 32 36 31 33 28 32 31 31Z"></path></g></svg>
+        <span class="key-label">Интеграции</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="monitoring" data-index="10" data-label="Мониторинг" data-title="Поведение продукта видно команде" data-detail="Метрики, ошибки и состояние выпущенной версии доступны без догадок и ручного расследования." data-accent="#76556f" aria-label="10. Мониторинг" aria-pressed="false" style="--key-accent: #76556f">
+        <span class="key-number">10</span>
+        <svg class="key-icon key-icon-pulse" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-pulse"><path class="pulse-line" d="M9 41 h16 l4 3 l4 -24 l4 24 l3 -3 h15"></path><circle class="pulse-ping" cx="33" cy="20" r="8"></circle></g></svg>
+        <span class="key-label">Мониторинг</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="technologies" data-index="11" data-label="Технологии" data-title="Технологии выбраны под задачу" data-detail="Инструменты подобраны под задачу и ограничения, а не по моде, — и их сможет поддерживать команда." data-accent="#8f5e2f" aria-label="11. Технологии" aria-pressed="false" style="--key-accent: #8f5e2f">
+        <span class="key-number">11</span>
+        <svg class="key-icon key-icon-chip" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-chip"><rect class="chip-core" x="20" y="20" width="24" height="24" rx="3"></rect><rect class="chip-inner" x="28" y="28" width="8" height="8" rx="1.5"></rect><path class="chip-pin chip-pin-t" d="M26 20v-6M32 20v-6M38 20v-6"></path><path class="chip-pin chip-pin-b" d="M26 44v6M32 44v6M38 44v6"></path><path class="chip-pin chip-pin-l" d="M20 26h-6M20 32h-6M20 38h-6"></path><path class="chip-pin chip-pin-r" d="M44 26h6M44 32h6M44 38h6"></path></g></svg>
+        <span class="key-label">Технологии</span>
+        <span class="key-led" aria-hidden="true"></span>
+      </button>
+
+      <button class="panel-key" type="button" data-panel-key="infrastructure" data-index="12" data-label="Инфраструктура" data-title="Среда, где продукт живёт" data-detail="Окружения, конфигурация и ресурсы описаны кодом и воспроизводятся без ручной настройки." data-accent="#6e7047" aria-label="12. Инфраструктура" aria-pressed="false" style="--key-accent: #6e7047">
+        <span class="key-number">12</span>
+        <svg class="key-icon key-icon-infra" viewBox="0 0 64 64" aria-hidden="true"><g class="icon-infra"><rect class="infra-unit infra-unit-1" x="13" y="14" width="38" height="11" rx="2.5"></rect><rect class="infra-unit infra-unit-2" x="13" y="27" width="38" height="11" rx="2.5"></rect><rect class="infra-unit infra-unit-3" x="13" y="40" width="38" height="11" rx="2.5"></rect><circle class="infra-led infra-led-1" cx="20" cy="19.5" r="1.7" fill="currentColor" stroke="none"></circle><circle class="infra-led infra-led-2" cx="20" cy="32.5" r="1.7" fill="currentColor" stroke="none"></circle><circle class="infra-led infra-led-3" cx="20" cy="45.5" r="1.7" fill="currentColor" stroke="none"></circle></g></svg>
+        <span class="key-label">Инфраструктура</span>
+        <span class="key-led" aria-hidden="true"></span>
       </button>
     </div>
   </div>
 </section>
-
-<script>
-  document.querySelectorAll<HTMLElement>('[data-system-panel]').forEach((panel) => {
-    const keys = Array.from(panel.querySelectorAll<HTMLButtonElement>('[data-panel-key]'));
-    const reset = panel.querySelector<HTMLButtonElement>('[data-panel-reset]');
-
-    const rIndex = panel.querySelector<HTMLElement>('[data-readout-index]');
-    const rLabel = panel.querySelector<HTMLElement>('[data-readout-label]');
-    const rTitle = panel.querySelector<HTMLElement>('[data-readout-title]');
-    const rDetail = panel.querySelector<HTMLElement>('[data-readout-detail]');
-    const screen = panel.querySelector<HTMLElement>('[data-panel-readout]');
-
-    const activate = (key: HTMLButtonElement) => {
-      keys.forEach((item) => item.setAttribute('aria-pressed', 'false'));
-      panel.dataset.active = key.dataset.panelKey;
-      key.setAttribute('aria-pressed', 'true');
-      if (key.dataset.accent) panel.style.setProperty('--screen-accent', key.dataset.accent);
-      if (rIndex) rIndex.textContent = key.dataset.index ?? '';
-      if (rLabel) rLabel.textContent = key.dataset.label ?? '';
-      if (rTitle) rTitle.textContent = key.dataset.title ?? '';
-      if (rDetail) rDetail.textContent = key.dataset.detail ?? '';
-      if (screen) { screen.classList.remove('is-switching'); void screen.offsetWidth; screen.classList.add('is-switching'); }
-    };
-
-    keys.forEach((key) => {
-      key.addEventListener('click', () => activate(key));
-    });
-
-    reset?.addEventListener('click', () => activate(keys[0]));
-
-    const initial = keys.find((key) => key.getAttribute('aria-pressed') === 'true') ?? keys[0];
-    if (initial) activate(initial);
-  });
-</script>
-
-<style>
-  .system-panel {
-    --panel-ink: var(--ink, #141915);
-    --panel-paper: var(--paper, #f0efe8);
-    --panel-rust: var(--rust, #bd5b31);
-    --screen-accent: var(--rust, #bd5b31);
-    height: 100%;
-    padding: 25px 28px;
-    display: grid;
-    grid-template-rows: minmax(0, 1fr);
-    color: var(--panel-ink);
-  }
-
-  /* Встроенный дисплей: показывает текст активной клавиши прямо над кнопками */
-  .panel-screen {
-    grid-column: 1 / -1;
-    display: grid;
-    gap: 4px;
-    padding: 13px 16px 15px;
-    border: 1.2px solid rgba(var(--ink-rgb),.5);
-    border-radius: 13px;
-    background: linear-gradient(180deg, rgba(var(--hi-rgb),.05), transparent 42%), #0c1a15;
-    color: #d7e6dc;
-    overflow: hidden;
-  }
-  .screen-head { display: flex; align-items: center; gap: 9px; }
-  .panel-screen .readout-index { color: color-mix(in srgb, var(--screen-accent), white 42%); font: 700 9px/1 monospace; }
-  .panel-screen .readout-label { text-transform: uppercase; font: 700 8px/1 monospace; letter-spacing: .09em; color: #86988f; }
-  .screen-dot { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; background: color-mix(in srgb, var(--screen-accent), white 30%); box-shadow: 0 0 8px color-mix(in srgb, var(--screen-accent), transparent 35%); }
-  .panel-screen .readout-title { margin: 2px 0 0; font: 400 clamp(15px, 1.5vw, 22px)/1.08 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif; letter-spacing: -.01em; color: #f0f4f0; }
-  .panel-screen .readout-detail { margin: 1px 0 0; font: 10px/1.5 Inter, Arial, sans-serif; color: #9fb2a7; }
-  .panel-screen.is-switching .readout-title, .panel-screen.is-switching .readout-detail { animation: readoutIn .18s ease both; }
-  @keyframes readoutIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
-
-  .board-shell {
-    position: relative;
-    align-self: center;
-    justify-self: center;
-    width: min(100%, 560px);
-    padding: 30px 42px 38px;
-    border: 1.5px solid currentColor;
-    border-radius: 27px;
-    background:
-      linear-gradient(90deg, rgba(var(--ink-rgb),.025) 1px, transparent 1px),
-      linear-gradient(rgba(var(--ink-rgb),.02) 1px, transparent 1px),
-      rgba(var(--panel-fill-rgb),.24);
-    background-size: 20px 20px;
-    box-shadow: inset 0 0 0 7px rgba(var(--panel-fill-rgb),.7), inset 0 0 0 8px rgba(var(--ink-rgb),.12);
-  }
-
-  .side-label { position: absolute; top: 50%; z-index: 3; font: 7px/1 monospace; letter-spacing: .06em; white-space: nowrap; }
-  .side-label-left { left: 16px; transform: translate(-50%,-50%) rotate(-90deg); }
-  .side-label-right { right: 16px; transform: translate(50%,-50%) rotate(90deg); }
-  .screw { position: absolute; z-index: 3; width: 9px; height: 9px; border: 1.3px solid currentColor; border-radius: 50%; }
-  .screw::after { content: ''; position: absolute; left: 1px; right: 1px; top: 3px; height: 1px; background: currentColor; transform: rotate(-18deg); }
-  .screw-a { left: 18px; top: 18px; }.screw-b { right: 18px; top: 18px; }.screw-c { right: 18px; bottom: 18px; }.screw-d { left: 18px; bottom: 18px; }
-
-  .panel-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 7px;
-  }
-
-  .panel-key, .reset-key, .panel-cta, .live-cell {
-    position: relative;
-    min-width: 0;
-    min-height: 0;
-    border: 1.2px solid currentColor;
-    border-radius: 15px;
-    background: rgba(var(--panel-fill-rgb),.82);
-  }
-  .panel-key, .reset-key, .live-cell { aspect-ratio: 1; }
-
-  .panel-key {
-    padding: 8px 7px 6px;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    place-items: center;
-    color: var(--panel-ink);
-    cursor: pointer;
-    transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
-  }
-  .panel-key::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 48%;
-    width: 45%;
-    aspect-ratio: 1;
-    border: 1.25px solid currentColor;
-    border-radius: 50%;
-    transform: translate(-50%,-50%) scale(1);
-    opacity: .82;
-    pointer-events: none;
-    transition: opacity .16s ease;
-  }
-  .panel-key::after { content: ''; position: absolute; inset: 3px; border: 1px solid transparent; border-radius: 11px; pointer-events: none; transition: border-color .2s ease; }
-  .panel-key:hover, .panel-key:focus-visible { z-index: 4; color: var(--key-accent); background: rgba(var(--panel-fill-hi-rgb),.97); box-shadow: 0 0 0 1px color-mix(in srgb, var(--key-accent), transparent 35%); outline: none; }
-  .panel-key:hover::after, .panel-key:focus-visible::after { border-color: color-mix(in srgb, var(--key-accent), transparent 35%); }
-  .panel-key:hover::before, .panel-key:focus-visible::before,
-  .panel-key[aria-pressed='true']::before { opacity: 0; }
-  .panel-key[aria-pressed='true'] { color: var(--key-accent); background: color-mix(in srgb, var(--key-accent) 8%, var(--panel-paper)); box-shadow: 0 0 0 1px var(--key-accent), 0 0 18px color-mix(in srgb, var(--key-accent), transparent 73%); }
-
-  .key-number { position: absolute; left: 7px; top: 6px; color: var(--muted); font: 6px/1 monospace; }
-  .key-label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; font: 700 6.5px/1 monospace; letter-spacing: .025em; }
-  .key-led { position: absolute; right: 7px; top: 7px; width: 4px; height: 4px; border: 1px solid currentColor; border-radius: 50%; }
-  .panel-key[aria-pressed='true'] .key-led { background: currentColor; }
-  .key-icon {
-    width: min(58%, 58px);
-    overflow: visible;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.65;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: .32;
-    transition: opacity .18s ease, filter .18s ease;
-  }
-  .panel-key:hover .key-icon, .panel-key:focus-visible .key-icon,
-  .panel-key[aria-pressed='true'] .key-icon {
-    opacity: 1;
-    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--key-accent), transparent 55%));
-  }
-  .key-icon * { transform-box: fill-box; transform-origin: center; }
-
-  /* ===== Клавиши: покадрово выверенные микро-анимации (сгенерировано) ===== */
-
-  /* 01 Продукт — Three cube faces fly in from above, lower-left and lower-right, converging and snapping to the shared center vertex as the interior seam draws itself in, then the assembled cube gives one crisp settling pulse. */
-  @keyframes product-drop-top { 0% { transform: translateY(-15px) scale(.9); opacity: 0 } 55% { transform: translateY(0) scale(1); opacity: 1 } 70% { transform: translateY(-1.5px) } 100% { transform: translateY(0) } } @keyframes product-slide-left { 0% { transform: translate(-13px, 7px) scale(.9); opacity: 0 } 60% { transform: translate(0,0) scale(1); opacity: 1 } 78% { transform: translateX(1px) } 100% { transform: translate(0,0) } } @keyframes product-slide-right { 0% { transform: translate(13px, 7px) scale(.9); opacity: 0 } 60% { transform: translate(0,0) scale(1); opacity: 1 } 78% { transform: translateX(-1px) } 100% { transform: translate(0,0) } } @keyframes product-seam { 0%, 62% { stroke-dashoffset: 21; opacity: 0 } 72% { opacity: 1 } 100% { stroke-dashoffset: 0; opacity: 1 } } @keyframes product-seat { 0%, 66% { transform: scale(1) } 80% { transform: scale(1.045) } 100% { transform: scale(1) } }
-  .panel-key[data-panel-key='product'] .cube-seam { stroke-dasharray: 21; stroke-dashoffset: 0; }
-  .panel-key[data-panel-key='product'] .icon-cube { transform-origin: 32px 32px; }
-  .panel-key[data-panel-key='product']:hover .cube-top,
-  .panel-key[data-panel-key='product']:focus-visible .cube-top,
-  .panel-key[data-panel-key='product'][aria-pressed='true'] .cube-top { animation: product-drop-top .62s var(--ease-snap) both; }
-  .panel-key[data-panel-key='product']:hover .cube-left,
-  .panel-key[data-panel-key='product']:focus-visible .cube-left,
-  .panel-key[data-panel-key='product'][aria-pressed='true'] .cube-left { animation: product-slide-left .66s var(--ease-snap) .06s both; }
-  .panel-key[data-panel-key='product']:hover .cube-right,
-  .panel-key[data-panel-key='product']:focus-visible .cube-right,
-  .panel-key[data-panel-key='product'][aria-pressed='true'] .cube-right { animation: product-slide-right .66s var(--ease-snap) .06s both; }
-  .panel-key[data-panel-key='product']:hover .cube-seam,
-  .panel-key[data-panel-key='product']:focus-visible .cube-seam,
-  .panel-key[data-panel-key='product'][aria-pressed='true'] .cube-seam { animation: product-seam .7s var(--ease-reveal) both; }
-  .panel-key[data-panel-key='product']:hover .icon-cube,
-  .panel-key[data-panel-key='product']:focus-visible .icon-cube,
-  .panel-key[data-panel-key='product'][aria-pressed='true'] .icon-cube { animation: product-seat .8s var(--ease-snap) both; }
-
-  /* 02 Задача — The needle sweeps up from the low end and settles onto the setpoint with a damped, decreasing wobble while a tick draws in at the rim to confirm the locked reading. */
-  @keyframes task-settle{0%{transform:rotate(-60deg)}52%{transform:rotate(6deg)}74%{transform:rotate(-2.4deg)}90%{transform:rotate(0.8deg)}100%{transform:rotate(0deg)}}@keyframes task-lock{0%{stroke-dashoffset:5}100%{stroke-dashoffset:0}}
-  .panel-key[data-panel-key='task'] .dial-needle { transform-origin:0% 100% }
-  .panel-key[data-panel-key='task'] .dial-tick { stroke-dasharray:5;stroke-dashoffset:5 }
-  .panel-key[data-panel-key='task']:hover .dial-needle,
-  .panel-key[data-panel-key='task']:focus-visible .dial-needle,
-  .panel-key[data-panel-key='task'][aria-pressed='true'] .dial-needle { animation: task-settle .72s var(--ease-snap) both; }
-  .panel-key[data-panel-key='task']:hover .dial-tick,
-  .panel-key[data-panel-key='task']:focus-visible .dial-tick,
-  .panel-key[data-panel-key='task'][aria-pressed='true'] .dial-tick { animation: task-lock .36s var(--ease-reveal) .34s both; }
-
-  /* 03 Прототип — Opposite corner brackets snap outward from center to open a viewport, then a seed rectangle scales up from a point to fill the frame — a working prototype revealed early inside an opening frame. */
-  @keyframes prototype-open-a { from { transform: translate(8px,8px); } to { transform: translate(0,0); } } @keyframes prototype-open-b { from { transform: translate(-8px,-8px); } to { transform: translate(0,0); } } @keyframes prototype-grow { 0% { transform: scale(.12); opacity: .2; } 70% { opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-  .panel-key[data-panel-key='prototype']:hover .expand-a,
-  .panel-key[data-panel-key='prototype']:focus-visible .expand-a,
-  .panel-key[data-panel-key='prototype'][aria-pressed='true'] .expand-a { animation: prototype-open-a .5s var(--ease-snap) both; }
-  .panel-key[data-panel-key='prototype']:hover .expand-b,
-  .panel-key[data-panel-key='prototype']:focus-visible .expand-b,
-  .panel-key[data-panel-key='prototype'][aria-pressed='true'] .expand-b { animation: prototype-open-b .5s var(--ease-snap) both; }
-  .panel-key[data-panel-key='prototype']:hover .expand-core,
-  .panel-key[data-panel-key='prototype']:focus-visible .expand-core,
-  .panel-key[data-panel-key='prototype'][aria-pressed='true'] .expand-core { animation: prototype-grow .55s var(--ease-reveal) .14s both; }
-
-  /* 04 Архитектура — The window frame strokes itself into existence, a status LED flicks on in the title bar, then a > prompt draws in and its cursor blinks once before holding steady — a system coming online with its structure locked and ready. */
-  @keyframes architecture-frame-draw { 0% { stroke-dashoffset: 150 } 100% { stroke-dashoffset: 0 } } @keyframes architecture-bar-draw { 0% { stroke-dashoffset: 38 } 100% { stroke-dashoffset: 0 } } @keyframes architecture-dot-on { 0% { opacity: 0; transform: scale(0) } 60% { opacity: 1; transform: scale(1.25) } 100% { opacity: 1; transform: scale(1) } } @keyframes architecture-prompt-draw { 0% { opacity: 0; stroke-dashoffset: 11 } 45% { opacity: 1 } 100% { opacity: 1; stroke-dashoffset: 0 } } @keyframes architecture-caret-blink { 0% { opacity: 0 } 28% { opacity: 1 } 52% { opacity: 1 } 64% { opacity: 0 } 82% { opacity: 0 } 100% { opacity: 1 } }
-  .panel-key[data-panel-key='architecture'] .term-frame { stroke-dasharray:150 }
-  .panel-key[data-panel-key='architecture'] .term-bar { stroke-dasharray:38 }
-  .panel-key[data-panel-key='architecture'] .term-prompt { stroke-dasharray:11 }
-  .panel-key[data-panel-key='architecture'] .term-dot { fill:currentColor }
-  .panel-key[data-panel-key='architecture']:hover .term-frame,
-  .panel-key[data-panel-key='architecture']:focus-visible .term-frame,
-  .panel-key[data-panel-key='architecture'][aria-pressed='true'] .term-frame { animation: architecture-frame-draw .52s var(--ease-reveal) both; }
-  .panel-key[data-panel-key='architecture']:hover .term-bar,
-  .panel-key[data-panel-key='architecture']:focus-visible .term-bar,
-  .panel-key[data-panel-key='architecture'][aria-pressed='true'] .term-bar { animation: architecture-bar-draw .35s var(--ease-reveal) .3s both; }
-  .panel-key[data-panel-key='architecture']:hover .term-dot,
-  .panel-key[data-panel-key='architecture']:focus-visible .term-dot,
-  .panel-key[data-panel-key='architecture'][aria-pressed='true'] .term-dot { animation: architecture-dot-on .35s var(--ease-snap) .44s both; }
-  .panel-key[data-panel-key='architecture']:hover .term-prompt,
-  .panel-key[data-panel-key='architecture']:focus-visible .term-prompt,
-  .panel-key[data-panel-key='architecture'][aria-pressed='true'] .term-prompt { animation: architecture-prompt-draw .38s var(--ease-reveal) .44s both; }
-  .panel-key[data-panel-key='architecture']:hover .term-caret,
-  .panel-key[data-panel-key='architecture']:focus-visible .term-caret,
-  .panel-key[data-panel-key='architecture'][aria-pressed='true'] .term-caret { animation: architecture-caret-blink .4s var(--ease-snap) .48s both; }
-
-  /* 05 Код — Three indented code lines stroke-draw left-to-right in a staggered typewriter sequence, as if the solution is being authored onto the page line by line. */
-  @keyframes code-type-1{from{stroke-dashoffset:18}to{stroke-dashoffset:0}}@keyframes code-type-2{from{stroke-dashoffset:14}to{stroke-dashoffset:0}}@keyframes code-type-3{from{stroke-dashoffset:9}to{stroke-dashoffset:0}}
-  .panel-key[data-panel-key='code'] .code-line-1 { stroke-dasharray:18;stroke-dashoffset:0 }
-  .panel-key[data-panel-key='code'] .code-line-2 { stroke-dasharray:14;stroke-dashoffset:0 }
-  .panel-key[data-panel-key='code'] .code-line-3 { stroke-dasharray:9;stroke-dashoffset:0 }
-  .panel-key[data-panel-key='code']:hover .code-line-1,
-  .panel-key[data-panel-key='code']:focus-visible .code-line-1,
-  .panel-key[data-panel-key='code'][aria-pressed='true'] .code-line-1 { animation: code-type-1 .34s var(--ease-snap) 0s both; }
-  .panel-key[data-panel-key='code']:hover .code-line-2,
-  .panel-key[data-panel-key='code']:focus-visible .code-line-2,
-  .panel-key[data-panel-key='code'][aria-pressed='true'] .code-line-2 { animation: code-type-2 .34s var(--ease-snap) .15s both; }
-  .panel-key[data-panel-key='code']:hover .code-line-3,
-  .panel-key[data-panel-key='code']:focus-visible .code-line-3,
-  .panel-key[data-panel-key='code'][aria-pressed='true'] .code-line-3 { animation: code-type-3 .34s var(--ease-snap) .3s both; }
-
-  /* 06 Git — The branch line draws forward from the first commit while each node floods hollow-to-solid with a crisp seating tick in sequence along the path, reading as a commit history forming link by link. */
-  @keyframes git-draw{0%{stroke-dashoffset:82}100%{stroke-dashoffset:0}}@keyframes git-commit{0%{fill:var(--panel-paper);transform:scale(1)}55%{fill:currentColor;transform:scale(1.18)}100%{fill:currentColor;transform:scale(1)}}
-  .panel-key[data-panel-key='git'] .node-path { stroke-dasharray:82;stroke-dashoffset:0 }
-  .panel-key[data-panel-key='git'] .node { fill:var(--panel-paper) }
-  .panel-key[data-panel-key='git']:hover .node-path,
-  .panel-key[data-panel-key='git']:focus-visible .node-path,
-  .panel-key[data-panel-key='git'][aria-pressed='true'] .node-path { animation: git-draw .7s var(--ease-reveal) both; }
-  .panel-key[data-panel-key='git']:hover .node-a,
-  .panel-key[data-panel-key='git']:focus-visible .node-a,
-  .panel-key[data-panel-key='git'][aria-pressed='true'] .node-a { animation: git-commit .3s var(--ease-snap) both; }
-  .panel-key[data-panel-key='git']:hover .node-b,
-  .panel-key[data-panel-key='git']:focus-visible .node-b,
-  .panel-key[data-panel-key='git'][aria-pressed='true'] .node-b { animation: git-commit .3s var(--ease-snap) .2s both; }
-  .panel-key[data-panel-key='git']:hover .node-c,
-  .panel-key[data-panel-key='git']:focus-visible .node-c,
-  .panel-key[data-panel-key='git'][aria-pressed='true'] .node-c { animation: git-commit .3s var(--ease-snap) .38s both; }
-  .panel-key[data-panel-key='git']:hover .node-d,
-  .panel-key[data-panel-key='git']:focus-visible .node-d,
-  .panel-key[data-panel-key='git'][aria-pressed='true'] .node-d { animation: git-commit .3s var(--ease-snap) .56s both; }
-
-  /* 07 Проверка — The magnifier sweeps once across the subject while a scan-beam glides down the lens and fades, then a check mark strokes in to confirm the change passed review. */
-  @keyframes inspection-glide { 0% { transform: translateX(-4px); } 55% { transform: translateX(2px); } 100% { transform: translateX(0); } } @keyframes inspection-sweep { 0% { transform: translateY(-9px); opacity: 0; } 20% { opacity: .9; } 70% { transform: translateY(9px); opacity: .9; } 100% { transform: translateY(11px); opacity: 0; } } @keyframes inspection-check { 0% { stroke-dashoffset: 14; opacity: 0; } 15% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
-  .panel-key[data-panel-key='inspection'] .search-check { stroke-dasharray: 14; stroke-dashoffset: 14; opacity: 0; }
-  .panel-key[data-panel-key='inspection']:hover .icon-search,
-  .panel-key[data-panel-key='inspection']:focus-visible .icon-search,
-  .panel-key[data-panel-key='inspection'][aria-pressed='true'] .icon-search { animation: inspection-glide .55s var(--ease-reveal) both; }
-  .panel-key[data-panel-key='inspection']:hover .search-scan,
-  .panel-key[data-panel-key='inspection']:focus-visible .search-scan,
-  .panel-key[data-panel-key='inspection'][aria-pressed='true'] .search-scan { animation: inspection-sweep .5s var(--ease-reveal) .04s both; }
-  .panel-key[data-panel-key='inspection']:hover .search-check,
-  .panel-key[data-panel-key='inspection']:focus-visible .search-check,
-  .panel-key[data-panel-key='inspection'][aria-pressed='true'] .search-check { animation: inspection-check .4s var(--ease-snap) .46s both; }
-
-  /* 08 Сборка — The item drops through the tray slot, the tray thunks once to register the intake, then a checkmark strokes in on the floor below to confirm the automated check passed — settled and held. */
-  @keyframes build-drop{0%{transform:translateY(-12px);opacity:0}65%{opacity:1}100%{transform:translateY(0);opacity:1}}@keyframes build-register{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}@keyframes build-check{0%{stroke-dashoffset:26;opacity:0}40%{stroke-dashoffset:26;opacity:0}52%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
-  .panel-key[data-panel-key='build'] .check { stroke-dasharray:26;stroke-dashoffset:26;opacity:0 }
-  .panel-key[data-panel-key='build']:hover .inbox-arrow,
-  .panel-key[data-panel-key='build']:focus-visible .inbox-arrow,
-  .panel-key[data-panel-key='build'][aria-pressed='true'] .inbox-arrow { animation: build-drop .4s var(--ease-snap) both; }
-  .panel-key[data-panel-key='build']:hover .tray-box,
-  .panel-key[data-panel-key='build']:focus-visible .tray-box,
-  .panel-key[data-panel-key='build'][aria-pressed='true'] .tray-box { animation: build-register .36s var(--ease-snap) .3s both; }
-  .panel-key[data-panel-key='build']:hover .check,
-  .panel-key[data-panel-key='build']:focus-visible .check,
-  .panel-key[data-panel-key='build'][aria-pressed='true'] .check { animation: build-check .5s var(--ease-reveal) .4s both; }
-
-  /* 09 Выпуск — The metric line strokes on left-to-right while each marker snaps in as the line passes it, and the top-right point lands with a slight settle and a single soft ring ping — the release is live and has reached the user. */
-  @keyframes release-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } } @keyframes release-pop { 0% { transform: scale(0); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } } @keyframes release-land { 0% { transform: scale(0); } 55% { transform: scale(1.22); } 100% { transform: scale(1); } } @keyframes release-ping { 0% { transform: scale(0.6); opacity: 0.85; } 100% { transform: scale(2.3); opacity: 0; } }
-  .panel-key[data-panel-key='release'] .chart-line { stroke-dasharray: 100; }
-  .panel-key[data-panel-key='release'] .ping { opacity: 0; stroke-width: 1.1; }
-  .panel-key[data-panel-key='release']:hover .chart-line,
-  .panel-key[data-panel-key='release']:focus-visible .chart-line,
-  .panel-key[data-panel-key='release'][aria-pressed='true'] .chart-line { animation: release-draw .62s var(--ease-reveal) both; }
-  .panel-key[data-panel-key='release']:hover .point-a,
-  .panel-key[data-panel-key='release']:focus-visible .point-a,
-  .panel-key[data-panel-key='release'][aria-pressed='true'] .point-a { animation: release-pop .35s var(--ease-snap) .08s both; }
-  .panel-key[data-panel-key='release']:hover .point-b,
-  .panel-key[data-panel-key='release']:focus-visible .point-b,
-  .panel-key[data-panel-key='release'][aria-pressed='true'] .point-b { animation: release-pop .35s var(--ease-snap) .24s both; }
-  .panel-key[data-panel-key='release']:hover .point-c,
-  .panel-key[data-panel-key='release']:focus-visible .point-c,
-  .panel-key[data-panel-key='release'][aria-pressed='true'] .point-c { animation: release-land .35s var(--ease-snap) .34s both; }
-  .panel-key[data-panel-key='release']:hover .ping,
-  .panel-key[data-panel-key='release']:focus-visible .ping,
-  .panel-key[data-panel-key='release'][aria-pressed='true'] .ping { animation: release-ping .4s var(--ease-reveal) .48s forwards; }
-
-  /* 10 Связи — The two connector halves glide inward on a snap ease until their prongs seat prong-to-prong at center, and at the instant of contact a four-point spark flashes with a slight overshoot and settles into a steady energized mark. */
-  @keyframes integration-dock-left { from { transform: translateX(0); } to { transform: translateX(5px); } } @keyframes integration-dock-right { from { transform: translateX(0); } to { transform: translateX(-5px); } } @keyframes integration-spark { 0% { opacity: 0; transform: scale(0.2) rotate(-40deg); } 55% { opacity: 1; transform: scale(1.2) rotate(6deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
-  .panel-key[data-panel-key='integration'] .plug-spark { opacity:0 }
-  .panel-key[data-panel-key='integration']:hover .plug-left,
-  .panel-key[data-panel-key='integration']:focus-visible .plug-left,
-  .panel-key[data-panel-key='integration'][aria-pressed='true'] .plug-left { animation: integration-dock-left .5s var(--ease-snap) both; }
-  .panel-key[data-panel-key='integration']:hover .plug-right,
-  .panel-key[data-panel-key='integration']:focus-visible .plug-right,
-  .panel-key[data-panel-key='integration'][aria-pressed='true'] .plug-right { animation: integration-dock-right .5s var(--ease-snap) both; }
-  .panel-key[data-panel-key='integration']:hover .plug-spark,
-  .panel-key[data-panel-key='integration']:focus-visible .plug-spark,
-  .panel-key[data-panel-key='integration'][aria-pressed='true'] .plug-spark { animation: integration-spark .4s var(--ease-reveal) .34s both; }
-
-  /* 11 Мониторинг — The ECG trace draws left-to-right at a steady monitor-sweep pace and, exactly as the front reaches the tall R-spike, a soft ring pings out from the peak and fades, leaving the full live trace held. */
-  @keyframes monitoring-sweep { from { stroke-dashoffset: 90; } to { stroke-dashoffset: 0; } } @keyframes monitoring-ping { 0% { opacity: 0; transform: scale(.35); } 20% { opacity: .5; } 100% { opacity: 0; transform: scale(1.3); } }
-  .panel-key[data-panel-key='monitoring'] .pulse-line { stroke-dasharray: 90; }
-  .panel-key[data-panel-key='monitoring'] .pulse-ping { opacity: 0; }
-  .panel-key[data-panel-key='monitoring']:hover .pulse-line,
-  .panel-key[data-panel-key='monitoring']:focus-visible .pulse-line,
-  .panel-key[data-panel-key='monitoring'][aria-pressed='true'] .pulse-line { animation: monitoring-sweep .8s linear both; }
-  .panel-key[data-panel-key='monitoring']:hover .pulse-ping,
-  .panel-key[data-panel-key='monitoring']:focus-visible .pulse-ping,
-  .panel-key[data-panel-key='monitoring'][aria-pressed='true'] .pulse-ping { animation: monitoring-ping .46s var(--ease-reveal) .4s both; }
-
-  /* 12 Передача — A solid token releases from the left figure and glides in one smooth continuous pass to the right figure, where it dissolves into the receiver just as that head gives a crisp scale pulse and a single acknowledgment ring expands and fades — a clean relay received. */
-  @keyframes handoff-relay { 0% { transform: translateX(0) scale(.4); opacity: 0; } 12% { transform: translateX(0) scale(1); opacity: 1; } 70% { transform: translateX(16px) scale(1); opacity: 1; } 86% { transform: translateX(16px) scale(.5); opacity: 0; } 100% { transform: translateX(16px) scale(.5); opacity: 0; } } @keyframes handoff-receive { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } } @keyframes handoff-ack { 0% { transform: scale(.85); opacity: 0; } 30% { opacity: .45; } 100% { transform: scale(1.75); opacity: 0; } }
-  .panel-key[data-panel-key='handoff'] .handoff-token { fill: currentColor; stroke: none; }
-  .panel-key[data-panel-key='handoff']:hover .handoff-token,
-  .panel-key[data-panel-key='handoff']:focus-visible .handoff-token,
-  .panel-key[data-panel-key='handoff'][aria-pressed='true'] .handoff-token { animation: handoff-relay .7s var(--ease-reveal) both; }
-  .panel-key[data-panel-key='handoff']:hover .handoff-head,
-  .panel-key[data-panel-key='handoff']:focus-visible .handoff-head,
-  .panel-key[data-panel-key='handoff'][aria-pressed='true'] .handoff-head { animation: handoff-receive .34s var(--ease-snap) .46s both; }
-  .panel-key[data-panel-key='handoff']:hover .handoff-ack,
-  .panel-key[data-panel-key='handoff']:focus-visible .handoff-ack,
-  .panel-key[data-panel-key='handoff'][aria-pressed='true'] .handoff-ack { animation: handoff-ack .4s var(--ease-reveal) .48s both; }
-
-  /* Сброс состояния иконки, когда клавиша НЕ активна (чтобы keyframe-анимации переигрывались).
-     transition НЕ сбрасываем — иначе transition-иконки (dial, search, plug…) «телепортируются» назад вместо плавного ухода. */
-  .panel-key:not(:hover):not(:focus-visible):not([aria-pressed='true']) .key-icon * {
-    animation: none !important;
-    transform: none !important;
-    rotate: 0deg !important;
-  }
-
-  .live-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 11px; color: var(--panel-ink); border-style: dashed; border-color: rgba(var(--ink-rgb),.4); background: transparent; }
-  .live-ping { position: relative; display: grid; place-items: center; width: 34px; height: 34px; }
-  .ping-core { width: 8px; height: 8px; border-radius: 50%; background: var(--screen-accent, var(--panel-rust)); box-shadow: 0 0 6px color-mix(in srgb, var(--screen-accent, var(--panel-rust)), transparent 45%); }
-  .ping-ring { position: absolute; width: 8px; height: 8px; border: 1.4px solid var(--screen-accent, var(--panel-rust)); border-radius: 50%; opacity: 0; animation: ping 2.4s cubic-bezier(.2,.6,.3,1) infinite; }
-  .ping-ring-2 { animation-delay: 1.2s; }
-  @keyframes ping { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(3.6); opacity: 0; } }
-  .live-label { font: 700 6.5px/1 monospace; letter-spacing: .1em; color: var(--muted); }
-
-  .panel-cta { grid-column: span 2; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; color: var(--panel-ink); text-decoration: none; font: 700 8px/1 monospace; overflow: hidden; transition: color .16s ease, background-color .16s ease, box-shadow .16s ease; }
-  .panel-cta span, .panel-cta b { position: relative; z-index: 1; }
-  .panel-cta b { font: 32px/1 'Times New Roman', serif; }
-  .panel-cta:hover, .panel-cta:focus-visible { color: var(--panel-paper); background: var(--panel-ink); box-shadow: 0 0 0 1px var(--panel-ink); outline: none; }
-
-  .reset-key { padding: 7px; display: grid; place-items: center; grid-template-rows: 1fr auto; color: var(--panel-ink); cursor: pointer; transition: transform .16s ease, color .2s ease, box-shadow .2s ease; }
-  .reset-key svg { width: 44%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .reset-key span { font: 700 6px/1 monospace; }
-  .reset-key:hover, .reset-key:focus-visible { color: var(--panel-rust); box-shadow: 0 0 0 1px var(--panel-rust); outline: none; }
-
-  @media (max-width: 1120px) {
-    .system-panel { padding-inline: 20px; }
-    .panel-grid { inset: 42px 39px 39px; gap: 6px; }
-    .panel-key, .reset-key, .panel-cta, .live-cell { border-radius: 12px; }
-  }
-
-  @media (max-width: 800px) {
-    .system-panel { padding: 22px 16px; }
-    .board-shell { width: min(92%, 480px); }
-  }
-
-  @media (max-width: 520px) {
-    .system-panel { padding-inline: 8px; }
-    .panel-grid { inset: 35px 30px 33px; gap: 4px; }
-    .panel-key, .reset-key, .panel-cta, .live-cell { border-radius: 9px; }
-    .panel-key { padding: 5px 3px 4px; }
-    .key-number { left: 4px; top: 4px; font-size: 5px; }
-    .key-led { right: 4px; top: 4px; }
-    .key-label { font-size: 6.5px; }
-    .panel-cta { padding-inline: 10px; font-size: 6px; }
-    .side-label { font-size: 5.5px; }
-    .side-label-left { left: 11px; }.side-label-right { right: 11px; }
-    .screw { width: 7px; height: 7px; }.screw-a { left: 13px; top: 13px; }.screw-b { right: 13px; top: 13px; }.screw-c { right: 13px; bottom: 13px; }.screw-d { left: 13px; bottom: 13px; }
-  }
-
-  /* Тёмная тема: осветляем акценты клавиш на тёмном пульте */
-  :global(:root[data-theme='dark']) .panel-key:hover,
-  :global(:root[data-theme='dark']) .panel-key:focus-visible,
-  :global(:root[data-theme='dark']) .panel-key[aria-pressed='true'] {
-    color: color-mix(in srgb, var(--key-accent), white 42%);
-  }
-  :global(:root[data-theme='dark']) .panel-key[aria-pressed='true'] {
-    background: color-mix(in srgb, var(--key-accent) 16%, var(--panel-paper));
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--key-accent), white 30%), 0 0 20px color-mix(in srgb, var(--key-accent), transparent 66%);
-  }
-  :global(:root[data-theme='dark']) .panel-key:hover,
-  :global(:root[data-theme='dark']) .panel-key:focus-visible {
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--key-accent), white 20%);
-  }
-  :global(:root[data-theme='dark']) .ping-core {
-    background: color-mix(in srgb, var(--screen-accent), white 34%);
-    box-shadow: 0 0 6px color-mix(in srgb, var(--screen-accent), transparent 40%);
-  }
-  :global(:root[data-theme='dark']) .ping-ring {
-    border-color: color-mix(in srgb, var(--screen-accent), white 34%);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  }
-</style>

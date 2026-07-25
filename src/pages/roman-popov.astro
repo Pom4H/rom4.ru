@@ -3,17 +3,9 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 
 const title = 'Роман Попов: AI-native software engineer для инженерных компаний';
 const description = 'Роман Попов разрабатывает software-продукты вокруг оборудования, инженерных данных и технических процессов: web, mobile, IoT, backend, инфраструктура и AI.';
-
-const schema = {
-  '@type': 'ProfilePage',
-  '@id': 'https://rom4.ru/roman-popov/#profile',
-  name: title,
-  mainEntity: { '@id': 'https://rom4.ru/#roman-popov' },
-  dateModified: '2026-07-25',
-};
 ---
 
-<ContentLayout title={title} description={description} eyebrow="ПРОФИЛЬ" pageType="ProfilePage" schema={schema}>
+<ContentLayout title={title} description={description} eyebrow="ПРОФИЛЬ" pageType="ProfilePage">
   <h2>Чем я занимаюсь</h2>
   <p>Я проектирую и выпускаю цифровые продукты для компаний, у которых есть оборудование, производство, инженерные команды или сложные внутренние процессы. Беру задачу целиком: разбираюсь в предметной области, собираю первую рабочую версию, проектирую архитектуру, пишу код и довожу продукт до эксплуатации.</p>
 

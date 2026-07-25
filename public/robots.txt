@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# Search crawlers used by AI answer engines are explicitly allowed.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://rom4.ru/sitemap-index.xml

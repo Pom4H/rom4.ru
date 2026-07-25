@@ -1,107 +1,37 @@
 ---
 import '@fontsource-variable/inter';
-import SeoFooter from '../components/SeoFooter.astro';
 
 interface Props {
   title: string;
   description?: string;
-  image?: string;
-  imageAlt?: string;
-  pageType?: 'WebPage' | 'ProfilePage' | 'CollectionPage';
-  noindex?: boolean;
-  schema?: Record<string, unknown>;
 }
 
-const {
-  title,
-  description,
-  image = '/og.png',
-  imageAlt = 'ROM4.RU — software-продукты для оборудования и инженерного бизнеса',
-  pageType = 'WebPage',
-  noindex = false,
-  schema,
-} = Astro.props;
-
+const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const isHome = canonical.pathname === '/';
-const metaTitle = isHome
-  ? 'Роман Попов — разработка ПО для оборудования | ROM4.RU'
-  : `${title} | ROM4.RU`;
-const metaDescription = isHome
-  ? 'Роман Попов разрабатывает ПО для оборудования и инженерных компаний: web, mobile, IoT, backend, мониторинг, внутренние системы и AI.'
-  : description;
-const ogImage = new URL(image, Astro.site);
-const websiteId = 'https://rom4.ru/#website';
-const personId = 'https://rom4.ru/#roman-popov';
-const businessId = 'https://rom4.ru/#business';
-const pageId = `${canonical.href}#webpage`;
-
-const graph: Record<string, unknown>[] = [
-  {
-    '@type': 'WebSite',
-    '@id': websiteId,
-    url: 'https://rom4.ru/',
-    name: 'ROM4.RU',
-    description: 'Software-продукты вокруг оборудования, инженерных данных и технических процессов.',
-    inLanguage: 'ru-RU',
-    publisher: { '@id': personId },
-  },
-  {
-    '@type': 'Person',
-    '@id': personId,
-    name: 'Роман Попов',
-    alternateName: ['ROM4.RU', 'Pom4H'],
-    url: 'https://rom4.ru/roman-popov/',
-    email: 'mailto:1@rom4.ru',
-    jobTitle: 'AI-native software engineer',
-    description: 'Разрабатывает software-продукты для оборудования, инженерных компаний и технических команд: web, mobile, IoT, backend, инфраструктура и AI.',
-    sameAs: ['https://github.com/Pom4H', 'https://t.me/Pom4H'],
-    knowsAbout: [
-      'software for industrial equipment',
-      'industrial IoT',
-      'mobile applications for connected devices',
-      'equipment monitoring',
-      'backend systems',
-      'engineering software',
-      'AI agents for technical workflows',
-    ],
-    worksFor: { '@id': businessId },
-  },
-  {
-    '@type': 'ProfessionalService',
-    '@id': businessId,
-    name: 'ROM4.RU',
-    url: 'https://rom4.ru/',
-    founder: { '@id': personId },
-    email: '1@rom4.ru',
-    areaServed: 'Worldwide',
-    serviceType: [
-      'Разработка ПО для оборудования',
-      'Мониторинг и диспетчеризация оборудования',
-      'Мобильные приложения для устройств',
-      'Внутренние инженерные системы',
-      'AI-инструменты для инженерных компаний',
-    ],
-  },
-  {
-    '@type': pageType,
-    '@id': pageId,
-    url: canonical.href,
-    name: metaTitle,
-    description: metaDescription,
-    isPartOf: { '@id': websiteId },
-    about: [{ '@id': personId }, { '@id': businessId }],
-    inLanguage: 'ru-RU',
-    primaryImageOfPage: { '@type': 'ImageObject', url: ogImage.href },
-    ...(pageType === 'ProfilePage' ? { mainEntity: { '@id': personId } } : {}),
-  },
-];
-
-if (schema) graph.push(schema);
+const ogImage = new URL('/og.png', Astro.site);
 
 const structuredData = {
   '@context': 'https://schema.org',
-  '@graph': graph,
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://rom4.ru/#website',
+      url: 'https://rom4.ru/',
+      name: 'ROM4.RU',
+      description,
+      inLanguage: 'ru-RU',
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://rom4.ru/#roman-popov',
+      name: 'Роман Попов',
+      alternateName: ['ROM4.RU', 'Pom4H'],
+      url: 'https://rom4.ru/',
+      jobTitle: 'Software engineer, AI-native builder, hands-on CTO',
+      description,
+      sameAs: ['https://t.me/Pom4H', 'https://github.com/Pom4H'],
+    },
+  ],
 };
 ---
 
@@ -111,25 +41,25 @@ const structuredData = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{metaTitle}</title>
-    {metaDescription && <meta name="description" content={metaDescription} />}
-    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#f0efe8" />
-    <meta property="og:type" content={pageType === 'ProfilePage' ? 'profile' : 'website'} />
+    <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="ROM4.RU" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:title" content={metaTitle} />
-    {metaDescription && <meta property="og:description" content={metaDescription} />}
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:alt" content="ROM4.RU — Строю и модернизирую продукты для инженерного B2B" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={metaTitle} />
-    {metaDescription && <meta name="twitter:description" content={metaDescription} />}
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <!-- Theme init (no-flash): set data-theme before first paint -->
@@ -167,6 +97,5 @@ const structuredData = {
     </noscript>
 
     <slot />
-    <SeoFooter />
   </body>
 </html>

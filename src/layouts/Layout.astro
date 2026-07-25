@@ -93,6 +93,7 @@ const graph: Record<string, unknown>[] = [
     about: [{ '@id': personId }, { '@id': businessId }],
     inLanguage: 'ru-RU',
     primaryImageOfPage: { '@type': 'ImageObject', url: ogImage.href },
+    ...(pageType === 'ProfilePage' ? { mainEntity: { '@id': personId } } : {}),
   },
 ];
 

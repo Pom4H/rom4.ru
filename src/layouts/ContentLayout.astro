@@ -1,0 +1,219 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  pageType?: 'WebPage' | 'ProfilePage' | 'CollectionPage';
+  schema?: Record<string, unknown>;
+}
+
+const { title, description, eyebrow, pageType = 'WebPage', schema } = Astro.props;
+---
+
+<Layout title={title} description={description} pageType={pageType} schema={schema}>
+  <div class="content-stage">
+    <header class="content-header">
+      <a class="content-brand" href="/">ROM4.RU</a>
+      <a class="content-contact" href="https://t.me/Pom4H" target="_blank" rel="noreferrer">Обсудить задачу ↗</a>
+    </header>
+
+    <main class="content-main">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span aria-hidden="true">/</span><span>{eyebrow}</span>
+      </nav>
+
+      <header class="content-hero">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{title.split(' — ')[0]}</h1>
+        <p class="intro">{description}</p>
+      </header>
+
+      <article class="content-body">
+        <slot />
+      </article>
+
+      <section class="content-cta" aria-labelledby="content-cta-title">
+        <p class="eyebrow">СЛЕДУЮЩИЙ ШАГ</p>
+        <h2 id="content-cta-title">Покажите устройство, процесс или систему, которую нужно довести до работающего продукта.</h2>
+        <p>Разберу задачу, ограничения и предложу первую версию, которую можно проверить на реальной работе.</p>
+        <a href="https://t.me/Pom4H" target="_blank" rel="noreferrer">Написать Роману в Telegram ↗</a>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+    --page-bg: #c5c3bd;
+    --paper: #f0efe8;
+    --ink: #141915;
+    --ink-rgb: 20, 25, 21;
+    --muted: #62645e;
+    --rust: #bd5b31;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --page-bg: #06090b;
+    --paper: #0f1518;
+    --ink: #e7ede9;
+    --ink-rgb: 197, 210, 206;
+    --muted: #939d97;
+    --rust: #ec8a5c;
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--page-bg); }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--page-bg);
+    font-family: 'Inter Variable', Inter, Arial, sans-serif;
+    line-height: 1.65;
+  }
+
+  ::selection { color: #fff; background: var(--rust); }
+
+  .content-stage {
+    width: min(1120px, calc(100% - 44px));
+    margin: 18px auto 0;
+    background: var(--paper);
+    border: 1px solid rgba(var(--ink-rgb), .28);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .12);
+  }
+
+  .content-header {
+    min-height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 0 34px;
+    border-bottom: 1px solid rgba(var(--ink-rgb), .3);
+  }
+
+  .content-brand,
+  .content-contact {
+    color: var(--ink);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .content-brand { font-size: 24px; }
+  .content-contact:hover { color: var(--rust); }
+
+  .content-main { padding: 32px clamp(24px, 7vw, 92px) 76px; }
+
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: var(--muted);
+    font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .breadcrumbs a { color: inherit; text-underline-offset: 3px; }
+
+  .content-hero {
+    max-width: 880px;
+    padding: 72px 0 64px;
+    border-bottom: 1px solid rgba(var(--ink-rgb), .28);
+  }
+
+  .eyebrow {
+    margin: 0 0 18px;
+    color: var(--rust);
+    font: 700 11px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: .09em;
+  }
+
+  .content-hero h1 {
+    max-width: 920px;
+    margin: 0;
+    font-family: 'Iowan Old Style', Baskerville, 'Times New Roman', serif;
+    font-size: clamp(46px, 7vw, 86px);
+    font-weight: 400;
+    letter-spacing: -.045em;
+    line-height: .98;
+  }
+
+  .content-hero .intro {
+    max-width: 760px;
+    margin: 34px 0 0;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.45;
+  }
+
+  .content-body {
+    max-width: 820px;
+    padding: 56px 0 20px;
+  }
+
+  .content-body h2 {
+    margin: 64px 0 18px;
+    font-family: 'Iowan Old Style', Baskerville, 'Times New Roman', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    letter-spacing: -.025em;
+    line-height: 1.08;
+  }
+
+  .content-body h2:first-child { margin-top: 0; }
+  .content-body h3 { margin: 34px 0 10px; font-size: 19px; line-height: 1.3; }
+  .content-body p { margin: 0 0 20px; font-size: 16px; }
+  .content-body ul { margin: 18px 0 26px; padding-left: 22px; }
+  .content-body li { margin: 8px 0; }
+  .content-body a { color: var(--rust); text-underline-offset: 4px; }
+
+  .fact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    margin: 28px 0 42px;
+    background: rgba(var(--ink-rgb), .24);
+    border: 1px solid rgba(var(--ink-rgb), .24);
+  }
+
+  .fact-grid > div { padding: 24px; background: var(--paper); }
+  .fact-grid strong { display: block; margin-bottom: 8px; font-size: 17px; }
+  .fact-grid p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .content-cta {
+    margin-top: 70px;
+    padding: 42px;
+    color: var(--paper);
+    background: var(--ink);
+  }
+
+  .content-cta h2 {
+    max-width: 760px;
+    margin: 0;
+    font-family: 'Iowan Old Style', Baskerville, 'Times New Roman', serif;
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+
+  .content-cta p:not(.eyebrow) { max-width: 660px; margin: 24px 0; }
+  .content-cta a { color: var(--paper); font-weight: 700; text-underline-offset: 5px; }
+
+  @media (max-width: 700px) {
+    .content-stage { width: calc(100% - 20px); margin-top: 10px; }
+    .content-header { min-height: 64px; padding: 0 20px; }
+    .content-contact { font-size: 10px; }
+    .content-main { padding: 24px 20px 48px; }
+    .content-hero { padding: 52px 0 46px; }
+    .content-body { padding-top: 42px; }
+    .fact-grid { grid-template-columns: 1fr; }
+    .content-cta { margin-top: 50px; padding: 28px 22px; }
+  }
+</style>

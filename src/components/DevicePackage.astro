@@ -1,0 +1,75 @@
+---
+// ROM4.RU — иллюстрация кейса Open Device: один пакет, много потребителей.
+// Разметка; стили — в index.astro.
+---
+<div class="odev-figure" role="img" aria-label="Схема: пакет устройства по HTTPS с моделью, интерфейсом, Wasm-логикой и сценариями раздаётся в каталог, схему, симулятор и тесты — везде одни и те же байты">
+  <svg class="odev-svg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <text class="odev-note" x="18" y="26">ВЕНДОР ПУБЛИКУЕТ СТАТИКУ ПО HTTPS</text>
+    <path class="odev-arrow-in" d="M22 36v14" />
+
+    <!-- the package -->
+    <g class="odev-pkg">
+      <rect class="odev-card" x="16" y="52" width="216" height="204" rx="8" />
+      <rect class="odev-card-head" x="16" y="52" width="216" height="30" rx="8" />
+      <text class="odev-url" x="28" y="72">open-device.json</text>
+      <g class="odev-hash-badge">
+        <rect x="28" y="90" width="192" height="20" rx="4" />
+        <text class="odev-hash" x="36" y="104">sha256:9f2c…a17b</text>
+      </g>
+
+      <g class="odev-layer"><rect x="28" y="118" width="192" height="30" rx="4" /><text class="odev-layer-t" x="40" y="137">МОДЕЛЬ · порты и схемы</text></g>
+      <g class="odev-layer"><rect x="28" y="152" width="192" height="30" rx="4" /><text class="odev-layer-t" x="40" y="171">ВИД · HTML в песочнице</text></g>
+      <g class="odev-layer odev-layer-hot"><rect x="28" y="186" width="192" height="30" rx="4" /><text class="odev-layer-t" x="40" y="205">ЛОГИКА · wasm, 1.4 КБ</text></g>
+      <g class="odev-layer"><rect x="28" y="220" width="192" height="30" rx="4" /><text class="odev-layer-t" x="40" y="239">СЦЕНАРИИ · 7 / 7 ✓</text></g>
+    </g>
+
+    <!-- integrity bus -->
+    <path class="odev-spine" d="M232 154h58" />
+    <circle class="odev-joint" cx="292" cy="154" r="4" />
+
+    <!-- fan-out to consumers -->
+    <g class="odev-fan">
+      <path class="odev-wire" d="M292 154C330 154 336 74 372 74" />
+      <path class="odev-wire" d="M292 154C330 154 336 127 372 127" />
+      <path class="odev-wire" d="M292 154C330 154 336 181 372 181" />
+      <path class="odev-wire" d="M292 154C330 154 336 234 372 234" />
+      <path class="odev-bits" d="M292 154C330 154 336 74 372 74" />
+      <path class="odev-bits" d="M292 154C330 154 336 127 372 127" />
+      <path class="odev-bits" d="M292 154C330 154 336 181 372 181" />
+      <path class="odev-bits" d="M292 154C330 154 336 234 372 234" />
+    </g>
+
+    <!-- consumers -->
+    <g class="odev-consumer">
+      <rect x="374" y="52" width="208" height="44" rx="6" />
+      <rect class="odev-thumb" x="386" y="62" width="24" height="24" rx="3" />
+      <text class="odev-consumer-t" x="422" y="72">КАТАЛОГ</text>
+      <text class="odev-consumer-s" x="422" y="86">карточка и документация</text>
+    </g>
+    <g class="odev-consumer">
+      <rect x="374" y="105" width="208" height="44" rx="6" />
+      <g class="odev-thumb-wire"><path d="M388 127h9M405 127h9" /><circle cx="401" cy="127" r="4" /></g>
+      <text class="odev-consumer-t" x="422" y="125">СХЕМА</text>
+      <text class="odev-consumer-s" x="422" y="139">порты стыкуются по домену</text>
+    </g>
+    <g class="odev-consumer">
+      <rect x="374" y="159" width="208" height="44" rx="6" />
+      <g class="odev-thumb-gauge"><path d="M388 187a13 13 0 0 1 26 0" /><path d="M401 187l8-8" /></g>
+      <text class="odev-consumer-t" x="422" y="179">СИМУЛЯТОР</text>
+      <text class="odev-consumer-s" x="422" y="193">та же логика, шаг за шагом</text>
+    </g>
+    <g class="odev-consumer odev-consumer-ok">
+      <rect x="374" y="212" width="208" height="44" rx="6" />
+      <path class="odev-check" d="M388 234l6 7 12 -14" />
+      <text class="odev-consumer-t" x="422" y="232">ТЕСТЫ</text>
+      <text class="odev-consumer-s" x="422" y="246">evidence привязан к хешам</text>
+    </g>
+
+    <text class="odev-note odev-note-b" x="292" y="286">ОДИН ХЕШ — ОДНИ И ТЕ ЖЕ БАЙТЫ ВЕЗДЕ</text>
+  </svg>
+
+  <div class="odev-legend" aria-hidden="true">
+    <span class="lg lg-hash">целостность</span>
+    <span class="lg lg-wire">раздача пакета</span>
+  </div>
+</div>

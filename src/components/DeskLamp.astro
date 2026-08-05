@@ -1,0 +1,323 @@
+---
+/**
+ * Настольная лампа — источник света в сцене и переключатель темы.
+ *
+ * Лампа разобрана на две части, потому что они живут в разных системах
+ * отсчёта:
+ *
+ *  • НОГА (основание и контактная тень) принадлежит столу и едет вместе с ним
+ *    один в один — при прокрутке уходит за верхнюю кромку кадра;
+ *  • ГОЛОВА (шарнир, кронштейн, абажур) едет со столом только до упора: как
+ *    только абажур доходит до верха кадра, он там и остаётся. Дальше свет
+ *    светит из верхней точки, а бумага проезжает под ним.
+ *
+ * Между ними СТОЙКА — единственная деталь, которую приходится считать: её
+ * длина равна расстоянию от шарнира до основания и сокращается по мере того,
+ * как нога догоняет закреплённую голову. Стойка нарисована обычным div'ом с
+ * горизонтальным градиентом (цилиндр), поэтому тянется на любую длину без
+ * искажения рисунка.
+ *
+ * Кликается абажур: он остаётся в кадре всегда, в отличие от ноги. Обработчик
+ * тем в index.astro сам подхватывает `data-theme-toggle` и проставляет
+ * `aria-pressed` с подписью. Логика физичная: темно — лампа включена.
+ *
+ * Кнопка в шапке листа остаётся для телефона и `prefers-reduced-motion` —
+ * там нет ни стола, ни лампы.
+ *
+ * Координаты деталей заданы долями ширины лампы: рисунок масштабируется
+ * целиком, поэтому доли не зависят от размера экрана. Числа взяты из viewBox
+ * 190 единиц шириной — шарнир (48, 166), основание на 387.
+ */
+---
+
+<div class="desk-lamp">
+  <div class="lamp-beam" aria-hidden="true"></div>
+
+  <!-- Нога: едет со столом. Рисуется под головой, чтобы при обгоне уйти
+       за абажур, а не поверх него. -->
+  <svg class="lamp-foot" viewBox="0 0 190 430" fill="none" aria-hidden="true">
+    <ellipse class="lamp-cast" cx="56" cy="400" rx="54" ry="13" />
+    <path class="lamp-base-side" d="M10 387 v10 a38 12 0 0 0 76 0 v-10 z" />
+    <ellipse class="lamp-base-top" cx="48" cy="387" rx="38" ry="12" />
+    <ellipse class="lamp-base-hi" cx="40" cy="384" rx="22" ry="6" />
+  </svg>
+
+  <!-- Стойка: тянется между основанием и шарниром -->
+  <i class="lamp-stem" aria-hidden="true"></i>
+
+  <!-- Голова: фиксируется сверху -->
+  <svg class="lamp-head" viewBox="0 0 190 430" fill="none" aria-hidden="true">
+    <circle class="lamp-joint" cx="48" cy="166" r="10" />
+    <circle class="lamp-joint-hi" cx="45" cy="163" r="4" />
+
+    <!-- Кронштейн с абажуром: вращается вокруг нижнего шарнира по мере
+         прокрутки — так высокий предмет ведёт себя, когда точка обзора едет
+         вдоль стола. -->
+    <g class="lamp-swing">
+      <path class="lamp-arm" d="M44 160 L82 114 L91 122 L53 168 z" />
+      <path class="lamp-arm-hi" d="M46 158 L83 113 L85 116 L48 161 z" />
+      <circle class="lamp-joint" cx="87" cy="118" r="8" />
+
+      <!-- Знак поворота выбран с учётом зеркальности лампы (`scaleX(-1)`):
+           после отражения раструб смотрит вниз-влево, то есть к центру —
+           туда же, куда уходит луч. Угол продублирован в `--shade-tilt`,
+           откуда его берёт конус света; менять надо оба сразу. -->
+      <g transform="rotate(-44 87 118)">
+        <path class="lamp-shade" d="M76 118 L98 118 L119 176 L55 176 z" />
+        <path class="lamp-shade-hi" d="M76 118 L84 118 L70 176 L55 176 z" />
+        <ellipse class="lamp-mouth" cx="87" cy="176" rx="32" ry="10" />
+        <ellipse class="lamp-bulb" cx="87" cy="174" rx="19" ry="6" />
+      </g>
+    </g>
+  </svg>
+
+  <!-- Кликается абажур: накладка чуть крупнее фигуры, чтобы цель не уезжала
+       из-под курсора, когда кронштейн качнулся при прокрутке. -->
+  <button
+    class="lamp-switch"
+    type="button"
+    data-theme-toggle
+    aria-label="Включить тёмную тему"
+    aria-pressed="false"
+  ></button>
+</div>
+
+<style is:global>
+  .desk-lamp { display: none; }
+
+  @media (min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    html[data-paper-tilt='on'] .desk-lamp {
+      display: block;
+      position: absolute;
+      /* Правое поле стола. Оно узкое и почти не растёт с шириной экрана,
+         поэтому лампа прижата к кромке кадра фиксированным минимумом, а не
+         процентом: иначе на 1024px основание уезжает за экран. */
+      right: max(72px, 3.4%);
+      width: var(--lamp-w);
+      /* Выше всего в сцене: лампа стоит на столе перед листом, и ни бумага,
+         ни канцелярия (у неё z-index 1) не должны на неё наезжать. */
+      z-index: 8;
+      /* Высоту приходится задавать явно: все части лампы позиционированы
+         абсолютно, и без этого контейнер схлопывается в ноль. 430/190 —
+         пропорции viewBox рисунка. */
+      height: calc(var(--lamp-w) * 2.2632);
+      transform: translateX(50%);
+
+      --lamp-w: clamp(104px, 8vw, 148px);
+
+      /* Сколько голова успевает проехать, прежде чем упереться абажуром
+         в верх кадра. .52 — доля ширины лампы до верха абажура в рисунке. */
+      --lamp-travel: max(0px, calc(6vh + var(--lamp-w) * .52 - 10px));
+      /* Насколько нога обогнала закреплённую голову — но не больше, чем
+         позволяет стойка. Без верхней границы основание проходит сквозь
+         собственный шарнир, стойка схлопывается в ноль, и кронштейн
+         с абажуром повисают в воздухе. Дальше этого предела нога стоит:
+         лампа остаётся собранной, компактно поджатой к верхней кромке. */
+      --stem-min: calc(var(--lamp-w) * .12);
+      --lamp-slide: min(
+        calc(var(--desk-shift, 0px) - min(var(--desk-shift, 0px), var(--lamp-travel))),
+        calc(var(--stem-len) - var(--stem-min))
+      );
+      /* Геометрия рисунка: шарнир на 166/190 сверху и 142/190 слева (лампа
+         зеркальна), стойка длиной (387 − 166)/190, толщиной 10/190. */
+      /* Отклонение оси абажура от вертикали в начальном положении. Должно
+         совпадать с поворотом группы абажура в разметке (там он со знаком
+         минус из-за зеркальности лампы). */
+      --shade-tilt: 44deg;
+      --joint-y: calc(var(--lamp-w) * .8737);
+      --joint-x: calc(var(--lamp-w) * .7474);
+      --stem-w: calc(var(--lamp-w) * .0526);
+      --stem-len: calc(var(--lamp-w) * 1.1632);
+
+      top: calc(6vh - min(var(--desk-shift, 0px), var(--lamp-travel)));
+
+      --lamp-metal: color-mix(in srgb, var(--ink) 78%, var(--paper));
+      --lamp-metal-hi: color-mix(in srgb, var(--ink) 46%, var(--paper));
+      --lamp-metal-lo: color-mix(in srgb, var(--ink) 92%, var(--paper));
+      --lamp-cast: rgba(25, 25, 23, .3);
+      --lamp-bulb-off: color-mix(in srgb, var(--ink) 62%, var(--paper));
+      --lamp-glow: #ffd9a1;
+    }
+
+    /* Тема переключается абажуром, поэтому кнопка в шапке листа здесь лишняя.
+       Она остаётся на телефоне и при `prefers-reduced-motion`. */
+    html[data-paper-tilt='on'] .theme-toggle { display: none; }
+
+    :root[data-theme='dark'] .desk-lamp {
+      /* На чёрном столе корпус нужно осветлить, иначе лампы просто не видно. */
+      --lamp-metal: color-mix(in srgb, var(--paper) 58%, var(--ink) 22%);
+      --lamp-metal-hi: color-mix(in srgb, var(--paper) 82%, var(--ink) 8%);
+      --lamp-metal-lo: color-mix(in srgb, var(--paper) 38%, var(--ink) 40%);
+      --lamp-cast: rgba(0, 0, 0, .62);
+      --lamp-glow: #ffcf8c;
+    }
+  }
+
+  /* Обе половины рисунка отражены одинаково: абажур разворачивается на
+     газету, а блики переезжают на правую сторону — туда, где источник света. */
+  .desk-lamp .lamp-head,
+  .desk-lamp .lamp-foot {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    transform: scaleX(-1);
+  }
+
+  .desk-lamp .lamp-head { top: 0; }
+
+  /* Нога живёт в системе отсчёта стола: уезжает вверх ровно на прокрутку. */
+  .desk-lamp .lamp-foot { top: calc(var(--lamp-slide) * -1); }
+
+  /* Стойка от шарнира до основания. Длина сокращается, пока нога догоняет
+     закреплённую голову, и упирается в ноль — дальше основание проходит выше
+     шарнира и уходит за кадр. Градиент поперёк даёт цилиндр. */
+  .desk-lamp .lamp-stem {
+    position: absolute;
+    top: var(--joint-y);
+    left: calc(var(--joint-x) - var(--stem-w) / 2);
+    width: var(--stem-w);
+    height: max(0px, calc(var(--stem-len) - var(--lamp-slide)));
+    background: linear-gradient(
+      90deg,
+      var(--lamp-metal-lo),
+      var(--lamp-metal-hi) 62%,
+      var(--lamp-metal) 100%
+    );
+  }
+
+  /* Кронштейн: поворот вокруг НИЖНЕГО шарнира, а не вокруг центра фигуры,
+     поэтому `transform-box: view-box` — начало координат берётся из viewBox,
+     где шарнир стоит в (48, 166). */
+  .lamp-swing {
+    transform-box: view-box;
+    transform-origin: 48px 166px;
+    transform:
+      rotate(calc(var(--desk-progress, 0) * 6deg))
+      translateX(calc(var(--desk-progress, 0) * 5px));
+  }
+
+  /* ── Материалы ───────────────────────────────────────────────────────── */
+  .lamp-cast { fill: var(--lamp-cast); filter: blur(6px); }
+  .lamp-base-side { fill: var(--lamp-metal-lo); }
+  .lamp-base-top { fill: var(--lamp-metal); }
+  .lamp-base-hi { fill: var(--lamp-metal-hi); opacity: .5; }
+  .lamp-joint { fill: var(--lamp-metal-lo); }
+  .lamp-joint-hi { fill: var(--lamp-metal-hi); opacity: .55; }
+  .lamp-arm { fill: var(--lamp-metal); }
+  .lamp-arm-hi { fill: var(--lamp-metal-hi); opacity: .6; }
+  .lamp-shade { fill: var(--lamp-metal); }
+  .lamp-shade-hi { fill: var(--lamp-metal-hi); opacity: .45; }
+  .lamp-mouth { fill: var(--lamp-metal-lo); }
+
+  /* Лампа горит только в темноте — как ей и положено. */
+  .lamp-bulb {
+    fill: var(--lamp-bulb-off);
+    transition: fill .45s ease, filter .45s ease;
+  }
+
+  :root[data-theme='dark'] .lamp-bulb {
+    fill: var(--lamp-glow);
+    filter: drop-shadow(0 0 14px var(--lamp-glow));
+  }
+
+  /* Свет направленный: абажур конический, значит и пятно должно быть конусом,
+     а не ореолом вокруг лампочки.
+
+     Угловой сектор задаёт `conic-gradient`, спад по расстоянию — маска.
+     Сам сектор нарисован строго вниз (180° при отсчёте от 12 часов по
+     часовой стрелке), а на ось абажура его доворачивает `rotate` слоя.
+     Так луч следует за абажуром: при прокрутке кронштейн доворачивается на
+     `--desk-progress * 6deg`, и из-за зеркальности лампы это распрямляет
+     абажур — тот же член вычитается из угла конуса.
+
+     Вращение идёт вокруг центра слоя, а центр посажен на раструб, поэтому
+     вершина конуса остаётся на месте при любом угле.
+
+     Слой обязан быть КВАДРАТНЫМ (vmax по обеим сторонам): в прямоугольнике
+     конический градиент искажается по углу и конус перестаёт быть конусом. */
+  .lamp-beam {
+    position: absolute;
+    right: 67%;
+    top: 37.1%;
+    width: 150vmax;
+    height: 150vmax;
+    /* Порядок важен. `translate` сажает центр слоя на устье раструба,
+       `rotate` разворачивает конус по оси абажура, а последний `translateY`
+       утапливает вершину внутрь абажура — вдоль уже повёрнутой оси, поэтому
+       работает при любом угле. Лампочка физически сидит в глубине отражателя,
+       а не висит на срезе: из устья наружу выходит уже расширившийся пучок,
+       сама же вершина спрятана за корпусом абажура.
+
+       Глубина .3 ширины лампы согласована с раскрывом ±30°: на срезе конус
+       выходит шириной ровно с устье (2 · .3w · tan30° ≈ .35w). */
+    transform:
+      translate(50%, -50%)
+      rotate(calc(var(--shade-tilt) - var(--desk-progress, 0) * 6deg))
+      translateY(calc(var(--lamp-w) * -.3));
+    pointer-events: none;
+    background: conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 150deg,
+      color-mix(in srgb, var(--lamp-glow) 42%, transparent) 172deg,
+      color-mix(in srgb, var(--lamp-glow) 42%, transparent) 188deg,
+      transparent 210deg
+    );
+    -webkit-mask-image: radial-gradient(
+      closest-side at 50% 50%,
+      #000 0%,
+      rgba(0, 0, 0, .92) 16%,
+      rgba(0, 0, 0, .38) 46%,
+      transparent 72%
+    );
+    mask-image: radial-gradient(
+      closest-side at 50% 50%,
+      #000 0%,
+      rgba(0, 0, 0, .92) 16%,
+      rgba(0, 0, 0, .38) 46%,
+      transparent 72%
+    );
+    opacity: 0;
+    transition: opacity .5s ease;
+  }
+
+  :root[data-theme='dark'] .lamp-beam { opacity: .5; }
+
+  /* ── Абажур как кнопка ───────────────────────────────────────────────── */
+  /* Размеры и отступы — в долях ШИРИНЫ лампы, как и вся остальная геометрия.
+     Проценты здесь брать нельзя: по вертикали они считаются от высоты
+     контейнера, а она задана отдельно и к рисунку абажура не привязана. */
+  .lamp-switch {
+    position: absolute;
+    left: calc(var(--lamp-w) * .17);
+    top: calc(var(--lamp-w) * .45);
+    width: calc(var(--lamp-w) * .58);
+    height: calc(var(--lamp-w) * .58);
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .lamp-switch:focus-visible {
+    outline: 2px solid var(--rust);
+    outline-offset: 2px;
+  }
+
+  /* Наведение подсказывает, что абажур живой: лампа чуть разгорается. */
+  .desk-lamp:has(.lamp-switch:hover) .lamp-bulb,
+  .desk-lamp:has(.lamp-switch:focus-visible) .lamp-bulb {
+    fill: color-mix(in srgb, var(--lamp-glow) 55%, var(--lamp-bulb-off));
+  }
+
+  :root[data-theme='dark'] .desk-lamp:has(.lamp-switch:hover) .lamp-bulb,
+  :root[data-theme='dark'] .desk-lamp:has(.lamp-switch:focus-visible) .lamp-bulb {
+    fill: #fff0d4;
+    filter: drop-shadow(0 0 20px var(--lamp-glow));
+  }
+
+  /* Шейдер рисует свой мир — лампа туда не относится. */
+  html[data-hexfloat='on'] .desk-lamp { display: none; }
+</style>

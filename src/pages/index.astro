@@ -2,9 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import SystemCircuit from '../components/SystemCircuit.astro';
 
-const title = 'ROM4.RU — Строю и модернизирую продукты для инженерного B2B';
+const title = 'ROM4.RU — Продукт уровня вашего бренда';
 const description =
-  'Помогаю инженерному бизнесу выпускать продукты: от первой рабочей версии до релиза. Hardware, производство, инженерные команды.';
+  'Цифровые продукты для растущих брендов: магазин, приложение, внутренние системы. Собираю целиком — от интерфейса до инфраструктуры.';
 ---
 
 <Layout title={title} description={description}>
@@ -12,7 +12,7 @@ const description =
     <main class="sheet">
       <header class="topbar" id="top">
         <a class="brand" href="#top" aria-label="ROM4.RU — на главную">ROM4.RU</a>
-        <div class="brand-note">software engineering<br>и цифровые продукты</div>
+        <div class="brand-note">цифровые продукты<br>для растущих брендов</div>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Включить тёмную тему" aria-pressed="false">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"></circle><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"></path></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.2 8.2 0 1 1 9.4 3.5a6.4 6.4 0 0 0 11.1 11.1Z"></path></svg>
@@ -22,8 +22,8 @@ const description =
       <section class="hero section-grid" aria-labelledby="hero-title">
         <span class="coordinate coordinate-a">A</span>
         <div class="hero-copy">
-          <h1 id="hero-title">Строю и<br>модернизирую<br>продукты для<br>инженерного B2B</h1>
-          <p class="lead">Помогаю бизнесу выпускать то, что раньше годами оставалось в планах. Довожу продукт от первой рабочей версии до релиза — и оставляю команде инженерную систему, которую она развивает дальше сама, без меня.</p>
+          <h1 id="hero-title"><span>Продукт уровня</span><br><span>вашего бренда</span></h1>
+          <p class="lead">Растущему бренду быстро становится тесно в шаблонах и подрядчиках по кусочкам. Собираю цифровую часть — магазин, приложение, внутренние системы — так, чтобы она держала ту же планку, что и ваш продукт. И оставляю команде то, что можно развивать дальше без меня.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="https://t.me/Pom4H" target="_blank" rel="noreferrer">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.4 11.3 15.9-6.1c.7-.3 1.3.2 1.1 1.1l-2.7 12.6c-.2.9-.8 1.1-1.5.7l-4.1-3-2 1.9c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.5-.2l-9.5 6-4.1-1.3c-.9-.3-.9-.9.2-1.3Z"></path></svg>
@@ -32,103 +32,128 @@ const description =
           </div>
         </div>
         <div class="system-visual">
-          <p class="panel-scrawl" aria-hidden="true">Дизайн вторичен—<br>важен результат</p>
+          <p class="panel-scrawl" aria-hidden="true">Уровень видно раньше,<br>чем прочитан текст</p>
           <SystemCircuit />
         </div>
       </section>
 
-      <section class="proof ruled-section" id="proof" aria-labelledby="proof-title">
-        <div class="proof-layout">
-          <div class="proof-copy">
-            <p class="section-label" id="proof-title">КАК Я РАБОТАЮ</p>
-            <h3>Рабочая версия,<br>а не презентация</h3>
+      <section class="modes ruled-section band" id="modes" aria-labelledby="modes-title">
+        <span class="coordinate">B</span>
+        <div class="section-intro">
+          <h2 id="modes-title">Продукт, а не сайт<br>про продукт.</h2>
+          <div class="section-lead">
+            <p>Сайт может стать началом. Но задача редко заканчивается страницами.</p>
+            <p>Ниже — честный список: от внутренних инструментов команды до того, что человек видит на экране. Разное по жанру, но собирается в один продукт.</p>
+          </div>
+        </div>
+        <div class="mode-body band-body">
+          <div class="mode-track">
+            <article class="mode">
+              <h3>Чтобы команда шла быстро</h3>
+              <ul class="mode-list">
+                <li>Тулинг и внутренние библиотеки</li>
+                <li>Архитектура, код-ревью, стандарты</li>
+                <li>CI/CD и инфраструктура</li>
+                <li>Техлид-консалтинг и найм</li>
+                <li>AI в разработке и в продукте</li>
+              </ul>
+            </article>
+            <article class="mode">
+              <h3>То, чем пользуются каждый день</h3>
+              <ul class="mode-list">
+                <li>Магазин, каталог, подписка, лояльность</li>
+                <li>Личные кабинеты и приложения</li>
+                <li>Заказы, склад, производство, поставщики</li>
+                <li>Интеграции и аналитика</li>
+                <li>Сервисы вокруг основного продукта</li>
+              </ul>
+            </article>
+            <article class="mode">
+              <h3>Как это выглядит и ощущается</h3>
+              <ul class="mode-list">
+                <li>UX: сценарии, структура, состояния</li>
+                <li>Интерфейс и дизайн-система</li>
+                <li>Прототип до начала разработки</li>
+                <li>Тексты, по которым понятно, что делать</li>
+                <li>Один язык на сайте, в приложении, в точке</li>
+              </ul>
+            </article>
+          </div>
+          <aside class="mode-core">
+            <p class="mode-core-text">Что бы ни делалось — библиотека, схема архитектуры или макет, — работа считается сделанной не тогда, когда она красива, а когда продукт растёт и бизнес-модель сходится.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="proof ruled-section band" id="proof" aria-labelledby="proof-title">
+        <span class="coordinate">C</span>
+        <div class="section-intro">
+          <h2 id="proof-title">Рабочая версия,<br>а не презентация.</h2>
+          <div class="section-lead">
             <p>Вместо слайдов с обещаниями — первая рабочая версия, которую можно запустить и проверить на реальных людях. Гипотеза подтверждается делом, а не в обсуждении.</p>
           </div>
-          <div class="proof-graphic" aria-label="Сравнение: презентация против работающего продукта">
-            <figure class="proof-item proof-slide">
-              <span class="proof-tag">ОБЕЩАНИЕ</span>
-              <div class="slide-card" aria-hidden="true">
-                <div class="slide-bar"><i></i><i></i><i></i></div>
-                <div class="slide-body"><b></b><span></span><span></span><span></span></div>
-                <span class="slide-foot">СЛАЙД 12 / 40</span>
-                <span class="slide-stamp">ПЛАН</span>
-              </div>
-              <figcaption>Красивые слайды,<br>которые нельзя запустить</figcaption>
-            </figure>
-            <span class="proof-arrow" aria-hidden="true">→</span>
-            <figure class="proof-item proof-product">
-              <span class="proof-tag proof-tag-live">РЕАЛЬНОСТЬ</span>
-              <div class="prod-card" aria-hidden="true">
-                <div class="prod-bar"><i></i><i></i><i></i><span>app · v0.1</span></div>
-                <div class="prod-main"><aside></aside><section><b></b><span></span><span></span></section></div>
-                <div class="prod-foot"><b>ВЕРСИЯ 01</b><span>● В РАБОТЕ</span></div>
-              </div>
-              <figcaption>Продукт, который уже<br>работает у пользователей</figcaption>
-            </figure>
+        </div>
+        <div class="proof-graphic band-body" aria-label="Сравнение: презентация против работающего продукта">
+          <figure class="proof-item proof-slide">
+            <span class="proof-tag">ОБЕЩАНИЕ</span>
+            <div class="slide-card" aria-hidden="true">
+              <div class="slide-bar"><i></i><i></i><i></i></div>
+              <div class="slide-body"><b></b><span></span><span></span><span></span></div>
+              <span class="slide-foot">СЛАЙД 12 / 40</span>
+              <span class="slide-stamp">ПЛАН</span>
+            </div>
+            <figcaption>Красивые слайды,<br>которые нельзя запустить</figcaption>
+          </figure>
+          <span class="proof-arrow" aria-hidden="true">→</span>
+          <figure class="proof-item proof-product">
+            <span class="proof-tag proof-tag-live">РЕАЛЬНОСТЬ</span>
+            <div class="prod-card" aria-hidden="true">
+              <div class="prod-bar"><i></i><i></i><i></i><span>app · v0.1</span></div>
+              <div class="prod-main"><aside></aside><section><b></b><span></span><span></span></section></div>
+              <div class="prod-foot"><b>ВЕРСИЯ 01</b><span>● В РАБОТЕ</span></div>
+            </div>
+            <figcaption>Продукт, который уже<br>работает у пользователей</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="stack ruled-section band" id="stack" aria-labelledby="stack-title">
+        <span class="coordinate">D</span>
+        <div class="section-intro">
+          <h2 id="stack-title">Один инженер<br>на весь стек.</h2>
+          <p class="section-note">Код ничего не стоит. Стоит только то,<br>насколько легко его менять.</p>
+          <div class="section-lead">
+            <p>От того, что видит покупатель, до бэкенда, инфраструктуры и AI — закрываю продукт целиком, без цепочки подрядчиков и стыков между ними. Инструмент выбираю под задачу, а не по моде.</p>
           </div>
         </div>
-      </section>
-
-      <section class="modes ruled-section" id="modes" aria-labelledby="modes-title">
-        <div class="section-intro">
-          <p class="section-label" id="modes-title">С КЕМ Я РАБОТАЮ</p>
-          <h2>Прихожу усилить ваш<br>бизнес, а не внедрять.</h2>
-          <p>Не ставлю чужие коробки и не продаю внедрения. Строю продукты, которые делают инженерную компанию сильнее изнутри. Сам был инженером — говорю с вашей командой на одном языке.</p>
-        </div>
-        <div class="mode-track">
-          <article class="mode">
-            <span class="mode-no">01</span>
-            <h3>Железо, которому нужен софт</h3>
-            <p>Устройства, панели управления, телеметрия и личные кабинеты: строю цифровой продукт вокруг вашего железа.</p>
-            <p class="mode-result"><i>→</i> железо + софт как один продукт</p>
-          </article>
-          <article class="mode">
-            <span class="mode-no">02</span>
-            <h3>Данные процессов — в дело</h3>
-            <p>Превращаю то, что происходит в цехах и на оборудовании, в живые продукты: мониторинг, управление и решения на основе реальных данных.</p>
-            <p class="mode-result"><i>→</i> видно, чем управлять</p>
-          </article>
-          <article class="mode">
-            <span class="mode-no">03</span>
-            <h3>R&amp;D и технические отделы</h3>
-            <p>Внутренние инструменты и расчётные сервисы, которые ускоряют вашу разработку и снимают рутину с инженеров.</p>
-            <p class="mode-result"><i>→</i> команда работает быстрее</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="stack ruled-section" id="stack" aria-labelledby="stack-title">
-        <div class="section-intro">
-          <p class="section-label" id="stack-title">ТЕХНОЛОГИИ</p>
-          <h2>Один инженер<br>на весь стек.</h2>
-          <p>От устройства и интерфейса до бэкенда, инфраструктуры и AI — закрываю продукт целиком, без цепочки подрядчиков. Инструмент выбираю под задачу, а не по моде.</p>
-        </div>
-        <div class="stack-board" aria-label="Технологический стек по доменам">
-          <div class="stack-bar"><span><i></i>FULL-STACK</span><span>WEB · MOBILE · IOT · BACKEND · INFRA · AI</span></div>
-          <div class="stack-grid">
-            <div class="stack-col" style="--cat: #bd5b31">
-              <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><rect class="draw" style="--l: 180" x="8" y="12" width="48" height="40" rx="4"></rect><path class="draw d2" style="--l: 48" d="M8 24h48"></path><circle class="pop" cx="13.5" cy="18" r="1.5" fill="currentColor" stroke="none"></circle><circle class="pop p2" cx="19.5" cy="18" r="1.5" fill="currentColor" stroke="none"></circle><path class="draw d3" style="--l: 34" d="M15 34h34"></path><path class="draw d3" style="--l: 22" d="M15 42h22"></path></g></svg>
-              <b class="stack-name">Web</b>
-            </div>
-            <div class="stack-col" style="--cat: #164a76">
-              <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><rect class="draw" style="--l: 150" x="20" y="7" width="24" height="50" rx="5"></rect><path class="draw d2" style="--l: 8" d="M29 12h6"></path><path class="draw d3" style="--l: 14" d="M26 26h12"></path><path class="draw d3" style="--l: 10" d="M26 33h8"></path><circle class="pop p2" cx="32" cy="50" r="1.6" fill="currentColor" stroke="none"></circle></g></svg>
-              <b class="stack-name">Mobile</b>
-            </div>
-            <div class="stack-col" style="--cat: #8f5e2f">
-              <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><rect class="draw" style="--l: 72" x="23" y="23" width="18" height="18" rx="2"></rect><rect class="draw d2" style="--l: 26" x="29" y="29" width="6" height="6" rx="1"></rect><path class="draw d2" style="--l: 110" d="M23 29H12M41 29h11M23 35H12M41 35h11M29 23V12M35 23V12M29 41v11M35 41v11"></path><circle class="pop" cx="12" cy="29" r="2" fill="currentColor" stroke="none"></circle><circle class="pop p2" cx="52" cy="35" r="2" fill="currentColor" stroke="none"></circle><circle class="pop p2" cx="35" cy="12" r="2" fill="currentColor" stroke="none"></circle><circle class="pop p3" cx="29" cy="52" r="2" fill="currentColor" stroke="none"></circle></g></svg>
-              <b class="stack-name">IoT</b>
-            </div>
-            <div class="stack-col" style="--cat: #6e7047">
-              <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><ellipse class="draw" style="--l: 108" cx="32" cy="15" rx="17" ry="6"></ellipse><path class="draw d2" style="--l: 120" d="M15 15v30c0 3.3 7.6 6 17 6s17-2.7 17-6V15"></path><path class="draw d3" style="--l: 62" d="M15 30c0 3.3 7.6 6 17 6s17-2.7 17-6"></path><circle class="pop" cx="41" cy="44" r="1.4" fill="currentColor" stroke="none"></circle></g></svg>
-              <b class="stack-name">Backend</b>
-            </div>
-            <div class="stack-col" style="--cat: #2f546f">
-              <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><path class="draw" style="--l: 150" d="M22 41a9 9 0 0 1-1-18 12 12 0 0 1 23-2 8 8 0 0 1 1 20Z"></path><path class="draw d2" style="--l: 40" d="M32 41v6M20 53v-6h24v6"></path><rect class="pop" x="15" y="52" width="9" height="9" rx="1.5"></rect><rect class="pop p2" x="27.5" y="52" width="9" height="9" rx="1.5"></rect><rect class="pop p3" x="40" y="52" width="9" height="9" rx="1.5"></rect></g></svg>
-              <b class="stack-name">Infra</b>
-            </div>
-            <div class="stack-col" style="--cat: #76556f">
-              <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><path class="draw" style="--l: 150" d="M32 14C24 12 18 16 18 22C13 23 12 30 17 32C14 37 18 43 24 42C25 47 32 47 32 42"></path><path class="draw d2" style="--l: 150" d="M32 14C40 12 46 16 46 22C51 23 52 30 47 32C50 37 46 43 40 42C39 47 32 47 32 42"></path><path class="draw d3" style="--l: 30" d="M32 14V42"></path><path class="draw d3" style="--l: 12" d="M24 23c3 1 4 4 3 7"></path><path class="draw d3" style="--l: 12" d="M40 23c-3 1-4 4-3 7"></path></g></svg>
-              <b class="stack-name">AI</b>
+        <div class="stack-body band-body">
+          <div class="stack-board" aria-label="Технологический стек по доменам">
+            <div class="stack-bar"><span><i></i>FULL-STACK</span><span>WEB · MOBILE · IOT · BACKEND · INFRA · AI</span></div>
+            <div class="stack-grid">
+              <div class="stack-col" style="--cat: #bd5b31">
+                <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><rect class="draw" style="--l: 180" x="8" y="12" width="48" height="40" rx="4"></rect><path class="draw d2" style="--l: 48" d="M8 24h48"></path><circle class="pop" cx="13.5" cy="18" r="1.5" fill="currentColor" stroke="none"></circle><circle class="pop p2" cx="19.5" cy="18" r="1.5" fill="currentColor" stroke="none"></circle><path class="draw d3" style="--l: 34" d="M15 34h34"></path><path class="draw d3" style="--l: 22" d="M15 42h22"></path></g></svg>
+                <b class="stack-name">Web</b>
+              </div>
+              <div class="stack-col" style="--cat: #164a76">
+                <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><rect class="draw" style="--l: 150" x="20" y="7" width="24" height="50" rx="5"></rect><path class="draw d2" style="--l: 8" d="M29 12h6"></path><path class="draw d3" style="--l: 14" d="M26 26h12"></path><path class="draw d3" style="--l: 10" d="M26 33h8"></path><circle class="pop p2" cx="32" cy="50" r="1.6" fill="currentColor" stroke="none"></circle></g></svg>
+                <b class="stack-name">Mobile</b>
+              </div>
+              <div class="stack-col" style="--cat: #8f5e2f">
+                <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><rect class="draw" style="--l: 72" x="23" y="23" width="18" height="18" rx="2"></rect><rect class="draw d2" style="--l: 26" x="29" y="29" width="6" height="6" rx="1"></rect><path class="draw d2" style="--l: 110" d="M23 29H12M41 29h11M23 35H12M41 35h11M29 23V12M35 23V12M29 41v11M35 41v11"></path><circle class="pop" cx="12" cy="29" r="2" fill="currentColor" stroke="none"></circle><circle class="pop p2" cx="52" cy="35" r="2" fill="currentColor" stroke="none"></circle><circle class="pop p2" cx="35" cy="12" r="2" fill="currentColor" stroke="none"></circle><circle class="pop p3" cx="29" cy="52" r="2" fill="currentColor" stroke="none"></circle></g></svg>
+                <b class="stack-name">IoT</b>
+              </div>
+              <div class="stack-col" style="--cat: #6e7047">
+                <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><ellipse class="draw" style="--l: 108" cx="32" cy="15" rx="17" ry="6"></ellipse><path class="draw d2" style="--l: 120" d="M15 15v30c0 3.3 7.6 6 17 6s17-2.7 17-6V15"></path><path class="draw d3" style="--l: 62" d="M15 30c0 3.3 7.6 6 17 6s17-2.7 17-6"></path><circle class="pop" cx="41" cy="44" r="1.4" fill="currentColor" stroke="none"></circle></g></svg>
+                <b class="stack-name">Backend</b>
+              </div>
+              <div class="stack-col" style="--cat: #2f546f">
+                <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><path class="draw" style="--l: 150" d="M22 41a9 9 0 0 1-1-18 12 12 0 0 1 23-2 8 8 0 0 1 1 20Z"></path><path class="draw d2" style="--l: 40" d="M32 41v6M20 53v-6h24v6"></path><rect class="pop" x="15" y="52" width="9" height="9" rx="1.5"></rect><rect class="pop p2" x="27.5" y="52" width="9" height="9" rx="1.5"></rect><rect class="pop p3" x="40" y="52" width="9" height="9" rx="1.5"></rect></g></svg>
+                <b class="stack-name">Infra</b>
+              </div>
+              <div class="stack-col" style="--cat: #76556f">
+                <svg class="stack-icon" viewBox="0 0 64 64" aria-hidden="true"><g><path class="draw" style="--l: 150" d="M32 14C24 12 18 16 18 22C13 23 12 30 17 32C14 37 18 43 24 42C25 47 32 47 32 42"></path><path class="draw d2" style="--l: 150" d="M32 14C40 12 46 16 46 22C51 23 52 30 47 32C50 37 46 43 40 42C39 47 32 47 32 42"></path><path class="draw d3" style="--l: 30" d="M32 14V42"></path><path class="draw d3" style="--l: 12" d="M24 23c3 1 4 4 3 7"></path><path class="draw d3" style="--l: 12" d="M40 23c-3 1-4 4-3 7"></path></g></svg>
+                <b class="stack-name">AI</b>
+              </div>
             </div>
           </div>
         </div>
@@ -136,8 +161,7 @@ const description =
 
       <footer class="footer ruled-section" id="contacts">
         <div class="footer-primary">
-          <p class="footer-kicker">ДАВАЙТЕ ЗАПУСТИМ ЭТО В РАБОТУ</p>
-          <p class="footer-manifesto">Если у вас есть продукт, действующая система <span class="pen-mark">или идея, которую</span> пора перестать откладывать, — давайте запустим это в работу.</p>
+          <p class="footer-manifesto">Если бренд перерос то, <span class="pen-mark">на чём он сейчас</span> держится, — давайте соберём то, что выдержит следующий рост.</p>
           <div class="footer-cta-row">
             <a class="button button-primary" href="https://t.me/Pom4H" target="_blank" rel="noreferrer">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.4 11.3 15.9-6.1c.7-.3 1.3.2 1.1 1.1l-2.7 12.6c-.2.9-.8 1.1-1.5.7l-4.1-3-2 1.9c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.5-.2l-9.5 6-4.1-1.3c-.9-.3-.9-.9.2-1.3Z"></path></svg>
@@ -158,7 +182,7 @@ const description =
         </div>
         <div class="footer-bottom">
           <div class="footer-meta">
-            <span>SOFTWARE ENGINEERING · ЦИФРОВЫЕ ПРОДУКТЫ</span>
+            <span>ЦИФРОВЫЕ ПРОДУКТЫ ДЛЯ РАСТУЩИХ БРЕНДОВ</span>
             <span class="footer-year">© 2012—2026</span>
           </div>
           <div class="footer-end">
@@ -302,6 +326,7 @@ const description =
     .coordinate { position: absolute; z-index: 2; left: 17px; top: 28px; font: 13px/1 var(--font-mono); color: var(--muted); }
 
     .hero-copy { padding: 48px 30px 48px 74px; align-self: center; }
+    h1 span { white-space: nowrap; }
     h1 { margin: 0; max-width: 630px; font-family: var(--font-serif); font-size: clamp(52px, 5vw, 78px); line-height: .94; font-weight: 400; letter-spacing: var(--track-display); }
     .lead { max-width: 535px; margin: 34px 0 0; font-size: var(--text-md); line-height: var(--lh-body); }
     .hero-actions { display: flex; gap: 22px; margin-top: 42px; }
@@ -319,20 +344,29 @@ const description =
     :root[data-theme='dark'] .panel-scrawl::after { filter: invert(1); }
 
     .ruled-section { position: relative; border-bottom: 1px solid rgba(var(--ink-rgb),.45); }
-    .section-intro { min-height: 230px; padding: 44px 52px 40px; display: grid; grid-template-columns: 2.25fr 5fr 3.2fr; gap: 48px; align-items: start; border-bottom: 1px solid rgba(var(--ink-rgb),.3); }
-    .section-label { margin: 3px 0 0; color: var(--rust); font: 700 var(--text-label)/1.3 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; }
-    .section-intro h2 { margin: 0; max-width: 650px; font: 400 clamp(34px, 3.35vw, 52px)/var(--lh-tight) var(--font-serif); letter-spacing: var(--track-display); }
-    .section-intro > p:not(.section-label) { max-width: 370px; margin: 5px 0 0; font-size: var(--text-md); line-height: var(--lh-body); }
-    .stack .section-intro h2 { grid-column: 3; justify-self: end; text-align: right; max-width: 520px; }
-    .stack .section-intro > p:not(.section-label) { grid-column: 2; grid-row: 1; }
+    /* ===== Средние полосы: один формат листа на все три секции =====
+       Шапка и тело у «Что я строю», «Как я работаю» и «Технологий» строго
+       одной высоты — секции читаются как три листа одного формата, а не как
+       случайно набранные блоки. Зоны B/C/D продолжают координату A из hero,
+       выносная линия в левом поле сшивает их в один объект. */
+    .band { --band-head: 326px; --band-body: 430px; }
+    .band::before {
+      content: ''; position: absolute; z-index: 2; left: 21px; top: 54px; bottom: 14px; width: 1px;
+      background-image: repeating-linear-gradient(rgba(var(--ink-rgb),.42) 0 5px, transparent 5px 11px);
+    }
+    .band-body { min-height: var(--band-body); }
 
-    .proof-layout { display: grid; grid-template-columns: 40% 60%; }
-    .proof-copy { padding: 54px clamp(34px, 4vw, 62px); display: flex; flex-direction: column; justify-content: center; border-right: 1px solid rgba(var(--ink-rgb),.2); }
-    .proof-copy .section-label { margin: 0 0 24px; }
-    .proof-copy h3 { margin: 0; max-width: 460px; font: 400 clamp(34px, 3.35vw, 52px)/var(--lh-tight) var(--font-serif); letter-spacing: var(--track-display); }
-    .proof-copy > p { max-width: 430px; margin: 28px 0 0; font-size: var(--text-md); line-height: var(--lh-body); }
-    .proof-graphic { position: relative; min-height: 460px; display: flex; align-items: center; justify-content: center; gap: clamp(14px, 2.4vw, 34px); padding: 40px clamp(24px, 3.6vw, 54px); overflow: hidden; background-image: linear-gradient(90deg, rgba(var(--ink-rgb),.04) 1px, transparent 1px), linear-gradient(rgba(var(--ink-rgb),.035) 1px, transparent 1px); background-size: 24px 24px; }
-    .proof-item { flex: 0 1 250px; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+    .section-intro { min-height: var(--band-head); padding: 44px 52px 40px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3.1fr); gap: 48px clamp(40px, 5vw, 92px); align-items: start; border-bottom: 1px solid rgba(var(--ink-rgb),.3); }
+    .section-intro h2 { margin: 0; max-width: 650px; font: 400 clamp(32px, 3.1vw, 48px)/var(--lh-tight) var(--font-serif); letter-spacing: var(--track-display); }
+    /* Заметка на полях: рукописный комментарий рядом с меткой секции —
+       занимает пустое поле под лейблом, как приписка карандашом на чертеже. */
+    .section-note { grid-column: 1; align-self: start; max-width: 420px; margin: 4px 0 0; padding-top: 16px; border-top: 1px solid rgba(var(--ink-rgb),.28); font: 400 20px/1.28 var(--font-hand); color: var(--ink); transform: rotate(-1.4deg); transform-origin: left top; }
+    .section-lead { max-width: 370px; display: grid; gap: 14px; }
+    .section-lead p { margin: 5px 0 0; font-size: var(--text-md); line-height: var(--lh-body); }
+    .section-lead p + p { margin-top: 0; }
+
+    .proof-graphic { position: relative; display: flex; align-items: center; justify-content: center; gap: clamp(28px, 7vw, 124px); padding: 44px clamp(24px, 3.6vw, 54px); overflow: hidden; background-image: linear-gradient(90deg, rgba(var(--ink-rgb),.04) 1px, transparent 1px), linear-gradient(rgba(var(--ink-rgb),.035) 1px, transparent 1px); background-size: 24px 24px; }
+    .proof-item { flex: 0 1 300px; margin: 0; display: flex; flex-direction: column; gap: 14px; }
     .proof-tag { align-self: flex-start; padding: 4px 9px; font: 700 var(--text-micro)/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid rgba(var(--ink-rgb),.3); }
     .proof-tag-live { color: #fff; background: var(--rust); border-color: var(--rust); }
     .proof-item figcaption { font: var(--text-sm)/1.5 var(--font-sans); color: var(--muted); }
@@ -366,42 +400,48 @@ const description =
     :root[data-theme='dark'] .prod-card { background: rgba(var(--hi-rgb),.05); }
     :root[data-theme='dark'] .slide-stamp { color: var(--rust); border-color: var(--rust); }
 
-    html.js .proof-graphic, html.js .proof-copy { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease-reveal), transform .8s var(--ease-reveal); }
-    html.js .proof-graphic { transition-delay: .12s; }
-    html.js .proof-graphic.is-in, html.js .proof-copy.is-in { opacity: 1; transform: none; }
+    html.js .proof-graphic { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease-reveal) .12s, transform .8s var(--ease-reveal) .12s; }
+    html.js .proof-graphic.is-in { opacity: 1; transform: none; }
     @media (max-width: 960px) {
-      .proof-layout { grid-template-columns: 1fr; }
-      .proof-copy { border-right: 0; border-bottom: 1px solid rgba(var(--ink-rgb),.2); padding: 44px clamp(25px, 5vw, 40px); }
-      .proof-graphic { min-height: unset; padding: 44px 30px; gap: 18px; }
+      .proof-graphic { padding: 44px 30px; gap: 28px; }
     }
     @media (max-width: 520px) {
-      .proof-copy { padding: 38px 25px; }
       .proof-item { flex: 1 1 0; }
-      .proof-graphic { gap: 9px; padding: 32px 18px; }
+      .proof-graphic { gap: 12px; padding: 32px 18px; }
       .proof-item figcaption { font-size: var(--text-sm); }
       .proof-arrow { font-size: 22px; }
     }
 
+    .mode-body { display: grid; grid-template-rows: 1fr auto; }
     .mode-track { display: grid; grid-template-columns: repeat(3, 1fr); }
-    .mode { position: relative; min-height: 340px; padding: 48px clamp(28px, 3vw, 44px) 40px; display: flex; flex-direction: column; }
+    .mode { position: relative; padding: 40px clamp(28px, 3vw, 44px) 36px; display: flex; flex-direction: column; }
     .mode + .mode { border-left: 1px solid rgba(var(--ink-rgb),.2); }
-    .mode-no { font: 400 44px/1 var(--font-serif); color: var(--muted); letter-spacing: var(--track-display); }
-    .mode h3 { margin: 14px 0 0; max-width: 300px; font: 400 clamp(24px, 1.9vw, 30px)/1.05 var(--font-serif); letter-spacing: -.02em; }
-    .mode > p { margin: 18px 0 0; font-size: var(--text-md); line-height: var(--lh-body); }
-    .mode-result { margin-top: auto; padding-top: 18px; display: flex; align-items: baseline; gap: 9px; border-top: 1px solid rgba(var(--ink-rgb),.2); font: 700 var(--text-sm)/1.4 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; }
-    .mode-result i { color: var(--rust); font-style: normal; }
+    .mode h3 { margin: 0; max-width: 320px; font: 400 clamp(23px, 1.9vw, 29px)/1.08 var(--font-serif); letter-spacing: -.02em; }
+    .mode-list { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+    .mode-list li { position: relative; padding-left: 17px; font-size: var(--text-sm); line-height: 1.5; color: var(--muted); }
+    .mode-list li::before { content: ''; position: absolute; left: 0; top: 8px; width: 8px; height: 1px; background: rgba(var(--ink-rgb),.45); }
+
+    /* Полоса-штамп под перечнем: список честный и длинный, поэтому центр
+       нужно назвать вслух — иначе перечень читается как прайс на услуги. */
+    .mode-core { display: grid; gap: 14px; padding: 24px clamp(28px, 3vw, 44px) 26px; border-top: 1px solid rgba(var(--ink-rgb),.45); background: rgba(var(--ink-rgb),.035); }
+    .mode-core-text { margin: 0; max-width: 1000px; font: 400 clamp(17px, 1.35vw, 21px)/1.45 var(--font-serif); }
     html.js .mode { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease-reveal) calc(var(--reveal-i, 0) * 90ms), transform .8s var(--ease-reveal) calc(var(--reveal-i, 0) * 90ms); }
     html.js .mode.is-in { opacity: 1; transform: none; }
-    @media (max-width: 800px) { .mode-track { grid-template-columns: 1fr; } .mode { min-height: unset; padding: 40px 25px; } .mode + .mode { border-left: 0; border-top: 1px solid rgba(var(--ink-rgb),.2); } }
+    @media (max-width: 800px) { .mode-track { grid-template-columns: 1fr; } .mode { padding: 34px 25px; } .mode + .mode { border-left: 0; border-top: 1px solid rgba(var(--ink-rgb),.2); } .mode-core { grid-template-columns: 1fr; padding: 24px 25px 26px; } }
 
-    .stack-board { position: relative; margin: 34px 36px; padding: 0; border: 1px solid rgba(var(--ink-rgb),.38); background-image: linear-gradient(90deg, rgba(var(--ink-rgb),.04) 1px, transparent 1px), linear-gradient(rgba(var(--ink-rgb),.035) 1px, transparent 1px); background-size: 24px 24px; overflow: hidden; }
+    /* Доска стека заполняет полосу целиком: 6 доменов ложатся в те же три
+       колонки, что и карточки «Что я строю», — средние секции рифмуются. */
+    .stack-body { padding: 30px 36px; display: grid; }
+    .stack-board { position: relative; margin: 0; padding: 0; display: grid; grid-template-rows: 34px 1fr; border: 1px solid rgba(var(--ink-rgb),.38); background-image: linear-gradient(90deg, rgba(var(--ink-rgb),.04) 1px, transparent 1px), linear-gradient(rgba(var(--ink-rgb),.035) 1px, transparent 1px); background-size: 24px 24px; overflow: hidden; }
     .stack-bar { height: 34px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),.3); font: 700 var(--text-micro)/1 var(--font-mono); letter-spacing: .06em; color: var(--muted); }
     .stack-bar > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
     .stack-bar i { width: 6px; height: 6px; border: 1px solid var(--rust); border-radius: 50%; margin-right: 6px; vertical-align: middle; display: inline-block; }
-    .stack-grid { display: grid; grid-template-columns: repeat(6, 1fr); }
-    .stack-col { padding: 34px 16px 36px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; color: var(--cat); }
+    .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; }
+    .stack-col { padding: 20px 16px 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; color: var(--cat); }
     .stack-col + .stack-col { border-left: 1px solid rgba(var(--ink-rgb),.18); }
-    .stack-icon { width: min(84px, 54%); aspect-ratio: 1; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+    .stack-col:nth-child(3n+1) { border-left: 0; }
+    .stack-col:nth-child(n+4) { border-top: 1px solid rgba(var(--ink-rgb),.18); }
+    .stack-icon { width: min(72px, 42%); aspect-ratio: 1; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
     .stack-icon * { transform-box: fill-box; transform-origin: center; }
     .stack-name { font: 700 var(--text-sm)/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
     .stack-icon .draw { stroke-dasharray: var(--l, 200); stroke-dashoffset: var(--l, 200); }
@@ -421,9 +461,8 @@ const description =
     @keyframes aiTwinkle { 0% { opacity: 0; transform: scale(0) rotate(-30deg); } 55% { opacity: 1; transform: scale(1.15) rotate(5deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
     html.js .stack-col { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease-reveal) calc(var(--reveal-i, 0) * 80ms), transform .7s var(--ease-reveal) calc(var(--reveal-i, 0) * 80ms); }
     html.js .stack-col.is-in { opacity: 1; transform: none; }
-    @media (max-width: 1120px) { .stack-grid { grid-template-columns: repeat(3, 1fr); } .stack-col:nth-child(3n+1) { border-left: 0; } .stack-col:nth-child(n+4) { border-top: 1px solid rgba(var(--ink-rgb),.18); } }
-    @media (max-width: 800px) { .stack-board { margin: 24px; } .stack-grid { grid-template-columns: repeat(2, 1fr); } .stack-col { border-left: 0; } .stack-col:nth-child(2n) { border-left: 1px solid rgba(var(--ink-rgb),.18); } .stack-col:nth-child(n+3) { border-top: 1px solid rgba(var(--ink-rgb),.18); } }
-    @media (max-width: 520px) { .stack-board { margin: 12px; } .stack-col { padding: 26px 10px 28px; gap: 14px; } .stack-name { font-size: var(--text-micro); letter-spacing: .08em; } }
+    @media (max-width: 800px) { .stack-body { padding: 24px; } .stack-grid { grid-template-columns: repeat(2, 1fr); } .stack-col { border-left: 0; border-top: 0; } .stack-col:nth-child(2n) { border-left: 1px solid rgba(var(--ink-rgb),.18); } .stack-col:nth-child(n+3) { border-top: 1px solid rgba(var(--ink-rgb),.18); } }
+    @media (max-width: 520px) { .stack-body { padding: 12px; } .stack-col { padding: 26px 10px 28px; gap: 14px; } .stack-name { font-size: var(--text-micro); letter-spacing: .08em; } }
 
     .footer { display: grid; grid-template-columns: 1.7fr 1fr; min-height: 320px; border-bottom: 0; }
     .footer-primary { padding: 50px 44px; display: flex; flex-direction: column; }
@@ -441,7 +480,6 @@ const description =
     :root[data-theme='dark'] .pen-mark::after { filter: brightness(1.25) saturate(1.1); }
     .footer-cta-row { margin-top: 32px; display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
     .footer-cta-row .button { min-width: 236px; min-height: 52px; }
-    .footer-kicker { margin: 0 0 22px; color: var(--rust); font: 700 var(--text-label)/1.3 var(--font-mono); letter-spacing: var(--track-label); text-transform: uppercase; }
     .footer-email { color: var(--ink); font: 600 var(--text-sm)/1 var(--font-mono); letter-spacing: .02em; text-decoration: underline; text-decoration-color: rgba(var(--ink-rgb),.32); text-underline-offset: 3px; transition: color .2s ease, text-decoration-color .2s ease; }
     .footer-email:hover, .footer-email:focus-visible { color: var(--rust); text-decoration-color: var(--rust); outline: none; }
     .footer-id .brand { display: block; font-size: 24px; }
@@ -515,15 +553,22 @@ const description =
     :root[data-theme='dark'] .note-card { background: #1b201a; box-shadow: 1px 3px 9px rgba(0,0,0,.35); }
 
     @media (max-width: 1120px) {
+      /* Колонки шапки сужаются — лиду нужно больше строк, поэтому общая
+         высота полосы поднимается разом у всех трёх секций. */
+      .band { --band-head: 318px; --band-body: 440px; }
       .topbar { padding-inline: 32px; gap: 20px; }
       .hero-copy { padding-left: 48px; }
       h1 { font-size: 48px; }
-      .section-intro { padding-inline: 38px; grid-template-columns: 1.8fr 4.5fr 3fr; gap: 30px; }
+      .section-intro { padding-inline: 38px; gap: 30px 44px; }
       .footer-primary { padding: 40px 34px; }
       .footer-aside { padding: 40px 34px; }
       .footer-bottom { padding-inline: 34px; }
     }
     @media (max-width: 960px) {
+      /* На узком экране полосы больше не обязаны быть одного роста —
+         фиксированная высота там только резала бы текст. */
+      .band { --band-head: 0; --band-body: 0; }
+      .band::before { display: none; }
       .section-grid { grid-template-columns: 1fr; }
       .hero { min-height: unset; }
       .hero-copy { padding: 46px 40px 34px; }
@@ -561,12 +606,10 @@ const description =
       .button { width: 100%; }
       .system-visual { height: auto; min-height: 0; border-left: 0; }
       .panel-scrawl { margin: 14px 22px 0; font-size: 17px; }
-      .section-intro { min-height: unset; padding: 34px 25px; grid-template-columns: 1fr; gap: 24px; }
+      .section-intro { padding: 34px 25px; grid-template-columns: 1fr; gap: 24px; }
       .section-intro h2 { max-width: 620px; }
-      .section-intro > p:not(.section-label) { max-width: 620px; margin-top: 0; }
-      .stack .section-intro h2,
-      .stack .section-intro > p:not(.section-label) { grid-column: auto; grid-row: auto; }
-      .stack .section-intro h2 { justify-self: start; text-align: left; }
+      .section-lead { max-width: 620px; }
+      .section-lead p { margin-top: 0; }
       .footer { grid-template-columns: 1fr; }
       .footer-primary { padding: 38px 25px; }
       .footer-aside { border-left: 0; border-top: 1px solid rgba(var(--ink-rgb),.2); padding: 34px 25px; }
@@ -811,33 +854,12 @@ const description =
         });
       } catch (e) {}
 
-      const revealSelector = '.system-visual,.section-intro,.direction-card,.result-card,.proof-copy,.proof-graphic,.mode,.stack-col,.method-manifesto,.method-track article,.footer-primary,.footer-aside';
-      const revealTargets = Array.from(document.querySelectorAll(revealSelector));
-      const revealAll = () => revealTargets.forEach((el) => el.classList.add('is-in'));
-      const revealIfPassed = (el) => {
-        const top = el.getBoundingClientRect().top;
-        if (top < window.innerHeight * 0.92) el.classList.add('is-in');
-      };
-      try {
-        ['.direction-stack .direction-card', '.result-grid .result-card', '.mode-track .mode', '.stack-grid .stack-col', '.method-track article', '.footer-primary, .footer-aside'].forEach((sel) => {
-          document.querySelectorAll(sel).forEach((el, i) => el.style.setProperty('--reveal-i', String(i)));
-        });
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduceMotion || !('IntersectionObserver' in window)) {
-          revealAll();
-        } else {
-          const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
-            });
-          }, { rootMargin: '0px 0px -4% 0px', threshold: 0.02 });
-          revealTargets.forEach((el) => {
-            revealIfPassed(el);
-            if (!el.classList.contains('is-in')) io.observe(el);
-          });
-          setTimeout(() => revealTargets.forEach(revealIfPassed), 1200);
-        }
-      } catch (e) { revealAll(); }
+      /* Секции показываются сразу. Появление по мере скролла держалось на
+         IntersectionObserver, а лист теперь лежит в fixed-слое и ездит
+         трансформом — наблюдатель там срабатывает ненадёжно, и часть секций
+         так и оставалась невидимой. */
+      const revealSelector = '.system-visual,.section-intro,.direction-card,.result-card,.proof-graphic,.mode,.stack-col,.method-manifesto,.method-track article,.footer-primary,.footer-aside';
+      document.querySelectorAll(revealSelector).forEach((el) => el.classList.add('is-in'));
 
       document.querySelectorAll('[data-system-panel]').forEach((panel) => {
         const keys = Array.from(panel.querySelectorAll('[data-panel-key]'));
@@ -881,25 +903,11 @@ const description =
           showReadout(first);
           playIcon(first);
         };
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const board = panel.querySelector('.board-shell');
-        if (!first) {
-          /* nothing */
-        } else if (reduce || !('IntersectionObserver' in window) || !board) {
-          boot();
-        } else {
-          let booted = false;
-          const runBoot = () => {
-            if (booted) return;
-            booted = true;
-            setTimeout(boot, 450);
-          };
-          const io2 = new IntersectionObserver((ents) => {
-            ents.forEach((e) => { if (e.isIntersecting) { io2.unobserve(e.target); runBoot(); } });
-          }, { threshold: 0.35 });
-          io2.observe(board);
-        }
+        /* Панель поднимается сразу, а не по появлению в кадре: наблюдатель
+           в наклонённом fixed-слое ненадёжен, и клавиша оставалась неактивной. */
+        if (first) setTimeout(boot, 450);
       });
+
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);

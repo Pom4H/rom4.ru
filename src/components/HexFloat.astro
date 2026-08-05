@@ -1,0 +1,205 @@
+---
+/**
+ * Hex Float — страница ложится на стол.
+ *
+ * Оборачивает содержимое в WebGL-сцену: пол из гексов, наклонённый в
+ * перспективе, плюс плёночное зерно. Курсор разглаживает плитки под собой
+ * в читаемое окно.
+ *
+ * Разметка отдаётся обычным DOM'ом; в canvas контент переезжает только на
+ * клиенте и только если браузер умеет HTML-in-canvas
+ * (`<canvas layoutsubtree>` + `ctx.drawElementImage`). Иначе страница
+ * остаётся ровно такой, какой была, — без оверлеев и без канваса.
+ */
+import type { HexFloatOptions } from '../lib/hexFloat';
+
+type Props = HexFloatOptions;
+
+/** Настройка под «газета на столе»: лист лежит плашмя, зерно, без покачивания. */
+const defaults: HexFloatOptions = {
+  size: 160,
+  gap: 0,
+  bevel: 1.5,
+  tilt: 24,
+  perspective: 0.5,
+  float: 0,
+  speed: 1,
+  shine: 0.5,
+  lift: 0.1,
+  radius: 1200,
+  flow: 0,
+  swirl: 0,
+  trail: 0,
+  iridescence: 1,
+  bloom: 0,
+  grain: 0.8,
+  gapColor: 'auto',
+};
+
+const options: HexFloatOptions = { ...defaults, ...Astro.props };
+---
+
+<div class="hexfloat" data-hexfloat data-hexfloat-options={JSON.stringify(options)}>
+  <!-- Наклонённая плоскость стола; лист внутри неё едет при прокрутке. -->
+  <div class="hexfloat-plane" data-hexfloat-plane>
+    <div class="hexfloat-content" data-hexfloat-content>
+      <slot />
+    </div>
+  </div>
+  <!-- Соседний слой в той же перспективе: то, что лежит на столе рядом с листом. -->
+  <slot name="desk" />
+</div>
+<!-- Задаёт документу высоту листа: при CSS-наклоне прокрутка живёт на окне. -->
+<div class="hexfloat-spacer" data-hexfloat-spacer aria-hidden="true"></div>
+
+<style is:global>
+  /* Эффект выключен — обёртки не участвуют в разметке вообще. */
+  .hexfloat,
+  .hexfloat-plane,
+  .hexfloat-content { display: contents; }
+
+  /* Показывается только вместе с CSS-наклоном — правило в PaperTable.astro,
+     там же живёт медиазапрос, который решает, включать наклон вообще. */
+  .hexfloat-spacer { display: none; }
+
+  /* Эффект включён: страница становится фиксированным окном со своим скроллом,
+     иначе шейдеру нечего было бы наклонять. */
+  html[data-hexfloat='on'],
+  html[data-hexfloat='on'] body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hexfloat[data-hexfloat-on] {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hexfloat[data-hexfloat-on] .hexfloat-source {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hexfloat[data-hexfloat-on] .hexfloat-content {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .hexfloat[data-hexfloat-on] .hexfloat-output {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import { createHexFloat, supportsHtmlInCanvas } from '../lib/hexFloat';
+  import type { HexFloatOptions } from '../lib/hexFloat';
+
+  const root = document.querySelector<HTMLElement>('[data-hexfloat]');
+  const plane = document.querySelector<HTMLElement>('[data-hexfloat-plane]');
+  const content = document.querySelector<HTMLElement>('[data-hexfloat-content]');
+  const spacer = document.querySelector<HTMLElement>('[data-hexfloat-spacer]');
+
+  /**
+   * Наклон средствами CSS — для всех, кому не досталось html-in-canvas.
+   *
+   * Лист — цельная газета, а не окно с обрезкой: прокрутка живёт на самом
+   * окне, а лист вместе с канцелярией едет по наклонённой плоскости и уходит
+   * за кромку экрана. Высоту документу задаёт распорка, равная высоте листа.
+   * Углы, перспектива и медиазапросы живут в PaperTable.astro.
+   */
+  function enableCssTilt() {
+    document.documentElement.setAttribute('data-paper-tilt', 'on');
+    if (!content || !spacer) return;
+
+    // Без rAF-дребезга: событие скролла и так приходит не чаще кадра, а
+    // отложенный кадр может не выполниться (свёрнутая вкладка) и заклинить
+    // обновление насовсем — лист тогда застывает в прежнем положении.
+    const sync = () => {
+      const style = document.documentElement.style;
+      style.setProperty('--desk-shift', `${window.scrollY}px`);
+      // Безразмерная доля пройденного пути — на ней держатся эффекты, которым
+      // нужен не сдвиг в пикселях, а «где мы вообще» (наклон кронштейна лампы).
+      const range = Math.max(1, spacer.offsetHeight - window.innerHeight);
+      style.setProperty('--desk-progress', String(Math.min(1, window.scrollY / range)));
+    };
+
+    const measure = () => {
+      spacer.style.height = `${content.offsetHeight}px`;
+      sync();
+    };
+
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('pageshow', sync);
+    document.addEventListener('visibilitychange', sync);
+
+    new ResizeObserver(measure).observe(content);
+    measure();
+
+    // Якоря внутри листа: у контента в fixed-слое нет позиции в документе,
+    // поэтому штатный переход по #hash никуда не ведёт — считаем сами.
+    content.addEventListener('click', (event) => {
+      const link = (event.target as Element | null)?.closest?.('a[href^="#"]');
+      const hash = link?.getAttribute('href');
+      if (!hash || hash === '#') return;
+      const target = document.getElementById(hash.slice(1));
+      if (!target || !content.contains(target)) return;
+      event.preventDefault();
+      let offset = 0;
+      for (let el = target as HTMLElement | null; el && el !== content; el = el.offsetParent as HTMLElement | null) {
+        offset += el.offsetTop;
+      }
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    });
+  }
+
+  // Без HTML-in-canvas шейдеру нечего рисовать на гранях плиток: он умеет только
+  // положить поверх страницы тёмную гекс-сетку. Такой «эффект» лендингу вредит,
+  // поэтому там уходим в CSS-наклон, а DOM не трогаем.
+  if (root && content && supportsHtmlInCanvas()) {
+    let options: HexFloatOptions = {};
+    try {
+      options = JSON.parse(root.dataset.hexfloatOptions ?? '{}');
+    } catch {}
+
+    const source = document.createElement('canvas');
+    source.className = 'hexfloat-source';
+    source.setAttribute('layoutsubtree', 'true');
+
+    const output = document.createElement('canvas');
+    output.className = 'hexfloat-output';
+    output.setAttribute('aria-hidden', 'true');
+
+    root.append(source, output);
+    source.append(content);
+    root.setAttribute('data-hexfloat-on', '');
+    document.documentElement.setAttribute('data-hexfloat', 'on');
+
+    const instance = createHexFloat({ source, content, output }, options);
+
+    if (!instance) {
+      // WebGL2 не поднялся — возвращаем страницу в исходное состояние.
+      (plane ?? root).append(content);
+      source.remove();
+      output.remove();
+      root.removeAttribute('data-hexfloat-on');
+      document.documentElement.removeAttribute('data-hexfloat');
+      enableCssTilt();
+    } else {
+      window.addEventListener('resize', () => instance.resize(), { passive: true });
+    }
+  } else if (root && content) {
+    enableCssTilt();
+  }
+</script>

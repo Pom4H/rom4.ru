@@ -1,5 +1,9 @@
 ---
 import '@fontsource-variable/inter';
+import HexFloat from '../components/HexFloat.astro';
+import PaperTable from '../components/PaperTable.astro';
+import DeskProps from '../components/DeskProps.astro';
+import DeskLamp from '../components/DeskLamp.astro';
 
 interface Props {
   title: string;
@@ -56,7 +60,7 @@ const structuredData = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="ROM4.RU — Строю и модернизирую продукты для инженерного B2B" />
+    <meta property="og:image:alt" content="ROM4.RU — Продукт уровня вашего бренда" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
@@ -96,6 +100,12 @@ const structuredData = {
       <div><img src="https://mc.yandex.ru/watch/110382417" style="position:absolute; left:-9999px;" alt="" /></div>
     </noscript>
 
-    <slot />
+    <PaperTable />
+
+    <HexFloat>
+      <slot />
+      <DeskProps slot="desk" />
+      <DeskLamp slot="desk" />
+    </HexFloat>
   </body>
 </html>

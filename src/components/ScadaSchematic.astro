@@ -1,0 +1,125 @@
+---
+// ROM4.RU — мини-мнемосхема для кейса ROM4 SCADA. Разметка; стили — в index.astro.
+// Повторяет реальный продукт: типизированные связи (труба/силовая/сигнал) и анимация потока.
+---
+<div class="scada-figure" role="img" aria-label="Мнемосхема: водопровод, насос, датчик давления, ёмкость, датчик уровня, задвижка и слив; силовая линия питает насос, сигнальные линии идут на панель">
+  <svg class="scada-svg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- process pipes -->
+    <g class="pipe-group">
+      <path class="pipe" d="M70 150H113" />
+      <path class="pipe" d="M159 150H292" />
+      <path class="pipe" d="M310 212V268H388" />
+      <path class="pipe" d="M412 268H470" />
+      <path class="flow" d="M70 150H113" />
+      <path class="flow" d="M159 150H292" />
+      <path class="flow" d="M310 212V268H388" />
+      <path class="flow" d="M412 268H470" />
+    </g>
+
+    <!-- power line: mains → breaker → pump -->
+    <g class="power-group">
+      <path class="power" d="M70 268H104" />
+      <path class="power" d="M124 268H136V174" />
+      <circle class="node" cx="104" cy="268" r="2.6" />
+      <circle class="node" cx="124" cy="268" r="2.6" />
+      <path class="power-blade" d="M105 267L123 259" />
+      <path class="pulse" d="M70 268H104M124 268H136V174" />
+    </g>
+
+    <!-- signal lines: PT and LT → panel -->
+    <g class="signal-group">
+      <path class="signal" d="M248 66H486" />
+      <path class="signal" d="M458 104H472V88H486" />
+    </g>
+
+    <!-- water inlet -->
+    <g class="unit">
+      <rect class="body" x="14" y="133" width="56" height="34" rx="5" />
+      <path class="wave" d="M24 145q6-5 12 0t12 0" />
+      <path class="wave" d="M24 156q6-5 12 0t12 0" />
+      <text class="tag" x="42" y="182">SRC-101</text>
+    </g>
+
+    <!-- pump -->
+    <g class="unit">
+      <path class="body" d="M120 168h32l7 12h-46z" />
+      <circle class="body pump-case" cx="136" cy="150" r="23" />
+      <g class="impeller"><path d="M136 150V130a20 20 0 0 1 17 29z" /></g>
+      <circle class="hub" cx="136" cy="150" r="3.4" />
+      <!-- offset right: the power riser runs up at x=136 -->
+      <text class="tag" x="176" y="196">P-101</text>
+    </g>
+
+    <!-- tap for the pressure transmitter -->
+    <circle class="hub" cx="228" cy="150" r="3.6" />
+    <path class="pipe pipe-thin" d="M228 150V86" />
+
+    <!-- pressure transmitter -->
+    <g class="unit instr">
+      <circle class="instr-ring" cx="228" cy="66" r="20" />
+      <text class="instr-letters" x="228" y="63">PT</text>
+      <text class="instr-value" x="228" y="76" data-scada-pt>2.4</text>
+      <text class="tag" x="228" y="34">бар</text>
+    </g>
+
+    <!-- tank -->
+    <g class="unit">
+      <clipPath id="scada-tank-clip"><rect x="294" y="90" width="76" height="120" rx="5" /></clipPath>
+      <rect class="body" x="292" y="88" width="80" height="124" rx="6" />
+      <g clip-path="url(#scada-tank-clip)">
+        <rect class="water" x="294" y="140" width="76" height="80" data-scada-water />
+        <path class="water-line" d="M294 140q9.5-4 19 0t19 0t19 0t19 0" data-scada-waterline />
+      </g>
+      <rect class="body body-outline" x="292" y="88" width="80" height="124" rx="6" />
+      <text class="level-value" x="332" y="156" data-scada-level>58%</text>
+      <text class="tag" x="332" y="228">TK-101</text>
+    </g>
+
+    <!-- level transmitter -->
+    <path class="pipe pipe-thin" d="M372 104h46" />
+    <g class="unit instr">
+      <circle class="instr-ring" cx="438" cy="104" r="20" />
+      <text class="instr-letters" x="438" y="101">LT</text>
+      <text class="instr-value" x="438" y="114" data-scada-lt>58</text>
+    </g>
+
+    <!-- motorized valve -->
+    <g class="unit">
+      <path class="valve" d="M388 254l12 14-12 14zM412 254l-12 14 12 14z" />
+      <text class="tag" x="400" y="300">HV-101</text>
+    </g>
+
+    <!-- drain -->
+    <g class="unit">
+      <rect class="body" x="470" y="252" width="56" height="32" rx="5" />
+      <path class="drain" d="M486 260h24l-8 9h-8z" />
+      <text class="tag" x="498" y="300">DRN-101</text>
+    </g>
+
+    <!-- mains inlet -->
+    <g class="unit">
+      <rect class="body body-ac" x="14" y="252" width="56" height="32" rx="5" />
+      <path class="ac-wave" d="M28 268q5-9 10 0t10 0" />
+      <text class="tag" x="42" y="300">PWR-101</text>
+      <text class="tag tag-live" x="96" y="252">9.1 A</text>
+    </g>
+
+    <!-- indicator panel -->
+    <g class="unit">
+      <rect class="body" x="486" y="44" width="88" height="64" rx="5" />
+      <rect class="screen" x="493" y="51" width="60" height="50" rx="3" />
+      <text class="screen-row" x="499" y="66">P 2.4</text>
+      <text class="screen-row" x="499" y="80">L 58</text>
+      <text class="screen-row" x="499" y="94">T 21</text>
+      <circle class="led on" cx="564" cy="60" r="4" />
+      <circle class="led" cx="564" cy="76" r="4" />
+      <text class="tag" x="530" y="124">PNL-101</text>
+    </g>
+  </svg>
+
+  <div class="scada-legend" aria-hidden="true">
+    <span class="lg lg-pipe">труба</span>
+    <span class="lg lg-power">силовая</span>
+    <span class="lg lg-signal">сигнал</span>
+  </div>
+</div>

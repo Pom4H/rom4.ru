@@ -7,9 +7,11 @@
  * Когда HexFloat всё-таки поднялся (`html[data-hexfloat='on']`), слой
  * выключается целиком — там наклон, швы и зерно рисует шейдер.
  *
- * Разметки не добавляет: работает на псевдоэлементах `.paper-stage`,
- * которые в index.astro свободны (там заняты только `.sheet::before/::after`
- * под приводочные кресты).
+ * Столешница живёт в собственном фиксированном слое `.desk-surface`, а не в
+ * фоне `body`: фон документа при прокрутке уезжает вместе со страницей, а
+ * `background-attachment: fixed` заставляет браузер перерисовывать текстуру
+ * на каждом кадре. Фиксированный элемент растеризуется один раз — стол стоит
+ * на месте и на мыши, и на тач-устройствах, и без затрат на прокрутку.
  *
  * Селекторы намеренно утяжелены (`html body`, `:root .paper-stage`): стили
  * страницы тоже глобальные, и порядок их подключения зависит от сборки —
@@ -17,46 +19,63 @@
  */
 ---
 
+<div class="desk-surface" aria-hidden="true"></div>
+
 <style is:global>
   :root {
     /* Столешница — белый пластик (ламинат): холоднее и ровнее тёплой бумаги.
        Материал читается не цветом, а тремя вещами: широкой диагональной
        полосой блеска, матовой микрокрошкой и очень слабой неровностью. */
-    --table-base: #d8dad9;
-    --table-sheen: rgba(255, 255, 255, .62);
-    /* Свет и тень стола. Источник — сверху слева, как блики на самом листе. */
-    --table-light: rgba(255, 255, 255, .4);
-    --table-shade: rgba(24, 27, 30, .3);
+    --desk-tooth-alpha: .11;
+    /* Лак: узкий жёсткий блик, широкая мягкая засветка за ним и лёгкое
+       затемнение с противоположной стороны — без контраста глянец не читается. */
+    --gloss-hard: rgba(255, 255, 255, .34);
+    --gloss-soft: rgba(255, 255, 255, .1);
+    --gloss-dark: rgba(18, 24, 30, .08);
+    /* Френель: у дальней кромки луч зрения идёт по касательной, и отражает
+       она сильнее ближней. Матовая поверхность так не умеет. */
+    --gloss-fresnel: rgba(255, 255, 255, .22);
+    /* Отражение лампы. Глянец показывает не свет, а сам источник. */
+    --gloss-lamp: rgba(255, 240, 210, .5);
+    --grid-fine: rgba(64, 104, 126, .03);
+    --grid-bold: rgba(64, 104, 126, .075);
+    --grid-fine-step: 31px;
+    --grid-bold-step: 124px;
+    /* Стол — тёплый капучино: бумага на нём остаётся светлее и холоднее,
+       поэтому лист читается листом без единого дополнительного слоя. */
+    --table-base: #c6b096;
+    --table-sheen: rgba(255, 255, 255, .26);
+    /* Свет тёплый (лампа), тень холодная (общий свет комнаты). Разница
+       цветовых температур и делает поверхность материалом, а не заливкой. */
+    --table-light: rgba(255, 246, 226, .34);
+    --table-shade: rgba(22, 32, 42, .34);
     --table-contact: rgba(25, 25, 23, .34);
     /* Сгиб листа: на светлой бумаге ловит блик, на тёмной — почти только тень. */
     --fold-far: rgba(var(--ink-rgb), .016);
     --fold-near: rgba(var(--ink-rgb), .026);
     --fold-hi: rgba(var(--hi-rgb), .14);
     --fold-tail: rgba(var(--ink-rgb), .012);
-    /* Зерно бумаги. Прозрачность запечена в сам SVG, чтобы не гасить сгиб. */
-    --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.055'/%3E%3C/svg%3E");
-    /* Литой пластик почти однороден: разводы оставлены на самом пределе
-       заметности, только чтобы поверхность не выглядела заливкой. */
-    --table-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.009' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)' opacity='.07'/%3E%3C/svg%3E");
-    /* Матовая крошка ламината: частый мелкий шум — то, за что цепляется глаз,
-       когда решает, что поверхность пластиковая, а не бумажная. */
-    --table-tooth: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)' opacity='.09'/%3E%3C/svg%3E");
   }
 
   :root[data-theme='dark'] {
     /* Тот же пластик, только графитовый: блеск слабее, крошка заметнее. */
-    --table-base: #0b0e10;
-    --table-sheen: rgba(150, 178, 190, .07);
-    --table-light: rgba(126, 162, 176, .06);
+    --desk-tooth-alpha: .17;
+    --gloss-hard: rgba(214, 236, 255, .12);
+    --gloss-soft: rgba(198, 222, 240, .03);
+    --gloss-dark: rgba(0, 0, 0, .3);
+    --gloss-fresnel: rgba(190, 220, 245, .07);
+    --gloss-lamp: rgba(255, 216, 154, .14);
+    --grid-fine: rgba(126, 170, 200, .07);
+    --grid-bold: rgba(126, 170, 200, .14);
+    --table-base: #0d100f;
+    --table-sheen: rgba(150, 178, 190, .1);
+    --table-light: rgba(126, 162, 176, .09);
     --table-shade: rgba(0, 0, 0, .55);
     --table-contact: rgba(0, 0, 0, .6);
     --fold-far: rgba(0, 0, 0, .16);
     --fold-near: rgba(0, 0, 0, .3);
     --fold-hi: rgba(var(--hi-rgb), .035);
     --fold-tail: rgba(0, 0, 0, .12);
-    --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.09'/%3E%3C/svg%3E");
-    --table-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.009' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)' opacity='.11'/%3E%3C/svg%3E");
-    --table-tooth: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)' opacity='.16'/%3E%3C/svg%3E");
   }
 
   /* ── Столешница: белый пластик ───────────────────────────────────────
@@ -69,32 +88,48 @@
      рассеянный свет приходят оттуда же, а тени предметов уходят влево-вниз. */
   :root {
     --table-layers:
-      linear-gradient(253deg, transparent 6%, var(--table-sheen) 27%, transparent 54%),
+      /* Отражение лампы — вытянутое к зрителю пятно под самим прибором. */
+      radial-gradient(34% 58% at 88% 4%, var(--gloss-lamp), transparent 64%),
+      /* Френель по глубине: дальний край ярче ближнего. */
+      linear-gradient(to bottom, var(--gloss-fresnel) 0%, transparent 44%),
+      /* Блик несимметричный: резкий фронт и длинный хвост. У матовой
+         поверхности он симметричный и размытый — в этом вся разница. */
+      linear-gradient(
+        253deg,
+        var(--gloss-dark) 0%,
+        transparent 17%,
+        var(--gloss-soft) 26.5%,
+        var(--gloss-hard) 28.5%,
+        var(--gloss-hard) 29.5%,
+        var(--gloss-soft) 34%,
+        transparent 60%
+      ),
       radial-gradient(120% 78% at 84% -12%, var(--table-light), transparent 56%),
-      radial-gradient(150% 105% at 50% 116%, var(--table-shade), transparent 62%),
-      var(--table-tooth),
-      var(--table-mottle);
-    --table-layer-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
-    --table-layer-size: auto, auto, auto, 90px 90px, 520px 520px;
+      radial-gradient(150% 105% at 50% 116%, var(--table-shade), transparent 62%);
+    --table-layer-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    --table-layer-size: auto, auto, auto, auto, auto;
   }
 
   html { background-color: var(--table-base); }
+  html body { background-color: var(--table-base); }
 
-  html body {
+  /* Свет сцены неподвижен — лампа стоит на столе, а не едет с бумагой.
+     Поэтому блеск, рассеянный свет и спад в тень живут в фиксированном слое
+     и не перерисовываются при прокрутке. */
+  .desk-surface {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     background-color: var(--table-base);
     background-image: var(--table-layers);
     background-repeat: var(--table-layer-repeat);
     background-size: var(--table-layer-size);
+    /* Свой композитный слой: иначе неподвижная столешница перерисовывается
+       вместе с едущим листом, и каждый градиент лака стоит кадров. */
+    transform: translateZ(0);
   }
 
-  /* Стол не едет вместе с листом — это главный признак того, что лист лежит
-     НА чём-то. На тач-устройствах fixed-фон подтормаживает, поэтому только
-     для мыши и только на широких экранах. */
-  @media (min-width: 801px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    html body {
-      background-attachment: fixed, fixed, fixed, fixed, fixed;
-    }
-  }
 
   /* ── Лист на столе ───────────────────────────────────────────────────
      Стол должен быть виден, иначе эффекта нет: чуть увеличиваем поля. */
@@ -122,15 +157,13 @@
     transform-origin: 50% 50%;
   }
 
-  /* Зерно бумаги и продольный сгиб поверх листа. */
+  /* Продольный сгиб поверх листа. */
   .paper-stage::after {
     content: '';
     position: absolute;
     z-index: 6;
     inset: 0;
     pointer-events: none;
-    background-image: var(--paper-grain);
-    background-size: 140px 140px;
   }
 
   /* Продольный сгиб. Только широкая мягкая растушёвка без резкой линии:
@@ -179,6 +212,17 @@
       --tilt-persp: 2000px;
       /* Лист уже экрана — по бокам остаётся столешница под канцелярию. */
       --tilt-scale: .8;
+      /* Масштаб сцены. Вёрстка у листа пиксельная, поэтому на большом экране
+         он растягивался, а кегли и отступы оставались прежними: на 4K текст
+         превращался в микроскопический, а канцелярия уезжала относительно
+         него. Теперь сцена верстается в «дизайнерской» ширине
+         (`100vw / --k` ≈ 1400–1750px на любом мониторе) и увеличивается
+         целиком — картинка одна и та же, просто крупнее.
+         Ступенями, а не формулой: деление длины на длину в CSS ещё не везде,
+         а между ступенями ширина вёрстки всё равно остаётся в этой вилке. */
+      --k: 1;
+      --stage-w: calc(100vw / var(--k));
+      --stage-h: calc(100vh / var(--k));
       /* Где лежит дальняя кромка газеты в начале: минус поднимает её выше,
          плюс опускает и открывает больше стола над шапкой. */
       --paper-top: -80px;
@@ -210,25 +254,57 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      perspective: var(--tilt-persp);
+      /* Расстояние до камеры растёт вместе со сценой — иначе перспектива
+         усилилась бы и наклон поехал. */
+      perspective: calc(var(--tilt-persp) * var(--k));
       perspective-origin: 50% 44%;
-      background-color: var(--table-base);
-      background-image: var(--table-layers);
-      background-repeat: var(--table-layer-repeat);
-      background-size: var(--table-layer-size);
+      background: transparent;
     }
 
-    html[data-paper-tilt='on'] body {
-      background-image: none;
-      background-attachment: scroll;
+    /* Фактура столешницы лежит в той же наклонённой плоскости, что и лист,
+       и уезжает на тот же `--desk-shift`. Слой растянут далеко за кадр, иначе
+       при глубокой прокрутке из-под него показался бы чистый градиент. */
+    /* На десктопе фон документа не нужен вовсе: всю площадь кадра закрывает
+       фиксированный слой стола, а лишняя заливка body — ещё один слой краски
+       под ним. */
+    html[data-paper-tilt='on'] body { background-color: transparent; }
+
+    /* Фактура столешницы — слой ПОД газетой в той же плоскости. Никакого
+       собственного сдвига: она внутри `.hexfloat-content`, который и так
+       едет на `--desk-shift`, поэтому синхрон точный по построению, а не
+       подобранный. Поля с запасом — стол шире и длиннее листа. */
+    html[data-paper-tilt='on'] .desk-bed {
+      display: block;
+      position: absolute;
+      z-index: 0;
+      inset: -40% -30%;
+      pointer-events: none;
+      /* Фактура ламината — готовый растровый тайл 96×96, а не SVG-фильтр:
+         картинка декодируется один раз и дальше просто мостится, тогда как
+         feTurbulence пересчитывался на каждый тайл и на каждый масштаб. */
+      background-image: url('/desk-tooth.png');
+      background-repeat: repeat;
+      background-size: 96px 96px;
+      opacity: var(--desk-tooth-alpha);
+      transform: translateY(calc(var(--desk-tile, 0px) * -1));
+      will-change: transform;
     }
 
     /* Плоскость стола: наклонена и неподвижна. */
     html[data-paper-tilt='on'] .hexfloat-plane {
       display: block;
       position: absolute;
-      inset: 0;
-      transform: rotateX(var(--tilt-angle)) scale(var(--tilt-scale));
+      /* Слой размером со сцену, отцентрован полями: масштаб идёт от центра,
+         поэтому после увеличения он ровно закрывает кадр. Поля — именно поля,
+         а не `translate(-50%)`: процентный сдвиг считался бы от неувеличенного
+         бокса и центровку бы сорвал. */
+      left: 50%;
+      top: 50%;
+      width: var(--stage-w);
+      height: var(--stage-h);
+      margin-left: calc(var(--stage-w) / -2);
+      margin-top: calc(var(--stage-h) / -2);
+      transform: rotateX(var(--tilt-angle)) scale(calc(var(--tilt-scale) * var(--k)));
       transform-origin: 50% 50%;
     }
 
@@ -254,32 +330,39 @@
        от настольной лампы, и он неподвижен: бумага проезжает под ним.
        Сетка остаётся, снимается только радиальное пятно. */
     html[data-paper-tilt='on'] .sheet {
-      background-image:
-        linear-gradient(90deg, rgba(39, 54, 55, .016) 1px, transparent 1px),
-        linear-gradient(rgba(39, 54, 55, .013) 1px, transparent 1px);
-      background-size: 31px 31px, 31px 31px;
-    }
-
-    html[data-paper-tilt='on'][data-theme='dark'] .sheet {
-      background-image:
-        linear-gradient(rgba(var(--ink-rgb), .05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--ink-rgb), .05) 1px, transparent 1px);
-      background-size: 31px 31px, 31px 31px;
+      background-image: var(--grid-layers);
+      background-size: var(--grid-sizes);
     }
 
     /* Второй лист и сгиб рассчитаны на лежащую страницу с полями — при
        наклоне их роль играют сама плоскость и её тень. */
     html[data-paper-tilt='on'] .paper-stage::before { display: none; }
-    html[data-paper-tilt='on'] .paper-stage::after { background-image: var(--paper-grain); }
+    html[data-paper-tilt='on'] .paper-stage::after { display: none; }
+  }
+
+  /* Ступени масштаба. Ширина вёрстки = 100vw / k, и она удерживается в вилке
+     примерно 1400–1750px: ниже вёрстка ломается на трёх колонках, выше строка
+     снова становится длиннее меры. */
+  @media (min-width: 1700px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root { --k: 1.2; }
+  }
+  @media (min-width: 2100px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root { --k: 1.45; }
+  }
+  @media (min-width: 2500px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root { --k: 1.7; }
+  }
+  @media (min-width: 3000px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root { --k: 2.05; }
+  }
+  @media (min-width: 3500px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root { --k: 2.4; }
   }
 
   /* ── HexFloat перехватил управление ──────────────────────────────────
      Наклон, швы стола и зерно рисует шейдер — CSS-слой убираем, чтобы
      зерно не накладывалось дважды. */
-  html[data-hexfloat='on'] body {
-    background-image: none;
-    background-attachment: scroll;
-  }
+  html[data-hexfloat='on'] .desk-surface { display: none; }
   html[data-hexfloat='on'] .paper-stage::before,
   html[data-hexfloat='on'] .paper-stage::after { display: none; }
 </style>

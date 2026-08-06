@@ -36,6 +36,17 @@
   <!-- Нога: едет со столом. Рисуется под головой, чтобы при обгоне уйти
        за абажур, а не поверх него. -->
   <svg class="lamp-foot" viewBox="0 0 190 430" fill="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="lampMirror" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="rgb(var(--ink-rgb))" stop-opacity=".13" />
+        <stop offset=".45" stop-color="rgb(var(--ink-rgb))" stop-opacity=".05" />
+        <stop offset="1" stop-color="rgb(var(--ink-rgb))" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <!-- Отражение в лаке: перевёрнутая копия основания, вытянутая к зрителю.
+         Именно отражённый ПРЕДМЕТ, а не блик, и делает поверхность гладкой —
+         матовая рассеивает свет и ничего не отражает. -->
+    <rect class="lamp-mirror" x="10" y="398" width="76" height="106" rx="3" fill="url(#lampMirror)" />
     <ellipse class="lamp-cast" cx="56" cy="400" rx="54" ry="13" />
     <path class="lamp-base-side" d="M10 387 v10 a38 12 0 0 0 76 0 v-10 z" />
     <ellipse class="lamp-base-top" cx="48" cy="387" rx="38" ry="12" />
@@ -200,6 +211,9 @@
 
   /* ── Материалы ───────────────────────────────────────────────────────── */
   .lamp-cast { fill: var(--lamp-cast); filter: blur(6px); }
+  /* Отражение живёт за пределами viewBox — иначе обрезается по нижней кромке. */
+  .desk-lamp .lamp-foot { overflow: visible; }
+  .lamp-mirror { pointer-events: none; }
   .lamp-base-side { fill: var(--lamp-metal-lo); }
   .lamp-base-top { fill: var(--lamp-metal); }
   .lamp-base-hi { fill: var(--lamp-metal-hi); opacity: .5; }
@@ -302,7 +316,7 @@
   }
 
   .lamp-switch:focus-visible {
-    outline: 2px solid var(--rust);
+    outline: 2px solid var(--pen);
     outline-offset: 2px;
   }
 

@@ -18,6 +18,9 @@
  */
 
 /**
+ * Раскладка снята с рабочей выкладки: координаты в процентах от слоя, поэтому
+ * на другом экране предметы расходятся пропорционально, а не разъезжаются.
+ *
  * Предметы вдоль стола сверху вниз, стороны чередуются.
  *
  * Поле стола в плоскости листа постоянной ширины, но на экране оно сужается
@@ -48,25 +51,28 @@ const clipBox = (len = 0) => `7 7 28 ${56 + len}`;
 const props = [
   { id: 'clip', x: EDGE_L, y: '7%', w: CLIP_W, r: '90deg', tone: 'rust', len: 30 },
   /* Ручка отодвинута вниз: на 16% она попадала прямо под лампу. */
-  { id: 'pen', x: RIGHT, y: '44%', w: '12%', r: '84deg' },
-  { id: 'ruler', x: '-4.2%', y: '34%', w: '2.8%', r: '-2deg' },
-  { id: 'eraser', x: RIGHT, y: '58%', w: '4.4%', r: '-11deg' },
+  { id: 'pen', x: '13.58%', y: '310.98%', w: '12%', r: '84deg' },
+  { id: 'ruler', x: '22.3%', y: '20.34%', w: '2.8%', r: '-80.4deg' },
+  /* Приподнят со 101.54%: лежал на первой строке заголовка секции B. */
+  { id: 'eraser', x: '13.26%', y: '97.5%', w: '4.4%', r: '-11deg' },
   { id: 'clip', x: EDGE_R, y: '66%', w: CLIP_W, r: '-90deg', tone: 'blue', len: 0 },
-  { id: 'pencil', x: LEFT, y: '78%', w: '13%', r: '86deg' },
-  { id: 'marker', x: RIGHT, y: '100%', w: '10.5%', r: '-84deg' },
-  { id: 'sticky', x: LEFT, y: '122%', w: '4.6%', r: '-7deg' },
-  { id: 'binder', x: RIGHT, y: '144%', w: '3.4%', r: '11deg' },
+  { id: 'pencil', x: '35.67%', y: '90.94%', w: '13%', r: '112.7deg' },
+  { id: 'pencil', x: '49.11%', y: '468.27%', w: '12.4%', r: '-58.5deg', tone: 'red' },
+  /* Часы уехали с 44.63%/140.08% на поле. Посреди листа они ложились на
+     заголовок средней колонки и на список под ним, и подвинуть их по высоте
+     не помогало: предмет крупный, а свободной полосы в колонках нет. Поле —
+     единственная зона, которая пуста при любом соотношении сторон экрана. */
+  { id: 'watch', x: '94%', y: '150%', w: '7%', r: '-14deg' },
+  { id: 'marker', x: '103.63%', y: '118.34%', w: '10.5%', r: '-84deg' },
   { id: 'clip', x: EDGE_L, y: '158%', w: CLIP_W, r: '90deg', len: 62 },
   { id: 'clip', x: EDGE_R, y: '176%', w: CLIP_W, r: '-90deg', tone: 'pos', len: 14 },
-  { id: 'stub', x: LEFT, y: '166%', w: '6.4%', r: '96deg' },
+  { id: 'stub', x: '-4.21%', y: '434.04%', w: '6.4%', r: '96deg' },
   { id: 'pen', x: LEFT, y: '210%', w: '12%', r: '92deg' },
-  { id: 'sticky', x: RIGHT, y: '232%', w: '4.6%', r: '9deg' },
   { id: 'clip', x: EDGE_R, y: '244%', w: CLIP_W, r: '-90deg', tone: 'brass', len: 46 },
   { id: 'clip', x: EDGE_L, y: '268%', w: CLIP_W, r: '90deg', tone: 'rust', len: 8 },
-  { id: 'eraser', x: LEFT, y: '256%', w: '4.4%', r: '14deg' },
-  { id: 'marker', x: RIGHT, y: '278%', w: '10.5%', r: '88deg' },
-  { id: 'ruler', x: '-3.5%', y: '300%', w: '2.4%', r: '3deg' },
-  { id: 'binder', x: RIGHT, y: '322%', w: '3.4%', r: '-14deg' },
+  { id: 'eraser', x: '7.19%', y: '332.69%', w: '4.4%', r: '14deg' },
+  { id: 'marker', x: '104.82%', y: '276.19%', w: '10.5%', r: '88deg' },
+  { id: 'ruler', x: '96.69%', y: '321.9%', w: '2.4%', r: '-145.4deg' },
 ];
 
 /**
@@ -75,6 +81,7 @@ const props = [
  * и делала их похожими на наклейки.
  */
 const lift: Record<string, number> = {
+  watch: 10,
   sticky: 2,
   clip: 2,
   ruler: 3,
@@ -94,6 +101,7 @@ const box: Record<string, string> = {
   pencil: '0 0 320 30',
   marker: '0 0 250 42',
   sticky: '0 0 120 118',
+  watch: '0 0 120 268',
   binder: '0 0 104 78',
   stub: '0 0 150 28',
 };
@@ -154,6 +162,26 @@ const box: Record<string, string> = {
     </symbol>
 
     <!-- Стикер с загнутым уголком -->
+    <!-- Часы: спортивный ремешок сужается к застёжке, корпус-подушка с
+         колёсиком и боковой кнопкой, экран почти во всю переднюю грань.
+         Цифры на экране проставляет скрипт из Date. -->
+    <symbol id="dp-watch" viewBox={box.watch}>
+      <path d="M40 6 h40 a7 7 0 0 1 7 7 v76 h-54 v-76 a7 7 0 0 1 7 -7 z" class="watch-strap" />
+      <path d="M38 12 h44" class="watch-strap-seam" />
+      <path d="M33 179 h54 v70 a7 7 0 0 1 -7 7 h-40 a7 7 0 0 1 -7 -7 z" class="watch-strap" />
+      <circle cx="60" cy="206" r="3.4" class="watch-hole" />
+      <circle cx="60" cy="226" r="3.4" class="watch-hole" />
+      <rect x="23" y="80" width="74" height="102" rx="30" class="watch-case" />
+      <rect x="96" y="104" width="8" height="20" rx="4" class="watch-crown" />
+      <rect x="97" y="106" width="8" height="2" class="watch-crown-rib" />
+      <rect x="97" y="112" width="8" height="2" class="watch-crown-rib" />
+      <rect x="97" y="118" width="8" height="2" class="watch-crown-rib" />
+      <rect x="97.5" y="134" width="5" height="18" rx="2.5" class="watch-button" />
+      <rect x="28.5" y="85.5" width="63" height="91" rx="26" class="watch-screen" />
+      <text x="60" y="122" class="watch-date" data-watch-date>ПН 6</text>
+      <text x="60" y="146" class="watch-time" data-watch-time>10:09</text>
+    </symbol>
+
     <symbol id="dp-sticky" viewBox={box.sticky}>
       <path d="M2 2 H118 V96 L96 116 H2 Z" class="sticky-body" />
       <path d="M118 96 H96 V116 Z" class="sticky-fold" />
@@ -218,14 +246,22 @@ const box: Record<string, string> = {
     html[data-paper-tilt='on'] .desk-props {
       display: block;
       position: absolute;
-      inset: 0;
+      /* Размер и центровка — как у плоскости листа (PaperTable.astro):
+         предметы обязаны жить в тех же координатах, иначе на большом экране
+         они разъедутся с текстом. */
+      left: 50%;
+      top: 50%;
+      width: var(--stage-w);
+      height: var(--stage-h);
+      margin-left: calc(var(--stage-w) / -2);
+      margin-top: calc(var(--stage-h) / -2);
       z-index: 1;
       pointer-events: none;
       /* Та же плоскость, что и лист, и тот же сдвиг (`--desk-shift` считает
          HexFloat.astro) — предметы едут вместе с газетой, а не отстают. */
       transform:
         rotateX(var(--tilt-angle))
-        scale(var(--tilt-scale))
+        scale(calc(var(--tilt-scale) * var(--k, 1)))
         translateY(calc(var(--desk-shift, 0px) * -1));
       transform-origin: 50% 50%;
 
@@ -234,7 +270,11 @@ const box: Record<string, string> = {
       --prop-line: rgba(var(--ink-rgb), .45);
       --prop-ink: rgba(var(--ink-rgb), .68);
       --prop-steel: color-mix(in srgb, var(--paper) 62%, var(--ink));
-      --prop-shadow: rgba(25, 25, 23, .34);
+      /* Две тени вместо одной: жёсткая контактная там, где предмет касается
+         столешницы, и мягкая от лампы. Без контактной предмет висит в воздухе,
+         без мягкой — выглядит наклейкой. */
+      --prop-contact: rgba(24, 22, 18, .5);
+      --prop-shadow: rgba(28, 24, 18, .3);
     }
 
     :root[data-theme='dark'] .desk-props {
@@ -243,7 +283,8 @@ const box: Record<string, string> = {
       --prop-line: rgba(var(--ink-rgb), .34);
       --prop-ink: rgba(var(--ink-rgb), .5);
       --prop-steel: color-mix(in srgb, var(--paper) 52%, var(--ink) 26%);
-      --prop-shadow: rgba(0, 0, 0, .6);
+      --prop-contact: rgba(0, 0, 0, .7);
+      --prop-shadow: rgba(0, 0, 0, .5);
     }
   }
 
@@ -262,12 +303,19 @@ const box: Record<string, string> = {
     top: var(--y);
     width: var(--w);
     transform: translate(-50%, -50%);
-    filter: drop-shadow(
-      calc(var(--lift, 4) * -.45px)
-      calc(var(--lift, 4) * 1.5px)
-      calc(var(--lift, 4) * .9px)
-      var(--prop-shadow)
-    );
+    filter:
+      drop-shadow(
+        calc(var(--lift, 4) * -.16px)
+        calc(var(--lift, 4) * .32px)
+        calc(var(--lift, 4) * .2px)
+        var(--prop-contact)
+      )
+      drop-shadow(
+        calc(var(--lift, 4) * -.7px)
+        calc(var(--lift, 4) * 2.2px)
+        calc(var(--lift, 4) * 1.5px)
+        var(--prop-shadow)
+      );
   }
 
   .desk-props .prop {
@@ -285,19 +333,31 @@ const box: Record<string, string> = {
   }
 
   /* Курсор подсказывает, что сделает хват: у пишущих предметов кончик пишет,
-     хвост вращает, середина переносит. Зону проставляет скрипт при наведении. */
-  .desk-props .prop-cast[data-zone='tip'] .prop { cursor: crosshair; }
-  .desk-props .prop-cast[data-zone='tail'] .prop { cursor: alias; }
+     хвост вращает, середина переносит. Зону проставляет скрипт при наведении,
+     и её имена — те же, что у жестов в `src/lib/desk/kit.ts`. */
+  .desk-props .prop-cast[data-zone='write'] .prop { cursor: crosshair; }
+  .desk-props .prop-cast[data-zone='spin'] .prop { cursor: alias; }
   .desk-props .prop-cast.is-held .prop { cursor: grabbing; }
+
+  /* Предмет в руке — поверх остальных: иначе карандаш, которым пишут, ныряет
+     под линейку, лежащую в разметке ниже. */
+  .desk-props .prop-cast.is-held { z-index: 2; }
 
   /* Предмет в руке приподнимается над столом — тень длиннее и мягче. */
   .desk-props .prop-cast.is-held {
-    filter: drop-shadow(
-      calc(var(--lift, 4) * -.9px)
-      calc(var(--lift, 4) * 3px)
-      calc(var(--lift, 4) * 1.7px)
-      var(--prop-shadow)
-    );
+    filter:
+      drop-shadow(
+        calc(var(--lift, 4) * -.3px)
+        calc(var(--lift, 4) * .7px)
+        calc(var(--lift, 4) * .5px)
+        var(--prop-contact)
+      )
+      drop-shadow(
+        calc(var(--lift, 4) * -1.4px)
+        calc(var(--lift, 4) * 4.2px)
+        calc(var(--lift, 4) * 2.6px)
+        var(--prop-shadow)
+      );
   }
 
   /* ── Чернила ─────────────────────────────────────────────────────────
@@ -321,9 +381,11 @@ const box: Record<string, string> = {
   }
 
   .ink-pencil { stroke: color-mix(in srgb, var(--ink) 78%, var(--paper)); stroke-width: 2.4; opacity: .85; }
+  /* Красный карандаш пишет своим грифелем, а не графитом. */
+  .ink-pencil-red { stroke: var(--tool-pencil-red); stroke-width: 2.4; opacity: .85; }
   .ink-stub { stroke: color-mix(in srgb, var(--ink) 88%, var(--paper)); stroke-width: 3; opacity: .8; }
-  .ink-pen { stroke: var(--blue); stroke-width: 2.2; }
-  .ink-marker { stroke: var(--rust); stroke-width: 13; opacity: .28; }
+  .ink-pen { stroke: var(--tool-pen); stroke-width: 2.2; }
+  .ink-marker { stroke: var(--tool-marker); stroke-width: 13; opacity: .28; }
 
   /* ── Материалы ───────────────────────────────────────────────────────── */
   .ruler-body { fill: color-mix(in srgb, var(--prop-body-hi) 80%, transparent); stroke: var(--prop-line); stroke-width: 1.2; }
@@ -331,23 +393,47 @@ const box: Record<string, string> = {
   .ruler-tick { stroke: var(--prop-ink); stroke-width: 1.1; }
   .ruler-label { font-family: var(--font-mono); font-size: 13px; fill: var(--prop-line); }
 
-  .pencil-lead { fill: var(--ink); }
+  .watch-strap { fill: color-mix(in srgb, var(--ink) 58%, var(--paper)); stroke: var(--prop-line); stroke-width: 1.1; }
+  .watch-strap-seam { stroke: rgba(var(--ink-rgb), .3); stroke-width: 1.2; fill: none; }
+  .watch-hole { fill: color-mix(in srgb, var(--ink) 82%, var(--paper)); }
+  .watch-case { fill: var(--prop-steel); stroke: var(--prop-line); stroke-width: 1.4; }
+  .watch-crown, .watch-button { fill: color-mix(in srgb, var(--prop-steel) 66%, var(--ink)); }
+  .watch-crown-rib { fill: rgba(var(--ink-rgb), .45); }
+  .watch-screen { fill: #0f1518; }
+  /* Циферблат: крупное время и строка даты акцентом — как на цифровом
+     циферблате часов. Значения проставляет скрипт ниже. */
+  .watch-time { fill: #e7ede9; font: 700 19px/1 var(--font-mono); text-anchor: middle; letter-spacing: -.02em; }
+  .watch-date { fill: #7ea8ee; font: 700 9.5px/1 var(--font-mono); text-anchor: middle; letter-spacing: .06em; }
+
+  /* Красный карандаш — тот же корпус, другой цвет и грифель. */
+  .prop-pencil.tone-red {
+    --pencil-body: var(--tool-pencil-red);
+    --pencil-lead: color-mix(in srgb, var(--tool-pencil-red) 78%, #200806);
+    --pencil-eraser: color-mix(in srgb, var(--paper) 74%, var(--tool-pencil-red));
+  }
+
+  .pencil-lead { fill: var(--pencil-lead, var(--ink)); }
   .pencil-wood { fill: var(--prop-body-hi); stroke: var(--prop-line); stroke-width: 1; }
-  .pencil-body { fill: var(--rust); }
+  .pencil-body { fill: var(--pencil-body, #c8622f); }
   .stub-body { fill: var(--blue); }
   .pencil-facet { stroke: rgba(0, 0, 0, .16); stroke-width: 1; }
   .pencil-ferrule { fill: var(--prop-steel); }
-  .pencil-eraser { fill: color-mix(in srgb, var(--paper) 70%, var(--rust)); }
+  .pencil-eraser { fill: var(--pencil-eraser, color-mix(in srgb, var(--paper) 70%, #c8622f)); }
 
   .pen-tip, .pen-cone { fill: var(--prop-steel); }
-  .pen-body, .pen-cap { fill: var(--blue); }
+  .pen-body, .pen-cap { fill: var(--tool-pen); }
   .pen-clip { stroke: var(--prop-steel); stroke-width: 2.6; fill: none; }
   .pen-gloss { stroke: rgba(255, 255, 255, .22); stroke-width: 2; }
+
+  /* Цвет инструмента и цвет его следа берутся из одного токена. */
+  :root { --tool-marker: var(--pos); --tool-pen: var(--blue); --tool-pencil-red: #b5352b; }
+  /* На тёмной бумаге глухой красный не читается — берём светлее. */
+  :root[data-theme='dark'] { --tool-pencil-red: #d95a4a; }
 
   .marker-nib { fill: var(--prop-steel); }
   .marker-collar { fill: var(--prop-body); }
   .marker-body { fill: var(--prop-body); stroke: var(--prop-line); stroke-width: 1; }
-  .marker-cap { fill: var(--pos); }
+  .marker-cap { fill: var(--tool-marker); }
   .marker-band { stroke: var(--prop-line); stroke-width: 1.2; }
 
   /* Скрепки бывают разные — от стальных до цветных канцелярских.
@@ -367,10 +453,10 @@ const box: Record<string, string> = {
   .prop-cast[data-edge] .clip-tongue { stroke-dasharray: 50 100; }
   .prop-cast[data-edge='r'] .clip-tongue { stroke-dashoffset: -50; }
 
-  .prop-clip.tone-rust { --clip-ink: var(--rust); }
+  .prop-clip.tone-rust { --clip-ink: #c25a2c; }
   .prop-clip.tone-blue { --clip-ink: var(--blue-2); }
   .prop-clip.tone-pos { --clip-ink: var(--pos); }
-  .prop-clip.tone-brass { --clip-ink: color-mix(in srgb, #d8b24a 72%, var(--rust)); }
+  .prop-clip.tone-brass { --clip-ink: color-mix(in srgb, #d8b24a 72%, #c25a2c); }
 
   .eraser-body { fill: var(--prop-body-hi); stroke: var(--prop-line); stroke-width: 1.2; }
   .eraser-band { fill: color-mix(in srgb, var(--blue) 34%, var(--paper)); }
@@ -388,7 +474,7 @@ const box: Record<string, string> = {
 </style>
 
 <script>
-  import { initDeskTools } from '../lib/deskTools';
+  import { initDeskTools } from '../lib/desk';
 
   /* Только там, где есть стол: канцелярия и наклон включаются одним и тем же
      медиазапросом, поэтому спрашиваем у него, а не у ширины экрана. */
@@ -409,6 +495,23 @@ const box: Record<string, string> = {
     desk.removeEventListener('change', boot);
     initDeskTools();
   }
+
+  /* Циферблат показывает настоящее время: символ один, поэтому правка его
+     текста отражается во всех <use>. Тик раз в полминуты — минутам хватает. */
+  (function watchFace() {
+    const t = document.querySelector('[data-watch-time]');
+    const d = document.querySelector('[data-watch-date]');
+    if (!t || !d) return;
+    const DAYS = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+    const tick = () => {
+      const now = new Date();
+      t.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      d.textContent = `${DAYS[now.getDay()]} ${now.getDate()}`;
+    };
+    tick();
+    setInterval(tick, 30000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
+  })();
 
   const watch = new MutationObserver(boot);
   watch.observe(document.documentElement, {

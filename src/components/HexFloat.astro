@@ -42,6 +42,11 @@ const options: HexFloatOptions = { ...defaults, ...Astro.props };
 <div class="hexfloat" data-hexfloat data-hexfloat-options={JSON.stringify(options)}>
   <!-- Наклонённая плоскость стола; лист внутри неё едет при прокрутке. -->
   <div class="hexfloat-plane" data-hexfloat-plane>
+    <!-- Поверхность стола — в той же плоскости, что и газета, поэтому наклон
+         и перспектива у них общие. Едет она на собственном сдвиге в пределах
+         одной плитки: рисунок повторяется, и результат неотличим от того, как
+         если бы слой был длиной во всю страницу, — но растр остаётся с экран. -->
+    <span class="desk-bed" aria-hidden="true"></span>
     <div class="hexfloat-content" data-hexfloat-content>
       <slot />
     </div>
@@ -60,7 +65,8 @@ const options: HexFloatOptions = { ...defaults, ...Astro.props };
 
   /* Показывается только вместе с CSS-наклоном — правило в PaperTable.astro,
      там же живёт медиазапрос, который решает, включать наклон вообще. */
-  .hexfloat-spacer { display: none; }
+  .hexfloat-spacer,
+  .desk-bed { display: none; }
 
   /* Эффект включён: страница становится фиксированным окном со своим скроллом,
      иначе шейдеру нечего было бы наклонять. */
@@ -126,9 +132,18 @@ const options: HexFloatOptions = { ...defaults, ...Astro.props };
     // Без rAF-дребезга: событие скролла и так приходит не чаще кадра, а
     // отложенный кадр может не выполниться (свёрнутая вкладка) и заклинить
     // обновление насовсем — лист тогда застывает в прежнем положении.
+    // Масштаб сцены (PaperTable.astro): на большом экране плоскость увеличена,
+    // поэтому пиксель прокрутки окна — это 1/k пикселя в координатах листа.
+    const scale = () =>
+      parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--k')) || 1;
+
     const sync = () => {
       const style = document.documentElement.style;
-      style.setProperty('--desk-shift', `${window.scrollY}px`);
+      const shift = window.scrollY / scale();
+      style.setProperty('--desk-shift', `${shift}px`);
+      // Тайл фактуры стола — 96px в плоскости листа: возим слой внутри одной
+      // плитки, и движение совпадает с бумагой, а слой не уезжает из кадра.
+      style.setProperty('--desk-tile', `${shift % 96}px`);
       // Безразмерная доля пройденного пути — на ней держатся эффекты, которым
       // нужен не сдвиг в пикселях, а «где мы вообще» (наклон кронштейна лампы).
       const range = Math.max(1, spacer.offsetHeight - window.innerHeight);
@@ -136,11 +151,14 @@ const options: HexFloatOptions = { ...defaults, ...Astro.props };
     };
 
     const measure = () => {
-      spacer.style.height = `${content.offsetHeight}px`;
+      // Распорка меряется в пикселях ЭКРАНА: на экране лист выше своей вёрстки
+      // ровно в k раз, и прокрутить его надо на столько же.
+      spacer.style.height = `${content.offsetHeight * scale()}px`;
       sync();
     };
 
     window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
     window.addEventListener('pageshow', sync);
     document.addEventListener('visibilitychange', sync);
 
@@ -160,7 +178,7 @@ const options: HexFloatOptions = { ...defaults, ...Astro.props };
       for (let el = target as HTMLElement | null; el && el !== content; el = el.offsetParent as HTMLElement | null) {
         offset += el.offsetTop;
       }
-      window.scrollTo({ top: offset, behavior: 'smooth' });
+      window.scrollTo({ top: offset * scale(), behavior: 'smooth' });
     });
   }
 

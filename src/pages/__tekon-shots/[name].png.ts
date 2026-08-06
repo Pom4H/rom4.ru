@@ -24,62 +24,33 @@ const routes = [
 ] as const;
 
 const devices = [
-  ['desktop', 1440, 1000, false, false],
-  ['mobile', 430, 932, true, true]
+  ['desktop', 1440, 1000],
+  ['mobile', 430, 932]
 ] as const;
 
 type Props = {
   route: string;
   width: number;
   height: number;
-  isMobile: boolean;
-  hasTouch: boolean;
 };
 
 export const getStaticPaths: GetStaticPaths = () => routes.flatMap(([slug, route]) =>
-  devices.map(([device, width, height, isMobile, hasTouch]) => ({
+  devices.map(([device, width, height]) => ({
     params: { name: `${slug}-${device}` },
-    props: { route, width, height, isMobile, hasTouch } satisfies Props
+    props: { route, width, height } satisfies Props
   }))
 );
-
-const extractUrl = (value: unknown): string | null => {
-  if (typeof value === 'string') {
-    const matches = value.match(/https?:\/\/[^\s"'<>]+/g);
-    return matches?.find(item => /\.(png|jpe?g|webp)(?:\?|$)/i.test(item)) ?? matches?.[0] ?? null;
-  }
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      const found = extractUrl(item);
-      if (found) return found;
-    }
-  }
-  if (value && typeof value === 'object') {
-    const record = value as Record<string, unknown>;
-    for (const key of ['content', 'pageshot', 'screenshot', 'image', 'url', 'data']) {
-      if (key in record) {
-        const found = extractUrl(record[key]);
-        if (found) return found;
-      }
-    }
-    for (const item of Object.values(record)) {
-      const found = extractUrl(item);
-      if (found) return found;
-    }
-  }
-  return null;
-};
 
 let active = 0;
 const waiters: Array<() => void> = [];
 
 const withCaptureLimit = async <T>(operation: () => Promise<T>): Promise<T> => {
-  if (active >= 2) await new Promise<void>(resolve => waiters.push(resolve));
+  if (active >= 1) await new Promise<void>(resolve => waiters.push(resolve));
   active += 1;
   try {
     return await operation();
   } finally {
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 2200));
     active -= 1;
     waiters.shift()?.();
   }
@@ -97,42 +68,29 @@ const errorSvg = (message: string) => new TextEncoder().encode(`
 
 export const GET: APIRoute<Props> = async ({ props }) => withCaptureLimit(async () => {
   const target = new URL(props.route, `${preview}/`).href;
-  try {
-    const response = await fetch('https://r.jina.ai/', {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        'x-respond-with': 'pageshot',
-        'x-no-cache': 'true',
-        'x-remove-overlay': 'true',
-        'x-timeout': '60',
-        'x-respond-timing': 'media-idle'
-      },
-      body: JSON.stringify({
-        url: target,
-        viewport: {
-          width: props.width,
-          height: props.height,
-          deviceScaleFactor: 1,
-          isMobile: props.isMobile,
-          hasTouch: props.hasTouch
-        }
-      })
-    });
-    const text = await response.text();
-    if (!response.ok) throw new Error(`Reader ${response.status}: ${text.slice(0, 300)}`);
-    let payload: unknown = text;
-    try { payload = JSON.parse(text); } catch {}
-    const imageUrl = extractUrl(payload);
-    if (!imageUrl) throw new Error(`Screenshot URL not found: ${text.slice(0, 300)}`);
+  const shot = new URL('https://pageshot.site/v1/screenshot');
+  shot.searchParams.set('url', target);
+  shot.searchParams.set('width', String(props.width));
+  shot.searchParams.set('height', String(props.height));
+  shot.searchParams.set('format', 'png');
+  shot.searchParams.set('full_page', 'true');
+  shot.searchParams.set('dark_mode', 'false');
+  shot.searchParams.set('delay', '1200');
 
-    const image = await fetch(imageUrl);
-    if (!image.ok) throw new Error(`Image ${image.status}: ${imageUrl}`);
-    const bytes = await image.arrayBuffer();
-    return new Response(bytes, {
+  try {
+    const response = await fetch(shot, { headers: { accept: 'image/png' } });
+    if (!response.ok) {
+      throw new Error(`PageShot ${response.status}: ${(await response.text()).slice(0, 300)}`);
+    }
+
+    const contentType = response.headers.get('content-type') ?? '';
+    if (!contentType.startsWith('image/')) {
+      throw new Error(`Unexpected PageShot content type ${contentType}: ${(await response.text()).slice(0, 300)}`);
+    }
+
+    return new Response(await response.arrayBuffer(), {
       headers: {
-        'content-type': image.headers.get('content-type') ?? 'image/png',
+        'content-type': contentType,
         'cache-control': 'public, max-age=300'
       }
     });

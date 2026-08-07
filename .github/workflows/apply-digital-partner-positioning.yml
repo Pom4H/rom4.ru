@@ -1,0 +1,237 @@
+name: Apply digital partner positioning
+
+on:
+  push:
+    branches:
+      - agent/digital-partner-positioning
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/digital-partner-positioning
+          fetch-depth: 0
+
+      - name: Rewrite positioning
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          page_path = Path('src/pages/index.astro')
+          page = page_path.read_text()
+
+          def replace_once(old: str, new: str):
+              global page
+              count = page.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one match, got {count}: {old[:100]!r}')
+              page = page.replace(old, new, 1)
+
+          replace_once(
+              "  'Цифровые продукты для растущих брендов: магазин, приложение, внутренние системы. Собираю целиком — от интерфейса до инфраструктуры.';",
+              "  'Digital, software и AI для растущих компаний. Нахожу, что стоит улучшить или построить, проверяю рабочим прототипом и довожу до запуска.';",
+          )
+
+          replace_once(
+              '<div class="brand-note">цифровые продукты<br>для растущих брендов</div>',
+              '<div class="brand-note">product · software · ai<br>для растущих компаний</div>',
+          )
+
+          replace_once(
+              '<p class="lead">Растущему бренду быстро становится тесно в шаблонах и подрядчиках по кусочкам. Собираю цифровую часть — магазин, приложение, внутренние системы — так, чтобы она держала ту же планку, что и ваш продукт. И оставляю команде то, что можно развивать дальше без меня.</p>',
+              '<p class="lead">Беру на себя digital-часть бизнеса: нахожу, что имеет смысл улучшить или построить, быстро проверяю это рабочим прототипом и довожу до запуска. Это может быть магазин, приложение, внутренняя система или AI — формат следует за задачей.</p>',
+          )
+
+          replace_once(
+              '<p>Ниже — то, что я беру на себя. Разное по жанру, но это один продукт и одно решение.</p>',
+              '<p>Беру на себя и решение, и реализацию: разобраться в бизнесе, выбрать точку приложения software или AI, проверить её и довести до работающего продукта.</p>',
+          )
+
+          replace_once(
+              '''            <article class="mode">
+              <h3>Чтобы проверять, а не спорить</h3>
+              <ul class="mode-list">
+                <li>Тулинг и внутренние библиотеки</li>
+                <li>Архитектура, код-ревью, стандарты</li>
+                <li>CI/CD и инфраструктура</li>
+                <li>Техлид-консалтинг и найм</li>
+                <li>AI в разработке и в продукте</li>
+              </ul>
+            </article>
+            <article class="mode">
+              <h3>То, чем пользуются каждый день</h3>
+              <ul class="mode-list">
+                <li>Магазин, каталог, подписка, лояльность</li>
+                <li>Личные кабинеты и приложения</li>
+                <li>Заказы, склад, производство, поставщики</li>
+                <li>Интеграции и аналитика</li>
+                <li>Сервисы вокруг основного продукта</li>
+              </ul>
+            </article>
+            <article class="mode">
+              <h3>Как это выглядит и ощущается</h3>
+              <ul class="mode-list">
+                <li>UX: сценарии, структура, состояния</li>
+                <li>Интерфейс и дизайн-система</li>
+                <li>Прототип до начала разработки</li>
+                <li>Тексты, по которым понятно, что делать</li>
+                <li>Один язык на сайте, в приложении, в точке</li>
+              </ul>
+            </article>''',
+              '''            <article class="mode">
+              <h3>Найти</h3>
+              <ul class="mode-list">
+                <li>Разобрать продукт и процессы</li>
+                <li>Найти дорогие потери и возможности</li>
+                <li>Проверить цифры и ограничения</li>
+                <li>Выбрать, где software или AI дадут эффект</li>
+                <li>Отбросить то, что делать не стоит</li>
+              </ul>
+            </article>
+            <article class="mode">
+              <h3>Проверить</h3>
+              <ul class="mode-list">
+                <li>Рабочий прототип на реальных данных</li>
+                <li>UX и критические сценарии</li>
+                <li>Технический эксперимент</li>
+                <li>Экономика решения</li>
+                <li>Решение go / no-go</li>
+              </ul>
+            </article>
+            <article class="mode">
+              <h3>Запустить</h3>
+              <ul class="mode-list">
+                <li>Web, mobile, backend и AI</li>
+                <li>Интеграции и инфраструктура</li>
+                <li>Аналитика и production</li>
+                <li>Команда и подрядчики</li>
+                <li>Дальнейшее развитие продукта</li>
+              </ul>
+            </article>''',
+          )
+
+          replace_once(
+              '<p class="mode-core-text">Проверка на весь список одна: продукт вырос, бизнес-модель сошлась. От работ, которые к этому не ведут, я отговариваю — даже когда за них готовы платить.</p>',
+              '<p class="mode-core-text">У работы должен быть измеримый эффект: больше продаж, ниже стоимость операции, быстрее процесс, меньше ошибок или новая выручка. Если связи с результатом не нахожу — предлагаю не делать.</p>',
+          )
+
+          replace_once(
+              '<p>Экраны сегодня рисует и модель — это перестало быть работой. Работа в том, чтобы прототип стоял на ваших данных и показывал состояния, в которых всё ломается: пустой список, отвал связи, остановленная линия. По такому уже принимают решения.</p>',
+              '<p>До договора стараюсь дойти дальше презентации. Если задачу можно проверить без доступа к закрытым данным — собираю рабочий прототип на материалах компании. Первый разговор начинается уже с конкретного продукта, а не с обещаний когда-нибудь его сделать.</p>',
+          )
+
+          replace_once(
+              '<h2 id="stack-title">Один инженер<br>на весь стек.</h2>',
+              '<h2 id="stack-title">Одна ответственность<br>на весь продукт.</h2>',
+          )
+
+          replace_once(
+              '<p>От того, что видит покупатель, до бэкенда, инфраструктуры и AI — закрываю продукт целиком, без цепочки подрядчиков и стыков между ними. Инструмент выбираю под задачу и под то, кому это потом поддерживать.</p>',
+              '<p>Могу сам закрыть большую часть стека, подключить нужных специалистов или работать с вашей командой. Для бизнеса это остаётся одной зоной ответственности: продукт, архитектура, интерфейс, AI, инфраструктура и запуск.</p>',
+          )
+
+          engagement = '''      <section class="engagement ruled-section band" id="engagement" aria-labelledby="engagement-title">
+        <span class="coordinate">E</span>
+        <div class="section-intro">
+          <h2 id="engagement-title">Можно начать с продукта.<br>И не останавливаться на нём.</h2>
+          <div class="section-lead">
+            <p>Формат зависит от того, насколько задача уже определена. От одного запуска до постоянной product/software/AI-функции внутри компании.</p>
+          </div>
+        </div>
+        <div class="engagement-body band-body">
+          <div class="engagement-track">
+            <article class="engagement-card">
+              <span class="engagement-index">01</span>
+              <h3>Один продукт</h3>
+              <p>Когда задача уже понятна. Беру её целиком — от решения и прототипа до production-запуска.</p>
+              <b>PROJECT</b>
+            </article>
+            <article class="engagement-card engagement-card-accent">
+              <span class="engagement-index">02</span>
+              <h3>Digital Partner</h3>
+              <p>Когда возможностей много, но неизвестно, за какую браться первой. Работаем кварталами: выбираю, проверяю и запускаю digital- и AI-инициативы.</p>
+              <b>QUARTER</b>
+            </article>
+            <article class="engagement-card">
+              <span class="engagement-index">03</span>
+              <h3>Fractional CTO</h3>
+              <p>Когда нужна постоянная техническая функция: стратегия, архитектура, команда, подрядчики и развитие software/AI без найма отдельного CTO.</p>
+              <b>ONGOING</b>
+            </article>
+          </div>
+        </div>
+      </section>
+
+'''
+          replace_once('      <footer class="footer ruled-section" id="contacts">', engagement + '      <footer class="footer ruled-section" id="contacts">')
+
+          replace_once(
+              '<p class="footer-manifesto">Зачем откладывать на потом, если с AI можно сделать это <span class="pen-mark">уже сегодня</span>?</p>',
+              '<p class="footer-manifesto">Не обязательно приходить с техническим заданием. Достаточно показать <span class="pen-mark">бизнес и задачу</span>, которую давно хочется решить.</p>',
+          )
+
+          replace_once(
+              '<p class="footer-role">software engineer · AI-native builder · hands-on CTO</p>',
+              '<p class="footer-role">digital product partner · software · AI · fractional CTO</p>',
+          )
+
+          replace_once(
+              '<span>ЦИФРОВЫЕ ПРОДУКТЫ ДЛЯ РАСТУЩИХ БРЕНДОВ</span>',
+              '<span>PRODUCT · SOFTWARE · AI ДЛЯ РАСТУЩИХ КОМПАНИЙ</span>',
+          )
+
+          engagement_css = '''    .engagement-body { padding: 30px 36px; display: grid; }
+    .engagement-track { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(var(--ink-rgb),.38); }
+    .engagement-card { position: relative; min-height: 330px; padding: 34px clamp(26px, 3vw, 42px) 30px; display: flex; flex-direction: column; }
+    .engagement-card + .engagement-card { border-left: 1px solid rgba(var(--ink-rgb),.22); }
+    .engagement-card-accent { background: rgba(var(--ink-rgb),.035); }
+    .engagement-index { font: 700 var(--text-micro)/1 var(--font-mono); letter-spacing: .08em; color: var(--muted); }
+    .engagement-card h3 { margin: 28px 0 0; font: 400 clamp(25px, 2vw, 31px)/1.08 var(--font-serif); letter-spacing: -.02em; }
+    .engagement-card p { margin: 20px 0 0; max-width: 29em; font-size: var(--text-list); line-height: 1.58; color: rgba(var(--ink-rgb),.76); text-wrap: pretty; }
+    .engagement-card b { margin-top: auto; padding-top: 28px; font: 700 var(--text-micro)/1 var(--font-mono); letter-spacing: .1em; color: var(--pen); }
+    @media (max-width: 800px) {
+      .engagement-body { padding: 24px; }
+      .engagement-track { grid-template-columns: 1fr; }
+      .engagement-card { min-height: 0; padding: 30px 25px; }
+      .engagement-card + .engagement-card { border-left: 0; border-top: 1px solid rgba(var(--ink-rgb),.22); }
+      .engagement-card b { margin-top: 26px; padding-top: 0; }
+    }
+    @media (max-width: 520px) { .engagement-body { padding: 12px; } }
+
+'''
+          replace_once('    .footer { display: grid;', engagement_css + '    .footer { display: grid;')
+
+          page_path.write_text(page)
+
+          layout_path = Path('src/layouts/Layout.astro')
+          layout = layout_path.read_text()
+          old = "      jobTitle: 'Software engineer, AI-native builder, hands-on CTO',"
+          new = "      jobTitle: 'Digital Product Partner, Software Engineer, AI and Fractional CTO',"
+          if layout.count(old) != 1:
+              raise SystemExit('Layout jobTitle anchor changed')
+          layout_path.write_text(layout.replace(old, new, 1))
+          PY
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Validate
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+
+      - name: Commit changes and remove temporary workflow
+        shell: bash
+        run: |
+          rm .github/workflows/apply-digital-partner-positioning.yml
+          git config user.name "ROM4 positioning bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/pages/index.astro src/layouts/Layout.astro .github/workflows/apply-digital-partner-positioning.yml
+          git commit -m "Reposition rom4.ru as digital product partner"
+          git push origin HEAD:agent/digital-partner-positioning

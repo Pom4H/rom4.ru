@@ -4,6 +4,7 @@ import HexFloat from '../components/HexFloat.astro';
 import PaperTable from '../components/PaperTable.astro';
 import DeskProps from '../components/DeskProps.astro';
 import DeskLamp from '../components/DeskLamp.astro';
+import { repositionHome } from '../lib/homePositioning';
 
 interface Props {
   title: string;
@@ -13,6 +14,11 @@ interface Props {
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
+const isHome = Astro.url.pathname === '/';
+const effectiveDescription = isHome
+  ? 'Digital, software и AI для растущих компаний. Нахожу, что стоит улучшить или построить, проверяю рабочим прототипом и довожу до запуска.'
+  : description;
+const homeHtml = isHome ? repositionHome(await Astro.slots.render('default')) : '';
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -22,7 +28,7 @@ const structuredData = {
       '@id': 'https://rom4.ru/#website',
       url: 'https://rom4.ru/',
       name: 'ROM4.RU',
-      description,
+      description: effectiveDescription,
       inLanguage: 'ru-RU',
     },
     {
@@ -32,7 +38,7 @@ const structuredData = {
       alternateName: ['ROM4.RU', 'Pom4H'],
       url: 'https://rom4.ru/',
       jobTitle: 'Digital Product Partner, Software Engineer, AI and Fractional CTO',
-      description,
+      description: effectiveDescription,
       sameAs: ['https://t.me/Pom4H', 'https://github.com/Pom4H'],
     },
   ],
@@ -46,7 +52,7 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    {effectiveDescription && <meta name="description" content={effectiveDescription} />}
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -56,14 +62,14 @@ const structuredData = {
     <meta property="og:site_name" content="ROM4.RU" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
-    {description && <meta property="og:description" content={description} />}
+    {effectiveDescription && <meta property="og:description" content={effectiveDescription} />}
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="ROM4.RU — Продукт уровня вашего бренда" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    {description && <meta name="twitter:description" content={description} />}
+    {effectiveDescription && <meta name="twitter:description" content={effectiveDescription} />}
     <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <!-- Theme init (no-flash): set data-theme before first paint -->
@@ -103,9 +109,29 @@ const structuredData = {
     <PaperTable />
 
     <HexFloat>
-      <slot />
+      {isHome ? <Fragment set:html={homeHtml} /> : <slot />}
       <DeskProps slot="desk" />
       <DeskLamp slot="desk" />
     </HexFloat>
   </body>
 </html>
+
+<style is:global>
+  .engagement-body { padding: 30px 36px; display: grid; }
+  .engagement-track { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(var(--ink-rgb),.38); }
+  .engagement-card { position: relative; min-height: 330px; padding: 34px clamp(26px, 3vw, 42px) 30px; display: flex; flex-direction: column; }
+  .engagement-card + .engagement-card { border-left: 1px solid rgba(var(--ink-rgb),.22); }
+  .engagement-card-accent { background: rgba(var(--ink-rgb),.035); }
+  .engagement-index { font: 700 var(--text-micro)/1 var(--font-mono); letter-spacing: .08em; color: var(--muted); }
+  .engagement-card h3 { margin: 28px 0 0; font: 400 clamp(25px, 2vw, 31px)/1.08 var(--font-serif); letter-spacing: -.02em; }
+  .engagement-card p { margin: 20px 0 0; max-width: 29em; font-size: var(--text-list); line-height: 1.58; color: rgba(var(--ink-rgb),.76); text-wrap: pretty; }
+  .engagement-card b { margin-top: auto; padding-top: 28px; font: 700 var(--text-micro)/1 var(--font-mono); letter-spacing: .1em; color: var(--pen); }
+  @media (max-width: 800px) {
+    .engagement-body { padding: 24px; }
+    .engagement-track { grid-template-columns: 1fr; }
+    .engagement-card { min-height: 0; padding: 30px 25px; }
+    .engagement-card + .engagement-card { border-left: 0; border-top: 1px solid rgba(var(--ink-rgb),.22); }
+    .engagement-card b { margin-top: 26px; padding-top: 0; }
+  }
+  @media (max-width: 520px) { .engagement-body { padding: 12px; } }
+</style>

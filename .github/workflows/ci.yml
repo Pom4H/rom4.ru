@@ -16,7 +16,7 @@ permissions:
 jobs:
   build:
     name: Check & build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     timeout-minutes: 10
 
     steps:

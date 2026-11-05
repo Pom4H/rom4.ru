@@ -1,0 +1,436 @@
+---
+// This is a browser-only demonstration, not a connection to an AI or business system.
+const revenue = 240_000;
+const materials = 160_000;
+const labour = 20_000;
+const delivery = 24_000;
+const targetMargin = 20;
+const money = (value: number) => `${new Intl.NumberFormat('ru-RU').format(value)} ₽`;
+const preliminaryCost = materials + labour;
+const preliminaryMargin = ((revenue - preliminaryCost) / revenue) * 100;
+---
+
+<div
+  class="ai-trace"
+  data-ai-trace
+  data-revenue={revenue}
+  data-materials={materials}
+  data-labour={labour}
+  data-delivery={delivery}
+  data-target-margin={targetMargin}
+  aria-labelledby="ai-trace-title"
+>
+  <header class="trace-header">
+    <p class="trace-eyebrow">Проверяемая работа · 6 шагов</p>
+    <p class="trace-demo">Демонстрация · вымышленные данные · без подключения к системам</p>
+  </header>
+
+  <div class="trace-preview">
+    <div>
+      <h3 id="ai-trace-title">«Можно согласовать цену заказа?»</h3>
+      <p class="trace-question-note">Экономист проверяет заказ ДЕМО-042. Маржа по прямым затратам должна быть не ниже {targetMargin}%.</p>
+      <p class="trace-alert" data-trace-alert>В смете нет стоимости доставки. Итоговую маржу подтвердить нельзя.</p>
+    </div>
+    <div class="trace-metric">
+      <span class="trace-metric-value"><span data-trace-margin>{preliminaryMargin}%</span><sup data-trace-marker>*</sup></span>
+      <span class="trace-metric-label" data-trace-margin-label>без учёта доставки</span>
+      <span class="trace-metric-foot">Все суммы без НДС</span>
+    </div>
+  </div>
+
+  <fieldset class="trace-versions">
+    <legend>Сравните две версии сметы</legend>
+    <div class="trace-version-buttons" role="group" aria-label="Версия исходных данных">
+      <button type="button" class="trace-version" data-trace-version="v1" aria-pressed="true" disabled><span>v1</span> Доставка не указана</button>
+      <button type="button" class="trace-version" data-trace-version="v2" aria-pressed="false" disabled><span>v2</span> Доставка подтверждена</button>
+    </div>
+    <p class="trace-version-hint">Смена источника пересчитывает результат и сбрасывает прежнее согласование.</p>
+  </fieldset>
+
+  <div class="trace-ledger">
+    <details class="trace-step" id="ai-trace-sources" data-trace-step="sources" open>
+      <summary>
+        <span class="trace-number">01</span>
+        <span class="trace-step-label"><b>Источники</b><small>Снимки данных и их версии</small></span>
+        <span class="trace-state trace-state-warning" data-trace-source-state>Есть пробел</span>
+        <span class="trace-expand" aria-hidden="true">+</span>
+      </summary>
+      <div class="trace-step-body">
+        <div class="trace-source-grid">
+          <div class="trace-source">
+            <p class="trace-file">orders.csv <span>v3 · строка ДЕМО-042</span></p>
+            <dl class="trace-fields">
+              <div><dt>Выручка</dt><dd>{money(revenue)}</dd></div>
+              <div><dt>Валюта / налог</dt><dd>RUB / без НДС</dd></div>
+            </dl>
+          </div>
+          <div class="trace-source">
+            <p class="trace-file">estimate.csv <span data-trace-source-version>v1 · строка ДЕМО-042</span></p>
+            <dl class="trace-fields">
+              <div><dt>Материалы</dt><dd>{money(materials)}</dd></div>
+              <div><dt>Работы</dt><dd>{money(labour)}</dd></div>
+              <div><dt>Доставка</dt><dd data-trace-delivery>нет записи</dd></div>
+            </dl>
+          </div>
+        </div>
+        <p class="trace-note">Правило <code>margin-policy · v1</code>: для проверки нужны все три статьи прямых затрат. Пустое значение не считается нулём.</p>
+      </div>
+    </details>
+
+    <details class="trace-step" id="ai-trace-transform" data-trace-step="transform">
+      <summary>
+        <span class="trace-number">02</span>
+        <span class="trace-step-label"><b>Преобразование</b><small>Из файлов в проверяемую запись</small></span>
+        <span class="trace-state">Рецепт v1</span>
+        <span class="trace-expand" aria-hidden="true">+</span>
+      </summary>
+      <div class="trace-step-body">
+        <ol class="trace-recipe">
+          <li>Связать строки по <code>order_id = ДЕМО-042</code>.</li>
+          <li>Привести денежные поля к рублям без НДС.</li>
+          <li>Сохранить неизвестную доставку как <code>null</code>; проверить полноту.</li>
+          <li>Зафиксировать версии источников вместе с результатом.</li>
+        </ol>
+        <div class="trace-receipt">
+          <span>Контекст расчёта</span>
+          <code data-trace-context>orders:v3 / estimate:v1 / recipe:v1 / policy:v1</code>
+        </div>
+        <p class="trace-note">Исходный файл и результат преобразования — разные записи. Можно вернуться к тому снимку, по которому принималось решение.</p>
+      </div>
+    </details>
+
+    <details class="trace-step" id="ai-trace-query" data-trace-step="query">
+      <summary>
+        <span class="trace-number">03</span>
+        <span class="trace-step-label"><b>Запрос и расчёт</b><small>Формулу можно повторить</small></span>
+        <span class="trace-state" data-trace-query-state>Не завершён</span>
+        <span class="trace-expand" aria-hidden="true">+</span>
+      </summary>
+      <div class="trace-step-body">
+        <p class="trace-body-copy">Маржа = (выручка − прямые затраты) / выручка. Если доставка неизвестна, итоговый результат остаётся пустым.</p>
+        <pre class="trace-code" aria-label="Эквивалентный SQL расчёта"><code>SELECT order_id,
+  CASE WHEN delivery IS NOT NULL THEN
+    ROUND(100.0 *
+      (revenue - materials - labour - delivery)
+      / NULLIF(revenue, 0), 1)
+  END AS margin_pct
+FROM prepared_order
+WHERE order_id = :order_id;</code></pre>
+        <dl class="trace-calculation">
+          <div><dt>Прямые затраты</dt><dd data-trace-cost>{money(preliminaryCost)} + доставка?</dd></div>
+          <div><dt>Итоговая маржа</dt><dd data-trace-final-margin>Не определена</dd></div>
+        </dl>
+        <p class="trace-note">Показан эквивалентный SQL. В этой демонстрации расчёт выполняется в браузере. Накладные расходы и налоги в пример не входят.</p>
+      </div>
+    </details>
+
+    <details class="trace-step" id="ai-trace-proposal" data-trace-step="proposal">
+      <summary>
+        <span class="trace-number">04</span>
+        <span class="trace-step-label"><b>Предложение агента</b><small>Краткое обоснование со ссылками</small></span>
+        <span class="trace-state trace-state-warning" data-trace-proposal-state>Нужны данные</span>
+        <span class="trace-expand" aria-hidden="true">+</span>
+      </summary>
+      <div class="trace-step-body">
+        <blockquote class="trace-proposal" data-trace-proposal>Запросить стоимость доставки. 25% — предварительная маржа; согласовывать цену по ней рано.</blockquote>
+        <p class="trace-body-copy">Основание: <a href="#ai-trace-sources" data-trace-open="sources">строки источников</a>, <a href="#ai-trace-query" data-trace-open="query">расчёт маржи</a> и порог {targetMargin}% из <code>margin-policy · v1</code>.</p>
+        <p class="trace-note">Здесь показаны наблюдаемые шаги и краткое обоснование. Внутренние рассуждения модели не реконструируются.</p>
+      </div>
+    </details>
+
+    <details class="trace-step" id="ai-trace-decision" data-trace-step="decision">
+      <summary>
+        <span class="trace-number">05</span>
+        <span class="trace-step-label"><b>Решение сотрудника</b><small>Согласование конкретного действия</small></span>
+        <span class="trace-state" data-trace-decision-state>Ожидается</span>
+        <span class="trace-expand" aria-hidden="true">+</span>
+      </summary>
+      <div class="trace-step-body">
+        <p class="trace-body-copy" data-trace-decision-copy>Сначала откройте смету v2 с подтверждённой доставкой. Затем можно проверить расчёт и согласовать запрос на пересмотр цены.</p>
+        <div class="trace-decision-actions">
+          <button class="trace-action trace-action-primary" type="button" data-trace-approve disabled>Согласовать демо-запрос</button>
+          <button class="trace-action" type="button" data-trace-reject disabled>Отклонить предложение</button>
+        </div>
+        <p class="trace-note">Согласование разрешает только создание запроса. Цена заказа автоматически не меняется.</p>
+      </div>
+    </details>
+
+    <details class="trace-step" id="ai-trace-action" data-trace-step="action">
+      <summary>
+        <span class="trace-number">06</span>
+        <span class="trace-step-label"><b>Действие и запись</b><small>Что произошло после решения</small></span>
+        <span class="trace-state" data-trace-action-state>Не выполнено</span>
+        <span class="trace-expand" aria-hidden="true">+</span>
+      </summary>
+      <div class="trace-step-body">
+        <p class="trace-body-copy" data-trace-action-copy>Запрос не создан: данных и согласования пока нет.</p>
+        <div class="trace-receipt" data-trace-action-receipt hidden>
+          <span>Квитанция демонстрации</span>
+          <code data-trace-action-id></code>
+          <span data-trace-action-context></span>
+        </div>
+        <p class="trace-note">Журнал этой демонстрации</p>
+        <ol class="trace-history" data-trace-history><li>Зафиксирован контекст orders:v3 / estimate:v1 / recipe:v1 / policy:v1.</li></ol>
+        <p class="trace-note">Запись существует только на этой странице. Рабочие подключения, серверные права и журнал действий настраиваются при внедрении.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="trace-footer">
+    <p role="status" aria-live="polite" aria-atomic="true" data-trace-status>Выбрана смета v1. Откройте любой шаг, чтобы проверить его основание.</p>
+    <button type="button" class="trace-reset" data-trace-reset disabled>Начать заново ↺</button>
+  </footer>
+  <noscript><p class="trace-noscript">Источники, формула и шаги доступны без JavaScript. Для сравнения версий и симуляции действия включите JavaScript.</p></noscript>
+</div>
+
+<style>
+  .ai-trace { --trace-warning: #8c4b20; width: 100%; min-width: 0; border: 1px solid rgba(var(--ink-rgb), .35); color: var(--ink); background: var(--paper); font-family: var(--font-sans, sans-serif); overflow: hidden; }
+  :global([data-theme='dark']) .ai-trace { --trace-warning: #e4b57d; }
+  .ai-trace *, .ai-trace *::before, .ai-trace *::after { box-sizing: border-box; }
+  .ai-trace [hidden] { display: none !important; }
+  .trace-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 15px 24px; border-bottom: 1px solid rgba(var(--ink-rgb), .22); background: rgba(var(--ink-rgb), .025); }
+  .trace-eyebrow, .trace-demo { margin: 0; font: 11px/1.5 var(--font-mono, monospace); }
+  .trace-eyebrow { color: var(--pen); text-transform: uppercase; letter-spacing: .055em; }
+  .trace-demo { max-width: 54ch; color: var(--muted); }
+  .trace-preview { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; padding: 28px 24px 20px; }
+  .trace-preview h3 { margin: 0; font: 400 clamp(25px, 2.7vw, 36px)/1.12 var(--font-serif, serif); letter-spacing: -.025em; }
+  .trace-question-note { max-width: 57ch; margin: 12px 0 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+  .trace-alert { max-width: 60ch; margin: 20px 0 0; padding: 0 0 0 12px; border-left: 2px solid var(--trace-warning); color: var(--trace-warning); font-size: 14px; line-height: 1.5; }
+  .trace-metric { display: flex; min-width: 142px; flex-direction: column; align-items: flex-start; align-self: center; padding-left: 24px; border-left: 1px solid rgba(var(--ink-rgb), .22); }
+  .trace-metric-value { color: var(--pen); font: 400 clamp(46px, 5vw, 64px)/1 var(--font-serif, serif); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+  .trace-metric-value sup { margin-left: 2px; font-size: .4em; vertical-align: top; line-height: 1.4; }
+  .trace-metric-label { margin-top: 9px; font: 11px/1.45 var(--font-mono, monospace); }
+  .trace-metric-foot { margin-top: 4px; font-size: 11px; color: var(--muted); }
+  .trace-versions { min-width: 0; margin: 0; padding: 0 24px 23px; border: 0; }
+  .trace-versions legend { margin-bottom: 8px; padding: 0; color: var(--muted); font-size: 12px; }
+  .trace-version-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
+  .trace-version { display: inline-flex; gap: 9px; align-items: center; justify-content: flex-start; min-height: 44px; padding: 9px 12px; border: 1px solid rgba(var(--ink-rgb), .3); background: transparent; color: var(--ink); font: 12px/1.4 var(--font-sans, sans-serif); text-align: left; cursor: pointer; }
+  .trace-version span { font-family: var(--font-mono, monospace); font-weight: 600; }
+  .trace-version[aria-pressed='true'] { color: var(--pen-on, #fff); background: var(--pen); border-color: var(--pen); }
+  .trace-version-hint { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.45; }
+  .trace-step { border-top: 1px solid rgba(var(--ink-rgb), .22); }
+  .trace-step summary { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto 15px; align-items: center; column-gap: 14px; min-height: 74px; padding: 14px 24px; list-style: none; cursor: pointer; }
+  .trace-step summary::-webkit-details-marker { display: none; }
+  .trace-step summary::marker { content: ''; }
+  .trace-step summary:hover { background: rgba(var(--ink-rgb), .035); }
+  .trace-number { align-self: start; padding-top: 2px; color: var(--muted); font: 14px/1.5 var(--font-mono, monospace); }
+  .trace-step-label { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .trace-step-label b { font-weight: 550; font-size: 15px; line-height: 1.35; }
+  .trace-step-label small { font-size: 11px; line-height: 1.45; color: var(--muted); }
+  .trace-state { padding: 4px 7px; border: 1px solid rgba(var(--ink-rgb), .22); color: var(--muted); font: 10px/1.4 var(--font-mono, monospace); white-space: nowrap; }
+  .trace-state-warning { color: var(--trace-warning); border-color: currentColor; }
+  .trace-state-done { color: var(--pen); border-color: currentColor; }
+  .trace-expand { color: var(--pen); font: 22px/1 var(--font-mono, monospace); text-align: center; }
+  .trace-step[open] .trace-expand { transform: rotate(45deg); }
+  .trace-step[open] summary { background: rgba(var(--ink-rgb), .025); }
+  .trace-step-body { padding: 18px 24px 24px 66px; }
+  .trace-source-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .trace-source { min-width: 0; border: 1px solid rgba(var(--ink-rgb), .2); padding: 14px; }
+  .trace-file { display: flex; flex-direction: column; gap: 5px; margin: 0 0 15px; font: 600 12px/1.5 var(--font-mono, monospace); overflow-wrap: anywhere; }
+  .trace-file span { color: var(--muted); font-size: 10px; font-weight: 400; }
+  .trace-fields { margin: 0; font-size: 12px; }
+  .trace-fields > div, .trace-calculation > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px 12px; margin-top: 8px; }
+  .trace-fields dt, .trace-calculation dt { color: var(--muted); }
+  .trace-fields dd, .trace-calculation dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .trace-note { margin: 15px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+  .trace-note code, .trace-recipe code, .trace-body-copy code { color: var(--ink); font: .92em var(--font-mono, monospace); overflow-wrap: anywhere; }
+  .trace-recipe { margin: 0; padding-left: 19px; font-size: 14px; line-height: 1.65; }
+  .trace-recipe li + li { margin-top: 5px; }
+  .trace-receipt { display: grid; gap: 8px; margin-top: 17px; padding: 13px 15px; background: rgba(var(--ink-rgb), .035); border-left: 2px solid var(--pen); font-size: 12px; line-height: 1.5; }
+  .trace-receipt > span:first-child { color: var(--muted); font: 10px/1.5 var(--font-mono, monospace); text-transform: uppercase; letter-spacing: .04em; }
+  .trace-receipt code { font-size: 11px; white-space: normal; overflow-wrap: anywhere; }
+  .trace-body-copy { margin: 0; font-size: 14px; line-height: 1.65; }
+  .trace-body-copy a { color: var(--pen); text-underline-offset: 3px; }
+  .trace-code { max-width: 100%; margin: 16px 0; padding: 14px 16px; border: 1px solid rgba(var(--ink-rgb), .2); background: rgba(var(--ink-rgb), .025); color: var(--ink); font: 12px/1.65 var(--font-mono, monospace); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .trace-code code { font: inherit; white-space: pre-wrap; }
+  .trace-calculation { margin: 0; font-size: 13px; line-height: 1.5; }
+  .trace-history { display: grid; gap: 8px; margin: 9px 0 0; padding-left: 20px; font: 11px/1.6 var(--font-mono, monospace); overflow-wrap: anywhere; }
+  .trace-proposal { margin: 0 0 16px; padding: 0 0 0 17px; border-left: 2px solid var(--pen); color: var(--ink); font: 400 21px/1.45 var(--font-serif, serif); }
+  .trace-decision-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .trace-action { min-height: 44px; max-width: 100%; padding: 10px 14px; border: 1px solid rgba(var(--ink-rgb), .4); color: var(--ink); background: transparent; font-size: 12px; font-weight: 550; line-height: 1.5; text-align: left; cursor: pointer; }
+  .trace-action-primary { color: var(--pen-on, #fff); background: var(--pen); border-color: var(--pen); }
+  .trace-action:disabled, .trace-version:disabled, .trace-reset:disabled { cursor: not-allowed; opacity: .5; }
+  .trace-action:not(:disabled):hover, .trace-version:not(:disabled):hover { box-shadow: inset 0 0 0 1px currentColor; }
+  .trace-footer { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding: 17px 24px; border-top: 1px solid rgba(var(--ink-rgb), .35); background: rgba(var(--ink-rgb), .025); }
+  .trace-footer p { flex: 1 1 270px; margin: 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
+  .trace-reset { min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--pen); font: 11px/1.5 var(--font-mono, monospace); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+  .trace-noscript { margin: 0; padding: 17px 24px; font-size: 12px; line-height: 1.5; }
+  .ai-trace :is(button, summary, a):focus-visible { outline: 2px solid var(--pen); outline-offset: 3px; }
+  .trace-step summary:focus-visible { outline-offset: -4px; }
+  @media (max-width: 600px) {
+    .trace-header, .trace-footer { padding: 15px 17px; }
+    .trace-preview { grid-template-columns: minmax(0, 1fr); gap: 19px; padding: 23px 17px 18px; }
+    .trace-metric { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 15px; padding: 0; border-left: 0; align-items: end; }
+    .trace-metric-value { grid-row: span 2; font-size: 48px; }
+    .trace-metric-label { align-self: end; margin-top: 0; }
+    .trace-metric-foot { align-self: start; margin: 0; }
+    .trace-versions { padding: 0 17px 20px; }
+    .trace-version { flex: 1 1 190px; }
+    .trace-step summary { padding: 14px 17px; gap: 10px; grid-template-columns: 23px minmax(0, 1fr) auto 15px; }
+    .trace-step-body { padding: 17px; }
+    .trace-source-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .trace-decision-actions { flex-direction: column; align-items: stretch; }
+  }
+  @media (max-width: 420px) {
+    .trace-step summary { grid-template-columns: 23px minmax(0, 1fr) 15px; row-gap: 8px; }
+    .trace-step-label { grid-column: 2; }
+    .trace-state { grid-column: 2; justify-self: start; white-space: normal; }
+    .trace-expand { grid-column: 3; grid-row: 1; }
+    .trace-step-label small { font-size: 11px; }
+    .trace-code { padding: 12px; font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-trace *, .ai-trace *::before, .ai-trace *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ai-trace]').forEach((root) => {
+    if (root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+
+    type Revision = 'v1' | 'v2';
+    type Decision = 'pending' | 'approved' | 'rejected';
+    const revenue = Number(root.dataset.revenue);
+    const materials = Number(root.dataset.materials);
+    const labour = Number(root.dataset.labour);
+    const delivery = Number(root.dataset.delivery);
+    const targetMargin = Number(root.dataset.targetMargin);
+    const money = (value: number) => `${new Intl.NumberFormat('ru-RU').format(value)} ₽`;
+    const percent = (value: number) => `${new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 }).format(value)}%`;
+    let revision: Revision = 'v1';
+    let decision: Decision = 'pending';
+    let actionSequence = 0;
+    let createdCount = 0;
+    const events: string[] = ['Зафиксирован контекст orders:v3 / estimate:v1 / recipe:v1 / policy:v1.'];
+    const approve = root.querySelector<HTMLButtonElement>('[data-trace-approve]')!;
+    const reject = root.querySelector<HTMLButtonElement>('[data-trace-reject]')!;
+    const receipt = root.querySelector<HTMLElement>('[data-trace-action-receipt]')!;
+
+    const setText = (selector: string, value: string) => {
+      root.querySelectorAll<HTMLElement>(selector).forEach((element) => { element.textContent = value; });
+    };
+    const setState = (selector: string, value: string, tone: 'normal' | 'warning' | 'done' = 'normal') => {
+      const element = root.querySelector<HTMLElement>(selector)!;
+      element.textContent = value;
+      element.classList.toggle('trace-state-warning', tone === 'warning');
+      element.classList.toggle('trace-state-done', tone === 'done');
+    };
+    const openStep = (step: string) => {
+      const details = root.querySelector<HTMLDetailsElement>(`[data-trace-step="${step}"]`);
+      if (details) details.open = true;
+      return details;
+    };
+    const announce = (message: string) => setText('[data-trace-status]', message);
+
+    const render = () => {
+      const complete = revision === 'v2';
+      const cost = materials + labour + (complete ? delivery : 0);
+      const margin = 100 * (revenue - cost) / revenue;
+      const requiredPrice = Math.ceil(cost / (1 - targetMargin / 100));
+      const context = `orders:v3 / estimate:${revision} / recipe:v1 / policy:v1`;
+      const history = root.querySelector<HTMLOListElement>('[data-trace-history]')!;
+      history.replaceChildren(...events.map((event) => {
+        const item = document.createElement('li');
+        item.textContent = event;
+        return item;
+      }));
+
+      root.querySelectorAll<HTMLButtonElement>('[data-trace-version]').forEach((button) => {
+        button.disabled = false;
+        button.setAttribute('aria-pressed', String(button.dataset.traceVersion === revision));
+      });
+      setText('[data-trace-source-version]', `${revision} · строка ДЕМО-042`);
+      setText('[data-trace-delivery]', complete ? money(delivery) : 'нет записи');
+      setText('[data-trace-margin]', percent(margin));
+      root.querySelector<HTMLElement>('[data-trace-marker]')!.hidden = complete;
+      setText('[data-trace-margin-label]', complete ? 'с учётом доставки' : 'без учёта доставки');
+      setText('[data-trace-context]', context);
+      setText('[data-trace-cost]', complete ? money(cost) : `${money(cost)} + доставка?`);
+      setText('[data-trace-final-margin]', complete ? percent(margin) : 'Не определена');
+      setText('[data-trace-alert]', complete
+        ? `Доставка учтена. Маржа ${percent(margin)} ниже порога ${targetMargin}%: требуется пересмотр цены.`
+        : 'В смете нет стоимости доставки. Итоговую маржу подтвердить нельзя.');
+      setState('[data-trace-source-state]', complete ? 'Данные полны' : 'Есть пробел', complete ? 'done' : 'warning');
+      setState('[data-trace-query-state]', complete ? 'Расчёт выполнен' : 'Не завершён', complete ? 'done' : 'normal');
+      setState('[data-trace-proposal-state]', complete ? 'Ниже порога' : 'Нужны данные', 'warning');
+      setText('[data-trace-proposal]', complete
+        ? `Создать запрос на пересмотр цены до ${money(requiredPrice)} без НДС. При прямых затратах ${money(cost)} это даёт маржу ${targetMargin}%. Текущая цена ${money(revenue)} даёт ${percent(margin)}.`
+        : `Запросить стоимость доставки. ${percent(margin)} — предварительная маржа; согласовывать цену по ней рано.`);
+
+      approve.disabled = !complete || decision !== 'pending';
+      reject.disabled = decision !== 'pending';
+      receipt.hidden = decision !== 'approved';
+      if (decision === 'approved') {
+        setState('[data-trace-decision-state]', 'Согласовано', 'done');
+        setState('[data-trace-action-state]', 'Демо-запись создана', 'done');
+        setText('[data-trace-decision-copy]', `Вы согласовали создание запроса по estimate:${revision}. Решение связано с этой версией данных и расчётом.`);
+        setText('[data-trace-action-copy]', `В демонстрации создан запрос: «Пересмотреть цену ДЕМО-042 до ${money(requiredPrice)} без НДС». Цена заказа осталась ${money(revenue)}.`);
+        setText('[data-trace-action-id]', `DEMO-REQUEST-${String(actionSequence).padStart(3, '0')}`);
+        setText('[data-trace-action-context]', `Основание: ${context}. Инициатор: посетитель демонстрации.`);
+      } else if (decision === 'rejected') {
+        setState('[data-trace-decision-state]', 'Отклонено');
+        setState('[data-trace-action-state]', 'Остановлено');
+        setText('[data-trace-decision-copy]', `Вы отклонили предложение по estimate:${revision}. Для нового решения выберите другую версию или начните заново.`);
+        setText('[data-trace-action-copy]', `По текущему предложению запрос не создан. Отказ сотрудника завершил этот сценарий без изменения цены.${createdCount ? ' Ранее созданные демо-запросы сохранены в журнале ниже.' : ''}`);
+      } else {
+        setState('[data-trace-decision-state]', 'Ожидается');
+        setState('[data-trace-action-state]', 'Не выполнено');
+        setText('[data-trace-decision-copy]', complete
+          ? `Проверьте источники и расчёт. Можно согласовать создание запроса на цену ${money(requiredPrice)} без НДС или отклонить предложение.`
+          : 'Сначала откройте смету v2 с подтверждённой доставкой. Затем можно проверить расчёт и согласовать запрос на пересмотр цены.');
+        setText('[data-trace-action-copy]', `${complete
+          ? 'По текущей версии запрос подготовлен, но не создан: требуется согласование сотрудника.'
+          : 'По текущей версии запрос не создан: данных и согласования пока нет.'}${createdCount ? ' Ранее созданные демо-запросы сохранены в журнале ниже.' : ''}`);
+      }
+    };
+
+    root.querySelectorAll<HTMLButtonElement>('[data-trace-version]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const nextRevision = button.dataset.traceVersion as Revision;
+        if (nextRevision === revision) return;
+        const previousDecision = decision;
+        revision = nextRevision;
+        decision = 'pending';
+        events.push(`Выбран контекст orders:v3 / estimate:${revision} / recipe:v1 / policy:v1.${previousDecision !== 'pending' ? ' Прежнее решение не переносится на новые данные.' : ''}`);
+        render();
+        const fullMargin = 100 * (revenue - materials - labour - delivery) / revenue;
+        announce(`${revision === 'v2' ? `Выбрана смета v2. Итоговая маржа — ${percent(fullMargin)}, ниже порога ${targetMargin}%.` : 'Выбрана смета v1. Итоговая маржа неизвестна без доставки.'}${previousDecision !== 'pending' ? ' Прежнее решение больше не действует: изменились исходные данные.' : ''}`);
+      });
+    });
+    root.querySelectorAll<HTMLAnchorElement>('[data-trace-open]').forEach((link) => {
+      link.addEventListener('click', () => { openStep(link.dataset.traceOpen!)?.querySelector('summary')?.focus(); });
+    });
+    approve.addEventListener('click', () => {
+      if (revision !== 'v2' || decision !== 'pending') return;
+      decision = 'approved';
+      actionSequence += 1;
+      createdCount += 1;
+      events.push(`Согласовано создание запроса по orders:v3 / estimate:${revision} / recipe:v1 / policy:v1.`);
+      const requestedPrice = Math.ceil((materials + labour + delivery) / (1 - targetMargin / 100));
+      events.push(`Создан DEMO-REQUEST-${String(actionSequence).padStart(3, '0')}: запрос на цену ${money(requestedPrice)} без НДС. Цена заказа не изменена.`);
+      render();
+      openStep('action');
+      announce('Согласовано. Демо-запрос создан, цена заказа не изменена. Квитанция доступна в шаге 06.');
+    });
+    reject.addEventListener('click', () => {
+      if (decision !== 'pending') return;
+      decision = 'rejected';
+      events.push(`Отклонено предложение по estimate:${revision}. Действие остановлено.`);
+      render();
+      openStep('action');
+      announce('Предложение отклонено. Запрос не создан, цена заказа не изменена.');
+    });
+    const reset = root.querySelector<HTMLButtonElement>('[data-trace-reset]')!;
+    reset.disabled = false;
+    reset.addEventListener('click', () => {
+      revision = 'v1';
+      decision = 'pending';
+      createdCount = 0;
+      events.splice(0, events.length, 'Новый сценарий: зафиксирован контекст orders:v3 / estimate:v1 / recipe:v1 / policy:v1.');
+      render();
+      announce('Новый сценарий: смета v1, доставка неизвестна. Согласование и действие сброшены.');
+    });
+    render();
+  });
+</script>

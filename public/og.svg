@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#141915" stroke-opacity=".06"/></pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#f0efe8"/>
+  <rect x="20" y="20" width="1160" height="590" fill="url(#grid)" stroke="#141915" stroke-opacity=".45"/>
+  <path d="M20 108H1180M20 526H1180" stroke="#141915" stroke-opacity=".35"/>
+  <g fill="#141915">
+    <text x="62" y="77" font-family="DejaVu Sans Mono,monospace" font-size="32" font-weight="bold">ROM4.RU</text>
+    <text x="1138" y="72" text-anchor="end" font-family="DejaVu Sans,sans-serif" font-size="16">Роман Попов · AI-инженер</text>
+    <text x="62" y="228" font-family="DejaVu Serif,serif" font-size="76" letter-spacing="-3">Внедряю AI,</text>
+    <text x="62" y="320" font-family="DejaVu Serif,serif" font-size="76" letter-spacing="-3">который можно</text>
+    <text x="62" y="412" font-family="DejaVu Serif,serif" font-size="76" letter-spacing="-3">проверить.</text>
+    <text x="62" y="568" font-family="DejaVu Sans,sans-serif" font-size="19">Готовые инструменты · Команда · Управляемая инфраструктура</text>
+  </g>
+  <g stroke="#2c4f92" fill="none" stroke-width="2">
+    <rect x="911" y="174" width="196" height="260" rx="10"/>
+    <path d="M935 222H1083M935 279H1083M935 336H1083M935 393H1083" stroke-opacity=".25"/>
+    <path d="m935 200 5 5 10-12m-15 64 5 5 10-12m-15 64 5 5 10-12m-15 64 5 5 10-12"/>
+  </g>
+  <g fill="#2c4f92" font-family="DejaVu Sans,sans-serif" font-size="17">
+    <text x="966" y="205">Источники</text><text x="966" y="262">Расчёты</text><text x="966" y="319">Действия</text><text x="966" y="376">Контроль</text>
+  </g>
+</svg>

@@ -1,20 +1,30 @@
-# ROM4.RU
+# ROM4.RU — внедрение AI в работу компании
 
-ROM4.RU is the professional site of Roman Popov.
+ROM4.RU is the professional site of Roman Popov / Роман Попов (Pom4H), an AI engineer.
 
-Canonical public statement:
-Роман Попов строит цифровые продукты для растущих брендов: прямые продажи (магазин, каталог, подписка, программа лояльности), личные кабинеты и приложения, внутренние системы (заказы, склад, производство, поставщики), интеграции и аналитику. Диапазон работ — от тулинга для разработчиков, архитектуры и техлид-консалтинга до UX, интерфейсов и дизайн-системы; центр всегда один — рост продукта и сходимость бизнес-модели. Стек: web, mobile, IoT, backend, infrastructure and AI.
+## Canonical public statement
 
-## Canonical page
+Роман Попов внедряет AI в ежедневную работу компаний: выбирает полезные повторяющиеся задачи, настраивает готовые инструменты под сотрудников, данные и правила, обучает команду и помогает измерить результат. В центре предложения — проверяемые источники, версии данных, преобразования, запросы, действия агентов и решения людей. Компания получает конфигурацию, код своих расширений, документацию и возможность сопровождения внутри команды.
 
-- https://rom4.ru/ — current positioning, capabilities and contact information
+## Scope
 
-## Public identity
+- Первые сценарии: подготовка ответов в продажах, проверка расчётов, сравнение документов, поиск по инженерной документации. Это примеры для пилота, а не заявления о завершённых клиентских проектах.
+- Управляемая инфраструктура: серверные проверки прав, ограниченные полномочия инструментов, согласование значимых действий, карта потоков данных, защищённый журнал и правила хранения. Их состав и реализацию проверяют для каждого внедрения.
+- Выбор готовых инструментов, включая ChatGPT, Codex и Claude, с учётом задачи и условий обработки данных.
+- bb-app — открытая настраиваемая среда для разных агентных систем, которую можно использовать как мета-харнес. Это альтернатива на уровне рабочей среды, а не отдельная модель. Корпоративный плагин доступа Pom4H находится в draft PR. Разграничение данных сотрудников и полный журнал выполнения действий нужно реализовать и проверить отдельно.
+- Локальные модели — отдельное направление: оценка качества на рабочих примерах, совместимости инструментов, нагрузки, оборудования и полной стоимости эксплуатации. Подключение через совместимые провайдеры не гарантирует равного качества моделей.
 
-- Name: Roman Popov / Роман Попов
-- Brand: ROM4.RU
-- GitHub: https://github.com/Pom4H
-- Telegram: https://t.me/Pom4H
-- Email: 1@rom4.ru
+## Evidence and limits
 
-Use only statements explicitly published on ROM4.RU or in linked public profiles. Do not infer client names, private projects, revenue figures, completed case-study outcomes or separate service offerings that are not published as evidence-backed pages.
+The interactive trace on the homepage uses fictional data and does not connect to business systems. It illustrates a verification workflow, not a deployed bb feature or a client case. Observable execution records and concise explanations are not the model's full internal chain of thought. Local hosting or open source alone does not prove compliance, isolation or zero vendor lock-in. No ROI percentages or client outcomes are claimed.
+
+## Links
+
+- https://rom4.ru/ — current public positioning and contact information
+- https://getbb.app/ — official bb project
+- https://github.com/Pom4H/bb/pull/1 — access gateway development and limitations
+- https://github.com/Pom4H — public engineering work
+- https://t.me/Pom4H — contact
+- mailto:1@rom4.ru — contact
+
+Use only published evidence. Do not infer private clients, revenue, certifications, completed deployments or guaranteed savings.

@@ -1,51 +1,52 @@
-# Проверка обновления rom4.ru
+# Verification — revision 5.1
 
-Дата: 2026-11-05. Проверяется статическая сборка нового позиционирования; корпоративная AI-инфраструктура этим изменением не развёртывается.
+Date: 2026-11-05. This document supersedes the revision 5.0 verification report.
 
-## Выполненные проверки
+## What was actually tested
 
-- `npm run check` — успешно, TypeScript без ошибок.
-- `npm run build` — успешно, Astro создаёт главную и sitemap.
-- `git diff --check` — успешно.
-- Проверка браузером Chromium 153 / Playwright на ширинах 1440, 390 и 320 CSS px. Для мобильных размеров включены touch/mobile emulation; это не проверка на физическом iPhone или в Safari.
-- Горизонтального переполнения документа на проверенных размерах нет.
-- В браузере не зарегистрировано ошибок JavaScript.
-- Пульт: нажатие меняет текст и оставляет одну выбранную тему.
-- Светлая и тёмная темы работают; параметр `?theme=light` сохраняется при инициализации.
-- При отключённом JavaScript видны основной текст, источники и раскрываемый расчёт.
-- В сценарии reduced motion содержание остаётся видимым.
+The exact new page markup, stylesheet and JavaScript were assembled into a
+self-contained HTML reproduction. Playwright drove local Chromium against this
+reproduction. It does **not** include the existing Astro layout, desk effects,
+analytics, or production fonts. Therefore these are component/page tests, not a
+full deployed-site acceptance result.
 
-## Демонстрация проверки расчёта
+- Viewports: 320, 390, 768, 1024 and 1440 CSS px.
+- No horizontal overflow in the document or visible page descendants.
+- No uncaught JavaScript exceptions.
+- 34 UI/content/contrast assertions passed: single h1; 12 visible source records;
+  all four capability selectors; all four evidence views; keyboard arrows and
+  End; decision logging; repeated decision prevention; returning a hypothesis;
+  JSON export (source, computed counts 8/3/1, demo label, two user events);
+  reset; light/dark themes; reduced motion; non-JavaScript content and native
+  details; disabled controls without JavaScript; six text/background contrast
+  combinations above 4.5:1.
+- `node --check public/ai-workbench.js` passed.
+- Desktop hero, mobile hero, evidence inspector and governance schematic were
+  visually inspected.
 
-| Действие | Проверенный результат |
-| --- | --- |
-| Открыть v1 | Предварительная маржа 25%, доставка неизвестна, согласование заблокировано |
-| Переключить на v2 | Маржа пересчитана до 15%; доступно решение о запросе на пересмотр цены |
-| Согласовать | Создан `DEMO-REQUEST-001`; текущая цена заказа остаётся прежней |
-| Попытаться повторить согласование | Кнопка недоступна; дополнительное действие не создаётся |
-| Вернуться к v1 | Прежнее согласование не применяется, старое событие остаётся в истории |
-| Отклонить | Новое действие остановлено |
-| Начать заново | v1, неизвестная доставка, согласование сброшено, новый журнал сценария |
+## Not established by these checks
 
-Это клиентская иллюстрация на вымышленных данных. Она не является проверкой серверной авторизации, настоящей базы данных, SQL-движка или живой модели.
+`npm run check` / `npm run build` were not rerun locally: this environment could
+not resolve external package or Git hosts and did not contain the existing
+Astro installation. A full-site build must be evaluated from the new commit's
+Vercel / GitHub checks. Do not carry forward the previous commit's green checks.
 
-## Снимки сборки
+The complete desk/perspective integration, production font rendering, Safari,
+physical iOS/Android devices and screen-reader interaction are not verified by
+this local run. No claim of enterprise authorization or audit implementation is
+made: the explanatory demo has no backend, model, SQL server or external writes.
 
-- [Главная, 1440 px](previews/home-1440.png)
-- [Главная, 390 px](previews/home-390.png)
-- [Главная, 320 px](previews/home-320.png)
-- [Тёмная тема на мобильном размере](previews/home-mobile-dark.png)
-- [Открытая цепочка проверки на мобильном размере](previews/trace-mobile.png)
+## Reproduce on a full checkout
 
-На мобильной главной уменьшен размер нового заголовка и исправлено размещение переключателя темы на ширине 320 px. Снимки получены после этих правок. Стандартный desktop-эффект стола и существующие декоративные элементы сохранены.
+1. Install the repository dependencies and run `npm run check` and `npm run build`.
+2. Serve the generated site and check the five viewport widths above.
+3. Verify the retained paper/desk experience and theme initialization.
+4. Test the four mode buttons, keyboard evidence tabs, source link, approval,
+   return, duplicate prevention, reset and JSON download.
+5. Confirm export totals equal the 12 rendered records, with counts 8/3/1.
+6. Reload with JavaScript disabled; all evidence sections must remain readable.
+7. Verify focus indication, reduced motion, mobile tapping and absence of
+   overlap/clipping with both themes.
 
-## Проверка публичных обещаний
-
-- Примеры задач названы кандидатами для пилота; клиентские результаты и проценты экономии не придуманы.
-- bb-app описан как основа рабочей среды. Статус и ограничения корпоративного расширения связаны с публичным PR.
-- Серверный gateway не представлен как готовая многопользовательская изоляция или полный аудит действий.
-- Наблюдаемые источники и шаги отделены от внутреннего chain-of-thought модели.
-- Локальный запуск, открытая лицензия и переносимость не приравнены к автоматическому комплаенсу.
-- Обновлены видимый текст, title/description, Person Schema.org, `llms.txt` и OG-превью.
-
-Статус GitHub Actions и развёртывания фиксируется в PR отдельно: локальная сборка не доказывает публикацию на домене.
+The screenshots in `docs/previews/` belong to **revision 5.0** and are retained
+only as historical references. They are not proof for the new design.

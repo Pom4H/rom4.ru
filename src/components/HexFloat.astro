@@ -185,7 +185,8 @@ const options: HexFloatOptions = { ...defaults, ...Astro.props };
   // Без HTML-in-canvas шейдеру нечего рисовать на гранях плиток: он умеет только
   // положить поверх страницы тёмную гекс-сетку. Такой «эффект» лендингу вредит,
   // поэтому там уходим в CSS-наклон, а DOM не трогаем.
-  if (root && content && supportsHtmlInCanvas()) {
+  const previewShader = new URLSearchParams(window.location.search).has('hexfloat');
+  if (root && content && previewShader && supportsHtmlInCanvas()) {
     let options: HexFloatOptions = {};
     try {
       options = JSON.parse(root.dataset.hexfloatOptions ?? '{}');
